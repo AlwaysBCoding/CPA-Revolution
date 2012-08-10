@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<h2><%= @section.name %></h2>
+<br />
+
+<ul>
+<% @section.categories.each do |category| %>
+  <li><%= category.name %></li>
+<% end %>
+</ul>
+
+<br />
+<%= link_to 'Edit', edit_section_path(@section) %> |
+<%= link_to 'Back', sections_path %>
