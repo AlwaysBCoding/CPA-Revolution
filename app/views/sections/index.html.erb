@@ -1,7 +1,15 @@
-<% @sections.each do |section| %>
-  <div class="section">
-    <h3><%= link_to section.name, section %></h3>
-  </div>
-<% end %>
+<div id="wrapper">
 
-<br />
+	<div id="sectionContainer">
+	<% @sections.each do |section| %>
+	  <div class="section">
+		<a href="/sections/<%= section.id %>" id="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>	
+	  </div> <!-- section -->
+	<% end %>
+	</div> <!-- sectionContainer -->
+
+<div id="subNavBar">
+	<h3 id="sectionName"></h3>
+</div> <!-- subNavBar -->
+
+</div> <!-- wrapper -->
