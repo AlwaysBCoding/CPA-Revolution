@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120811235127) do
+ActiveRecord::Schema.define(:version => 20120812044515) do
 
   create_table "categories", :force => true do |t|
     t.integer  "section_id"
@@ -26,6 +26,24 @@ ActiveRecord::Schema.define(:version => 20120811235127) do
     t.datetime "updated_at", :null => false
     t.string   "name"
     t.string   "code"
+  end
+
+  create_table "states", :force => true do |t|
+    t.string   "name"
+    t.string   "abbr"
+    t.integer  "age_requirement"
+    t.string   "citizenship_requirement"
+    t.string   "residency_requirement"
+    t.string   "ssn_requirement"
+    t.text     "education_requirement"
+    t.string   "international_examination_program"
+    t.text     "hours_requirement"
+    t.text     "sitting_requirements"
+    t.text     "experience_requirements"
+    t.text     "ethics_requirements"
+    t.text     "notes"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
 end

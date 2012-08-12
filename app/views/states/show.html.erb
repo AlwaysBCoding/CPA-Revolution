@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @state.name %>
+</p>
+
+<p>
+  <b>Abbr:</b>
+  <%= @state.abbr %>
+</p>
+
+<p>
+  <b>Age requirement:</b>
+  <%= @state.age_requirement %>
+</p>
+
+<p>
+  <b>Citizenship requirement:</b>
+  <%= @state.citizenship_requirement %>
+</p>
+
+<p>
+  <b>Residency requirement:</b>
+  <%= @state.residency_requirement %>
+</p>
+
+<p>
+  <b>Ssn requirement:</b>
+  <%= @state.ssn_requirement %>
+</p>
+
+<p>
+  <b>Education requirement:</b>
+  <%= @state.education_requirement %>
+</p>
+
+<p>
+  <b>International examination program:</b>
+  <%= @state.international_examination_program %>
+</p>
+
+<p>
+  <b>Hours requirement:</b>
+  <%= @state.hours_requirement %>
+</p>
+
+<p>
+  <b>Sitting requirements:</b>
+  <%= @state.sitting_requirements %>
+</p>
+
+<p>
+  <b>Experience requirements:</b>
+  <%= @state.experience_requirements %>
+</p>
+
+<p>
+  <b>Ethics requirements:</b>
+  <%= @state.ethics_requirements %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @state.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_state_path(@state) %> |
+<%= link_to 'Back', states_path %>

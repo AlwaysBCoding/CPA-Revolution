@@ -1,0 +1,70 @@
+<style>
+#full_info_table {
+	display: none;
+}
+
+#contentWrapper {
+	min-width: 960px;
+	position: relative;
+	margin: 30px auto 0 auto;
+}
+
+#stateList {
+	float: left;
+	width: 200px;
+}
+
+#contentArea {
+	width: 700px;
+	float: right;
+}
+</style>
+
+<script>
+$(function() {
+	$("#state_selection_table a").click(function() {
+		var selected_state = $(this).attr("class");
+		$("#contentTable").html("");
+		var table_html = $("tbody." + selected_state).html();						
+		$("#contentTable").html(table_html);	
+	});
+});
+</script>
+
+<h1>State Licensure Requirements</h1>
+
+<div id="contentWrapper">
+	<div id='stateList' class='leftSide'>
+	<table id='state_selection_table'>
+	<% @states.each do |state| %>
+		<tr>
+			<td><a href="#" class='<%= state.abbr %>'><%= state.name %></a></td>
+		</tr>
+	<% end %>			
+	</table>
+	</div> <!-- stateList -->
+
+	<div id='contentArea' class='rightSide'>
+		<table id='contentTable'>
+		</table>	
+	</div> <!-- contentArea -->	
+</div> <!-- contentWrapper -->	
+
+<table id='full_info_table'>
+<% @states.each do |state| %>
+  <tbody class='<%= state.abbr %>'>
+    <tr><th>State</th><td><%= state.name %></td></tr>
+    <tr><th>Age Requirement</th><td><%= state.age_requirement %></td></tr>
+    <tr><th>Citizenship Requirement</th><td><%= state.citizenship_requirement %></td></tr>
+    <tr><th>Residency Requirement</th><td><%= state.residency_requirement %></td></tr>
+    <tr><th>Social Security # Requirement</th><td><%= state.ssn_requirement %></td></tr>
+    <tr><th>Education Requirement</th><td><%= state.education_requirement %></td></tr>
+    <tr><th>International Examination Program</th><td><%= state.international_examination_program %></td></tr>
+    <tr><th>Hours Requirement</th><td><%= state.hours_requirement %></td></tr>
+    <tr><th>Sitting Requirement</th><td><%= state.sitting_requirements %></td></tr>
+    <tr><th>Experience Requirement</th><td><%= state.experience_requirements %></td></tr>
+    <tr><th>Ethics Requirement</th><td><%= state.ethics_requirements %></td></tr>
+    <tr><th>Notes</th><td><%= state.notes %></td></tr>
+  </tbody>
+<% end %>
+</table>

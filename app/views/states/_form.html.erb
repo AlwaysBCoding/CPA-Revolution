@@ -1,0 +1,69 @@
+<%= form_for(@state) do |f| %>
+  <% if @state.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@state.errors.count, "error") %> prohibited this state from being saved:</h2>
+
+      <ul>
+      <% @state.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :abbr %><br />
+    <%= f.text_field :abbr %>
+  </div>
+  <div class="field">
+    <%= f.label :age_requirement %><br />
+    <%= f.number_field :age_requirement %>
+  </div>
+  <div class="field">
+    <%= f.label :citizenship_requirement %><br />
+    <%= f.check_box :citizenship_requirement %>
+  </div>
+  <div class="field">
+    <%= f.label :residency_requirement %><br />
+    <%= f.check_box :residency_requirement %>
+  </div>
+  <div class="field">
+    <%= f.label :ssn_requirement %><br />
+    <%= f.check_box :ssn_requirement %>
+  </div>
+  <div class="field">
+    <%= f.label :education_requirement %><br />
+    <%= f.text_area :education_requirement %>
+  </div>
+  <div class="field">
+    <%= f.label :international_examination_program %><br />
+    <%= f.check_box :international_examination_program %>
+  </div>
+  <div class="field">
+    <%= f.label :hours_requirement %><br />
+    <%= f.text_area :hours_requirement %>
+  </div>
+  <div class="field">
+    <%= f.label :sitting_requirements %><br />
+    <%= f.text_area :sitting_requirements %>
+  </div>
+  <div class="field">
+    <%= f.label :experience_requirements %><br />
+    <%= f.text_area :experience_requirements %>
+  </div>
+  <div class="field">
+    <%= f.label :ethics_requirements %><br />
+    <%= f.text_area :ethics_requirements %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
