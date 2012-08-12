@@ -1,14 +1,55 @@
+<style>
+#contentWrapper {
+	min-width: 960px;
+	margin: 0 auto;
+	position: relative;
+	background-color: yellow;
+}
+
+#categoryList {
+	float: left;
+	width: 350px;
+}
+
+#quizSetup {
+	float: right;
+	width: 400px;
+	height: 400px;
+	border: 1px solid #c8d7dc;
+	background-color: rgb(242,245,246); // Old browsers
+	@include filter-gradient(#f2f5f6, #c8d7dc, vertical); // IE6-9
+	@include background-image(linear-gradient(top, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgba(200,215,220,1) 100%));
+	-webkit-border-radius: 6px;
+	position: relative;
+}
+</style>
+
 <p id="notice"><%= notice %></p>
 
 <h2><%= @section.name %></h2>
 <br />
 
-<ul>
-<% @section.categories.each do |category| %>
-  <li><%= category.name %></li>
-<% end %>
-</ul>
+<div id="contentWrapper">
+
+	<div id="categoryList" class="leftSide">
+	<ul>
+	<% @section.categories.each do |category| %>
+	  <li><%= category.name %></li>
+	<% end %>
+	</ul>
+	</div> <!-- categoryList -->
+
+	<div id="quizSetup" class="rightSide">
+		<table>
+			<tbody>
+				<tr><td>Practice Type:</td><td><%= select_tag :test_format, options_for_select([['Practice by Categories', 'categories'],['Practice Random Questions', 'random'], ["Practice Full #{@section.code} Exam", 'cpa']]), {:include_blank => true} %></td></tr>
+				<tr><td colspan='2'><%= submit_tag 'Generate Test' %></td></tr>
+			</tbody>	
+		</table>	
+	</div> <!-- quizSetup -->
+
+</div> <!-- contentWrapper -->	
 
 <br />
-<%= link_to 'Edit', edit_section_path(@section) %> |
-<%= link_to 'Back', sections_path %>
+<!-- <%= link_to 'Edit', edit_section_path(@section) %> |
+<%= link_to 'Back', sections_path %> -->

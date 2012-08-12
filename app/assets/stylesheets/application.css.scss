@@ -68,11 +68,21 @@ body { padding-top: 60px; }
 	font-size: 22px;
 }
 
+#contentTable {
+	width: 100%;
+	margin-top: 30px;
+}
+
+
 /* JDL STYLES
 ==================== */
 
 .hover-highlight {
 	border: 5px solid #f4ff5e;
+}
+
+.hidden {
+	display: none;
 }
 
 
