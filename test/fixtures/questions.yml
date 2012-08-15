@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  subclass_id: 1
+  number: 1
+  question_text: MyText
+  difficulty: 1
+
+two:
+  subclass_id: 1
+  number: 1
+  question_text: MyText
+  difficulty: 1

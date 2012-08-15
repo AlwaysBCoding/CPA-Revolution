@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120812185109) do
+ActiveRecord::Schema.define(:version => 20120814192004) do
+
+  create_table "answers", :force => true do |t|
+    t.integer  "question_id"
+    t.string   "right_answer"
+    t.string   "wrong_answer1"
+    t.string   "wrong_answer2"
+    t.string   "wrong_answer3"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "categories", :force => true do |t|
     t.integer  "section_id"
@@ -19,6 +29,15 @@ ActiveRecord::Schema.define(:version => 20120812185109) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "questions", :force => true do |t|
+    t.integer  "subclass_id"
+    t.integer  "number"
+    t.text     "question_text"
+    t.integer  "difficulty"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "sections", :force => true do |t|
@@ -50,6 +69,13 @@ ActiveRecord::Schema.define(:version => 20120812185109) do
     t.string   "fax_number"
     t.string   "email_address"
     t.string   "website"
+  end
+
+  create_table "subclasses", :force => true do |t|
+    t.integer  "category_id"
+    t.string   "name"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end

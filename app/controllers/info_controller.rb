@@ -4,4 +4,8 @@ class InfoController < ApplicationController
     
   end
   
+  def sandbox
+    
+  end
+  
 end
