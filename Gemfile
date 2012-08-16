@@ -19,4 +19,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+
+# Added Gems
 gem 'nokogiri'
+gem 'bcrypt-ruby'

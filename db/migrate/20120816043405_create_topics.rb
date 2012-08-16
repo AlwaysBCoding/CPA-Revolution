@@ -1,9 +1,10 @@
-class CreateCategories < ActiveRecord::Migration
+class CreateTopics < ActiveRecord::Migration
   def change
-    create_table :categories do |t|
+    create_table :topics do |t|
       t.integer :section_id
       t.string :code
       t.string :name
+      t.string :parent_code
 
       t.timestamps
     end

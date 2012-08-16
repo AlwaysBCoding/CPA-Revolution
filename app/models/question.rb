@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
-  attr_accessible :difficulty, :number, :question_text, :subclass_id
+  attr_accessible :topic_id, :question_text, :difficulty
   
-  belongs_to :subclass
-  has_one :answer
+  has_and_belongs_to_many :user_tests, join_table: :user_test_question
+  has_many :answers
 end

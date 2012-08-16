@@ -11,31 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120814192004) do
+ActiveRecord::Schema.define(:version => 20120816044840) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
-    t.string   "right_answer"
-    t.string   "wrong_answer1"
-    t.string   "wrong_answer2"
-    t.string   "wrong_answer3"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  create_table "categories", :force => true do |t|
-    t.integer  "section_id"
-    t.string   "code"
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "answer_text"
+    t.boolean  "correct"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "questions", :force => true do |t|
-    t.integer  "subclass_id"
-    t.integer  "number"
+    t.integer  "topic_id"
     t.text     "question_text"
-    t.integer  "difficulty"
+    t.string   "difficulty"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
@@ -71,11 +60,36 @@ ActiveRecord::Schema.define(:version => 20120814192004) do
     t.string   "website"
   end
 
-  create_table "subclasses", :force => true do |t|
-    t.integer  "category_id"
+  create_table "topics", :force => true do |t|
+    t.integer  "section_id"
+    t.string   "code"
     t.string   "name"
+    t.string   "parent_code"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "user_test_questions", :force => true do |t|
+    t.integer  "test_id"
+    t.integer  "question_id"
+    t.integer  "answered_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "user_tests", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "score"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
 end

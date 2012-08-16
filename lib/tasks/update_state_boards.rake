@@ -1,6 +1,6 @@
-namespace :table_updates do  
-    task :update_state_boards => :environment do
+namespace :updates do  
     desc "Updates the State Accountancy Boards Contact Information from the AICPA Website"
+    task :state_boards => :environment do
     
     require 'nokogiri'
     require 'open-uri'

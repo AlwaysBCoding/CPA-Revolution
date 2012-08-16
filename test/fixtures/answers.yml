@@ -2,14 +2,10 @@
 
 one:
   question_id: 1
-  right_answer: MyString
-  wrong_answer1: MyString
-  wrong_answer2: MyString
-  wrong_answer3: MyString
+  answer_text: MyString
+  correct: false
 
 two:
   question_id: 1
-  right_answer: MyString
-  wrong_answer1: MyString
-  wrong_answer2: MyString
-  wrong_answer3: MyString
+  answer_text: MyString
+  correct: false

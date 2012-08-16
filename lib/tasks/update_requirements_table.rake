@@ -1,6 +1,6 @@
-namespace :table_updates do
-  task :update_requirements_table => :environment do
-    desc "Update the State Requirements Table (State)"
+namespace :updates do
+  desc "Update the State Requirements Table (State)"
+  task :requirements_table => :environment do
     
     require 'nokogiri'
     require 'open-uri'
