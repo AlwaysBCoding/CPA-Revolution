@@ -3,7 +3,7 @@
 	<div id="sectionContainer">
 	<% @sections.each do |section| %>
 	  <div class="section">
-		<a href="/sections/<%= section.id %>" id="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>	
+		<a href="/sections/<%= section.code %>" id="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>	
 	  </div> <!-- section -->
 	<% end %>
 	</div> <!-- sectionContainer -->
