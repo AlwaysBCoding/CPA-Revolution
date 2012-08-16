@@ -1,0 +1,19 @@
+<% if @flash.present? %>
+<%= @flash %>
+<% end %>
+
+<% if @user.present? %>
+	<%= @user.username %>
+<% end %>
+
+<%= form_tag '/create_session' do %>
+	<%= label_tag :username %>
+	<%= text_field_tag :username %>
+	
+	<%= label_tag :password %>
+	<%= password_field_tag :password %>
+	<br />
+	<%= submit_tag 'Sign In' %>
+<% end %>
+
+	

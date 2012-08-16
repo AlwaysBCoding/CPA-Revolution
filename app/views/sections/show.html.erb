@@ -5,7 +5,7 @@
 	position: relative;
 }
 
-#categoryList {
+#topicList {
 	float: left;
 	width: 350px;
 }
@@ -40,6 +40,7 @@
 
 	<div id="quizSetup" class="rightSide">
 		<%= form_tag '/user_test' do %>
+		<%= hidden_field_tag :section_id, @section.id %>
 		<table>
 			<tbody>
 				<tr><td>Practice Type:</td><td><%= select_tag :test_format, options_for_select([['Practice by Topics', 'topics'],["Take Full #{@section.code} Exam", 'cpa']]), {:include_blank => true} %></td></tr>
