@@ -70,11 +70,11 @@ ActiveRecord::Schema.define(:version => 20120816044840) do
   end
 
   create_table "user_test_questions", :force => true do |t|
-    t.integer  "test_id"
+    t.integer  "user_test_id"
     t.integer  "question_id"
     t.integer  "answered_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "user_tests", :force => true do |t|

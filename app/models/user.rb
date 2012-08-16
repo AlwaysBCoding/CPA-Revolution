@@ -3,5 +3,5 @@ class User < ActiveRecord::Base
   
   has_many :user_tests
   
-  has_secure_password
+  # has_secure_password
 end
