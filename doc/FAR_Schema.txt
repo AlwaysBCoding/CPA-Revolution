@@ -1,0 +1,32 @@
+ACCR,Accounts Receivable
+BALS,Specific Balance Sheet
+BENS,Other Post-Retirement Benefits
+BOND,Bonds
+CONS,Consolidated Financial Statements
+CONT,Contingencies and other Liabilities
+DERV,Derivatives and Hedges
+DEPX,Depreciation
+EPSC,Earnings per Share Calculations
+FINS,Flow of the Financial Statements
+FCUR,Foreign Currency Transactions
+FWRK,Conceptual Framework
+GOVT,Government Accounting
+IFRS,Straight IFRS
+INCS,Specific Income Statement
+INVT,Inventory
+ITAN,Intangible Assets
+ITAX,Income Taxes
+IVST,Investments in Securities
+LEAS,Leases
+LTAS,Long Term Assets
+LTCC,Long Term Construction Contracts
+LTLS,Long Term Liabilities
+MISF,Miscellaneous
+NFPR,Not-for-Profit Accounting
+NMON,Non-monetary Exchanges
+PENS,Pensions
+PVAL,Present Value
+REVR,Revenue Recognition
+SECR,SEC Reporting Requirements
+SCFL,Statement of Cash Flows
+STOK,Stockholders Equity
