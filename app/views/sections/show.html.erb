@@ -31,18 +31,18 @@
 
 <div id="contentWrapper">
 
-	<div id="categoryList" class="leftSide">
+	<div id="topicList" class="leftSide">
 	<ul>
-	<% @section.categories.each do |category| %>
-	  <li><%= category.name %></li>
+	<% @section.topics.each do |topic| %>
+	  <li><%= topic.name %></li>
 	<% end %>
 	</ul>
-	</div> <!-- categoryList -->
+	</div> <!-- topicList -->
 
 	<div id="quizSetup" class="rightSide">
 		<table>
 			<tbody>
-				<tr><td>Practice Type:</td><td><%= select_tag :test_format, options_for_select([['Practice by Categories', 'categories'],['Practice Random Questions', 'random'], ["Take Full #{@section.code} Exam", 'cpa']]), {:include_blank => true} %></td></tr>
+				<tr><td>Practice Type:</td><td><%= select_tag :test_format, options_for_select([['Practice by Topics', 'topics'],['Practice Random Questions', 'random'], ["Take Full #{@section.code} Exam", 'cpa']]), {:include_blank => true} %></td></tr>
 				<tr><td colspan='2'><%= submit_tag 'Generate Test' %></td></tr>
 			</tbody>	
 		</table>	
