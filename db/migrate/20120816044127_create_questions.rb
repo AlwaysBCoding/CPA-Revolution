@@ -4,6 +4,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer :topic_id
       t.text :question_text
       t.string :difficulty
+      t.string :source
 
       t.timestamps
     end

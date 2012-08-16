@@ -1,8 +1,12 @@
 CpaMagic::Application.routes.draw do
-  resources :states
-
   root :to => 'sections#index'
+
+  resources :states
   resources :sections
+  
   get '/exam-information' => 'info#exam_information'
   get '/sandbox' => 'info#sandbox'
+  
+  get '/user_test' => 'user_tests#show'
+  post '/user_test' => 'user_tests#create'
 end

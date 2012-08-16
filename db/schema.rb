@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20120816044840) do
     t.integer  "topic_id"
     t.text     "question_text"
     t.string   "difficulty"
+    t.string   "source"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end

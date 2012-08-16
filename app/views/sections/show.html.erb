@@ -40,12 +40,14 @@
 	</div> <!-- topicList -->
 
 	<div id="quizSetup" class="rightSide">
+		<%= form_tag '/user_test' do %>
 		<table>
 			<tbody>
 				<tr><td>Practice Type:</td><td><%= select_tag :test_format, options_for_select([['Practice by Topics', 'topics'],["Take Full #{@section.code} Exam", 'cpa']]), {:include_blank => true} %></td></tr>
 				<tr><td colspan='2'><%= submit_tag 'Generate Test' %></td></tr>
 			</tbody>	
 		</table>	
+		<% end %>
 	</div> <!-- quizSetup -->
 
 </div> <!-- contentWrapper -->	
