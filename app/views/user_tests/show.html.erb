@@ -60,7 +60,27 @@ ol.rectangleList {
 </style>
 
 <script>
+// Set the countdown timer
+$(function() {
+	var sec = $("#timer span").text();
+	var timer = setInterval(function() {
+		$("#timer span").text(--sec);
+		if(sec == 0) {
+			clearInterval(timer);
+		}
+	}, 1000);
+});
 
+// AJAX
+$(function() {
+	$(".page a").click(function() {
+	$.getJSON(window.location.href + $(this).attr("href"), 
+			  function(data){
+				console.log(data);
+	}, 
+ 	          function(){});
+	});
+});
 </script>
 
 <div id="contentArea">
@@ -86,15 +106,15 @@ ol.rectangleList {
 			
 			<div id="questionInfo">
 				<h2>Test id # <%= @user_test.id %></h2>
-				<h1>Testlet 2</h2><br />
+				<h1>Testlet 1</h2><br />
 				<h2>Question 1</h2><br />
 				<h3>Topic: <%= @user_test.questions[0].topic.name %></h3>
 				<h3>SubTopic: None</h3><br />
 			</div> <!-- questionInfo -->
 			
-			<div id="timer>">	
+			<div id="timer">	
 				<h2>Timer</h2>
-				<p>15:32</p>
+				<h3><span>10800</span></h3>
 			</div> <!-- timer -->
 			
 			<div id="runningScore">

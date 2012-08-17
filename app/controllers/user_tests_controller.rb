@@ -24,6 +24,11 @@ class UserTestsController < ApplicationController
   end
   
   def show
+    if params[:question].present?
+    @question = UserTest.find(session[:user_test_id]).questions[params[:question].to_i-1]
+    render json: @question.to_json(:include => [:answers])
+    end  
+    
     @user_test = UserTest.find(session[:user_test_id])
     @testlet = []
     
