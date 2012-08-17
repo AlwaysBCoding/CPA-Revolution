@@ -32,6 +32,10 @@ ol {
 	list-style-type: upper-alpha;
 }
 
+.clearfix {
+	clear: both;
+}
+
 </style>
 
 <script>
@@ -63,7 +67,7 @@ ol {
 				<h1>Testlet 2</h2><br />
 				<h2>Question 1</h2><br />
 				<h3>Topic: <%= @user_test.questions[0].topic.name %></h3>
-				<h3>SubTopic: SubTopic</h3><br />
+				<h3>SubTopic: None</h3><br />
 			</div> <!-- questionInfo -->
 			
 			<div id="timer>">	
@@ -79,8 +83,12 @@ ol {
 			
 	</section> <!-- questionContent -->
 	
-	<section id="pagination">
-		<p>Number of Questions<%= @user_test.questions.length %></p>
+	<section id="pagination" class="clearfix">
+	<nav class="pagination">
+		<% @testlet.each_with_index do |page, index| %>
+		<span class="page"><a href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a>
+		<% end %>	
+	</nav>		
 	</section> <!-- pagination -->			
 	
 </div>	

@@ -25,6 +25,11 @@ class UserTestsController < ApplicationController
   
   def show
     @user_test = UserTest.find(cookies[:user_test_id])
+    @testlet = []
+    
+    30.times do |i|
+      @testlet << @user_test.questions[i]
+    end
   end
   
 end
