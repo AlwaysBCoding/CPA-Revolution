@@ -1,12 +1,10 @@
-<% if @flash.present? %>
-<%= @flash %>
-<% end %>
+<%= notice %>
 
 <% if @user.present? %>
 	<%= @user.username %>
 <% end %>
 
-<%= form_tag '/create_session' do %>
+<%= form_tag '/signin' do %>
 	<%= label_tag :username %>
 	<%= text_field_tag :username %>
 	

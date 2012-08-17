@@ -23,3 +23,4 @@ gem 'jquery-rails'
 # Added Gems
 gem 'nokogiri'
 gem 'bcrypt-ruby'
+gem 'RedCloth'

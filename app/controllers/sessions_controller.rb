@@ -4,21 +4,22 @@ class SessionsController < ApplicationController
   end
   
   def create
-    @user = User.find_by_username(params[:username])
+    @username = params[:username]
+    user = User.find_by_username(@username)
     
-    if @user
-      cookies[:user_id] = @user.id
-      redirect_to "/user/#{@user.id}"
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect_to user_url(user), :notice => "Signed in as #{@username}"
     else
-      @flash = "Error: Username could not be found"
+      flash[:notice] = "Sign in unsuccessful."
       render 'new'
     end
     
   end
   
   def destroy
-    cookies.delete :user_id
-    redirect_to '/'
+    reset_session
+    redirect_to root_url :notice => 'Sign-out successful'
   end
   
 end

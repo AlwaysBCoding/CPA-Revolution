@@ -28,14 +28,35 @@
 /* Question Formatting 
 ===================== */
 
-ol {
-	list-style-type: upper-alpha;
-}
-
 .clearfix {
 	clear: both;
 }
 
+#questionBox p, #questionBox li {
+	font-size: 16px;
+	padding: 3px;
+}
+
+#questionBox li {
+	margin-left: 10px;
+}
+
+ol.rectangleList {
+	list-style-type: upper-alpha;
+}
+
+.rectangleList a:hover {
+	text-decoration: none;
+}
+
+.page a {
+	line-height: 15px;
+	padding: 10px;
+}
+
+.page a.single_digit {
+	padding: 10px 14px;
+}
 </style>
 
 <script>
@@ -52,10 +73,11 @@ ol {
 				<hr />
 			</div> <!-- questionText -->
 			<div id="choices">
-				<ol>
+				<ol class="rectangleList">
 				<% @user_test.questions[0].answers.each do |choice| %>
-				<li><%= choice.answer_text %></li>
+				<li><input type="radio" name="answer"><a><%= choice.answer_text %></a></input></li>
 				<% end %>
+				<%= submit_tag 'Submit' %>
 				</ol>
 			</div> <!-- choices -->		
 		</div> <!-- questionBox -->
@@ -86,7 +108,7 @@ ol {
 	<section id="pagination" class="clearfix">
 	<nav class="pagination">
 		<% @testlet.each_with_index do |page, index| %>
-		<span class="page"><a href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a>
+		<span class="page"><a <%= "class='single_digit'" if index < 9 %> href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
 		<% end %>	
 	</nav>		
 	</section> <!-- pagination -->			

@@ -2,9 +2,9 @@ class UserTestsController < ApplicationController
   
   def create
     
-    if cookies[:user_id].present?
+    if session[:user_id].present?
       
-     user_test = UserTest.create(user_id: cookies[:user_id])
+     user_test = UserTest.create(user_id: session[:user_id])
       
      Question.find(:all, :order => "RANDOM()", :limit => 90).each do |question|
       
@@ -15,7 +15,7 @@ class UserTestsController < ApplicationController
       
      end
       
-      cookies[:user_test_id] = user_test.id
+      session[:user_test_id] = user_test.id
       redirect_to '/user_test'
     else 
       redirect_to '/signin'
@@ -24,7 +24,7 @@ class UserTestsController < ApplicationController
   end
   
   def show
-    @user_test = UserTest.find(cookies[:user_test_id])
+    @user_test = UserTest.find(session[:user_test_id])
     @testlet = []
     
     30.times do |i|
