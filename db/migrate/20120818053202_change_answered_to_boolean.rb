@@ -1,7 +1,7 @@
 class ChangeAnsweredToBoolean < ActiveRecord::Migration
   def up
-    change_column :user_test_questions, :answered, :boolean
-    rename_column :user_test_questions, :answered, :answered_correct
+    delete_column :user_test_questions, :answered
+    add_column :user_test_questions, :answered_correct, :boolean
   end
 
   def down
