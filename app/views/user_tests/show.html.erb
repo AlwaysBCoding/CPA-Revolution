@@ -65,6 +65,15 @@ ol.choices {
 #answers a {
 	padding-left: 6px;
 }
+
+.answered {
+	background-color: #444;
+}
+
+.currentQuestion {
+	font-size: 20px;
+	font-weight: bold;
+}
 </style>
 
 <script>
@@ -83,16 +92,18 @@ $(function() {
 $(function() {
 	$(".page a").click(function() {
 	var questionNumber = $(this).attr("href").replace(/.*=/, "");
+	$("#pagination span").removeClass("currentQuestion");
+	$("#page"+questionNumber).addClass("currentQuestion");
 	$("#answers form").attr("action", "/user_test/" + questionNumber);
 	$.getJSON(window.location.href + $(this).attr("href"), 
 			  function(data){
 		      	$(".choices").html("");
-			  	$("#questionText span").text(data.question_text);
-			    $(".questionSource").text(data.source);
-				$(".topicName").text(data.topic.name);
+			  	$("#questionText span").text(data.question.question_text);
+			    $(".questionSource").text(data.question.source);
+				$(".topicName").text(data.question.topic.name);
 				$(".questionNumber").text(questionNumber);
 							  
-				$.each(data.answers, function(index,item){
+				$.each(data.question.answers, function(index,item){
 			  		htmlString = "<li><input type='radio' name='answer' value='" + (index+1) + "'><a>" + item.answer_text + "</a></input></li>";
 					$(".choices").append(htmlString);
 				});
@@ -101,6 +112,30 @@ $(function() {
 });
 
 // AJAX Handle Submit
+$(function() {
+	$("#answers .submit").click(function() {
+		var questionNumber = parseInt($(".questionNumber").text());
+		// Gray the current question
+		$("#page"+questionNumber+" a").addClass("answered");
+		$("#pagination span").removeClass("currentQuestion");
+		$("#page"+(questionNumber+1)).addClass("currentQuestion");
+				
+		// Go to the Next Question
+		$.getJSON(window.location.href + "?question=" + (questionNumber+1), 
+				  function(data){
+			      	$(".choices").html("");
+				  	$("#questionText span").text(data.question.question_text);
+				    $(".questionSource").text(data.question.source);
+					$(".topicName").text(data.question.topic.name);
+					$(".questionNumber").text(questionNumber+1);
+
+					$.each(data.question.answers, function(index,item){
+				  		htmlString = "<li><input type='radio' name='answer' value='" + (index+1) + "'><a>" + item.answer_text + "</a></input></li>";
+						$(".choices").append(htmlString);
+					});
+		});
+	});
+});
 </script>
 
 <div id="contentArea">
@@ -121,7 +156,7 @@ $(function() {
 				<% end %>
 				</ol>
 				<hr />
-				<%= submit_tag 'Submit' %>
+				<%= submit_tag 'Submit', :class => 'submit' %>
 				<% end %>
 			</div> <!-- choices -->		
 		</div> <!-- questionBox -->
@@ -152,7 +187,7 @@ $(function() {
 	<section id="pagination" class="clearfix">
 	<nav class="pagination">
 		<% @testlet.each_with_index do |page, index| %>
-		<span class="page"><a <%= "class='single_digit'" if index < 9 %> href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
+		<span <%= "id='page#{index+1}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a <%= "class='single_digit'" if index < 9 %> href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
 		<% end %>	
 	</nav>		
 	</section> <!-- pagination -->			
