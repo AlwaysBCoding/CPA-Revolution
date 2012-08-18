@@ -39,11 +39,11 @@ class UserTestsController < ApplicationController
   
   def update
     question_number = params[:question_number].to_i
-    answered = params[:answer].to_i
+    answered = params[:answer] == "correct" ? true : false
     
     utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(question_number-1).limit(1)[0]
     p utq
-    utq.answered = answered
+    utq.answered_correct = answered
     utq.save
 
     redirect_to "/user_test"

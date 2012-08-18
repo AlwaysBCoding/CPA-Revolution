@@ -17,8 +17,7 @@
 	width: 900px;
 	float: left;
 	box-sizing: border-box;
-/*	border: 1px solid black;
-*/}
+}
 
 #rightSidebar {
 	width: 200px;
@@ -77,6 +76,10 @@ ol.choices {
 </style>
 
 <script>
+// Global Variables
+var correctAnswers = 0;
+var wrongAnswers = 0;
+
 // Set the countdown timer
 $(function() {
 	var sec = $("#timer span").text();
@@ -91,6 +94,7 @@ $(function() {
 // AJAX Change Question
 $(function() {
 	$(".page a").click(function() {
+		if($(this).hasClass('answered') == false) {
 	var questionNumber = $(this).attr("href").replace(/.*=/, "");
 	$("#pagination span").removeClass("currentQuestion");
 	$("#page"+questionNumber).addClass("currentQuestion");
@@ -104,10 +108,12 @@ $(function() {
 				$(".questionNumber").text(questionNumber);
 							  
 				$.each(data.question.answers, function(index,item){
-			  		htmlString = "<li><input type='radio' name='answer' value='" + (index+1) + "'><a>" + item.answer_text + "</a></input></li>";
+					var value = item.correct? "correct" : "wrong";
+			  		htmlString = "<li><input type='radio' name='answer' value='" + value + "'><a>" + item.answer_text + "</a></input></li>";
 					$(".choices").append(htmlString);
 				});
 	});
+		}
 	});
 });
 
@@ -119,6 +125,12 @@ $(function() {
 		$("#page"+questionNumber+" a").addClass("answered");
 		$("#pagination span").removeClass("currentQuestion");
 		$("#page"+(questionNumber+1)).addClass("currentQuestion");
+		
+		// See if the answer was correct
+		var answer = $('input:radio[name=answer]:checked').val();
+		answer == "correct" ? correctAnswers++ : wrongAnswers++;
+		$(".correctAnswers").text(correctAnswers); $(".wrongAnswers").text(wrongAnswers);
+		
 				
 		// Go to the Next Question
 		$.getJSON(window.location.href + "?question=" + (questionNumber+1), 
@@ -130,12 +142,14 @@ $(function() {
 					$(".questionNumber").text(questionNumber+1);
 
 					$.each(data.question.answers, function(index,item){
-				  		htmlString = "<li><input type='radio' name='answer' value='" + (index+1) + "'><a>" + item.answer_text + "</a></input></li>";
+						var value = item.correct? "correct" : "wrong";
+				  		htmlString = "<li><input type='radio' name='answer' value='" + value + "'><a>" + item.answer_text + "</a></input></li>";
 						$(".choices").append(htmlString);
 					});
 		});
 	});
 });
+
 </script>
 
 <div id="contentArea">
@@ -152,7 +166,7 @@ $(function() {
 				<%= hidden_field_tag 'question_number' %>
 				<ol class="choices">
 				<% @user_test.questions[0].answers.each_with_index do |choice, index| %>
-				<li><input type="radio" name="answer" value=<%= index + 1 %>><a><%= choice.answer_text %></a></input></li>
+				<li><input type="radio" name="answer" value=<%= choice.correct? ? "correct" : "wrong" %>><a><%= choice.answer_text %></a></input></li>
 				<% end %>
 				</ol>
 				<hr />
@@ -177,8 +191,8 @@ $(function() {
 			</div> <!-- timer -->
 			
 			<div id="runningScore">
-				<h3>Correct: 0</h3>
-				<h3>Incorrect: 0</h3>
+				<h3>Correct: <span class="correctAnswers">0</span></h3>
+				<h3>Incorrect: <span class="wrongAnswers">0</span></h3>
 			</div> <!-- runningScore -->
 		</div>	<!-- rightSidebar -->
 			
