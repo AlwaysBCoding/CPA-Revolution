@@ -71,24 +71,28 @@ $(function() {
 	}, 1000);
 });
 
-// AJAX
+// AJAX Change Question
 $(function() {
 	$(".page a").click(function() {
+	var questionNumber = $(this).attr("href").replace(/.*=/, "");
+	$("#answers form").attr("action", "/user_test/" + questionNumber);
 	$.getJSON(window.location.href + $(this).attr("href"), 
 			  function(data){
 		      	$(".choices").html("");
 			  	$("#questionText span").text(data.question_text);
 			    $(".questionSource").text(data.source);
 				$(".topicName").text(data.topic.name);
-			  
+				$(".questionNumber").text(questionNumber);
+							  
 				$.each(data.answers, function(index,item){
-			  		htmlString = "<li><input type='radio' name='answer'><a>" + item.answer_text + "</a></input></li>";
+			  		htmlString = "<li><input type='radio' name='answer' value='" + (index+1) + "'><a>" + item.answer_text + "</a></input></li>";
 					$(".choices").append(htmlString);
 				});
-	}, 
- 	          function(){});
+	});
 	});
 });
+
+// AJAX Handle Submit
 </script>
 
 <div id="contentArea">
@@ -101,21 +105,24 @@ $(function() {
 				<hr />
 			</div> <!-- questionText -->
 			<div id="answers">
+				<%= form_tag('/user_test/1', :remote => true) do %>
+				<%= hidden_field_tag 'question_number' %>
 				<ol class="choices">
-				<% @user_test.questions[0].answers.each do |choice| %>
-				<li><input type="radio" name="answer"><a><%= choice.answer_text %></a></input></li>
+				<% @user_test.questions[0].answers.each_with_index do |choice, index| %>
+				<li><input type="radio" name="answer" value=<%= index + 1 %>><a><%= choice.answer_text %></a></input></li>
 				<% end %>
 				</ol>
 				<hr />
 				<%= submit_tag 'Submit' %>
+				<% end %>
 			</div> <!-- choices -->		
 		</div> <!-- questionBox -->
 		
 		<div id="rightSidebar">
 			
 			<div id="questionInfo">
-				<h1>Testlet 1</h2><br />
-				<h2>Question <span class='questionNumber'>1</span></h2><br />
+				<h1>Question <span class='questionNumber'>1</span></h1><br />
+				<h4>Testlet 1</h4><br />
 				<h3>Topic: <span class='topicName'><%= @user_test.questions[0].topic.name %></span></h3>
 				<h3>SubTopic: <span class='subTopicName'>None</span></h3><br />
 				<h3>Source: <span class="questionSource"><%= @user_test.questions[0].source %></span></h3>

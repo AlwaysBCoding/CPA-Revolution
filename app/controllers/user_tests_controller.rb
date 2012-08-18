@@ -37,4 +37,13 @@ class UserTestsController < ApplicationController
     end
   end
   
+  def update
+    question_number = params[:question_number].to_i
+    answered = params[:answer]
+    
+    utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(question_number-1).limit(1)
+    utq.answered_id = answered
+    utq.save
+  end
+  
 end

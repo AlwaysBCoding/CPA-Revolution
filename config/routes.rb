@@ -11,6 +11,7 @@ CpaMagic::Application.routes.draw do
   
   get '/user_test' => 'user_tests#show'
   post '/user_test' => 'user_tests#create'
+  post '/user_test/:question_number' => 'user_tests#update'
   
   post '/signin' => 'sessions#create'
   get '/signin' => 'sessions#new'
