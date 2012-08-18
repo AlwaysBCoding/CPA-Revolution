@@ -1,5 +1,5 @@
 class UserTestsController < ApplicationController
-  
+    
   def create
     
     if session[:user_id].present?
@@ -26,7 +26,7 @@ class UserTestsController < ApplicationController
   def show
     if params[:question].present?
     @question = UserTest.find(session[:user_test_id]).questions[params[:question].to_i-1]
-    render json: @question.to_json(:include => [:answers])
+    render json: @question.to_json(:include => [:answers, :topic])
     end  
     
     @user_test = UserTest.find(session[:user_test_id])

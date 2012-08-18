@@ -41,11 +41,11 @@
 	margin-left: 10px;
 }
 
-ol.rectangleList {
+ol.choices {
 	list-style-type: upper-alpha;
 }
 
-.rectangleList a:hover {
+.choices a:hover {
 	text-decoration: none;
 }
 
@@ -76,7 +76,15 @@ $(function() {
 	$(".page a").click(function() {
 	$.getJSON(window.location.href + $(this).attr("href"), 
 			  function(data){
-				console.log(data);
+		      	$(".choices").html("");
+			  	$("#questionText span").text(data.question_text);
+			    $(".questionSource").text(data.source);
+				$(".topicName").text(data.topic.name);
+			  
+				$.each(data.answers, function(index,item){
+			  		htmlString = "<li><input type='radio' name='answer'><a>" + item.answer_text + "</a></input></li>";
+					$(".choices").append(htmlString);
+				});
 	}, 
  	          function(){});
 	});
@@ -89,27 +97,28 @@ $(function() {
 		
 		<div id="questionBox">
 			<div id="questionText">
-				<p><%= @user_test.questions[0].question_text %></p>
+				<p><span><%= @user_test.questions[0].question_text %></span></p>
 				<hr />
 			</div> <!-- questionText -->
-			<div id="choices">
-				<ol class="rectangleList">
+			<div id="answers">
+				<ol class="choices">
 				<% @user_test.questions[0].answers.each do |choice| %>
 				<li><input type="radio" name="answer"><a><%= choice.answer_text %></a></input></li>
 				<% end %>
-				<%= submit_tag 'Submit' %>
 				</ol>
+				<hr />
+				<%= submit_tag 'Submit' %>
 			</div> <!-- choices -->		
 		</div> <!-- questionBox -->
 		
 		<div id="rightSidebar">
 			
 			<div id="questionInfo">
-				<h2>Test id # <%= @user_test.id %></h2>
 				<h1>Testlet 1</h2><br />
-				<h2>Question 1</h2><br />
-				<h3>Topic: <%= @user_test.questions[0].topic.name %></h3>
-				<h3>SubTopic: None</h3><br />
+				<h2>Question <span class='questionNumber'>1</span></h2><br />
+				<h3>Topic: <span class='topicName'><%= @user_test.questions[0].topic.name %></span></h3>
+				<h3>SubTopic: <span class='subTopicName'>None</span></h3><br />
+				<h3>Source: <span class="questionSource"><%= @user_test.questions[0].source %></span></h3>
 			</div> <!-- questionInfo -->
 			
 			<div id="timer">	
