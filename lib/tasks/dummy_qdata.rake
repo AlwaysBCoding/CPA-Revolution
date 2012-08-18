@@ -18,7 +18,7 @@ namespace :updates do
         
     q_array.each_with_index do |question, index|
       q = Question.new
-      q.topic_id = rand(5...37)
+      q.topic_id = rand(32)
       q.question_text = question[1].chomp.strip.gsub(/"|'/, "").to_s
       q.source = question[7].chomp.strip.gsub(/"|'/, "").to_s
       q.save
