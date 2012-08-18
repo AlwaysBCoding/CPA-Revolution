@@ -14,13 +14,13 @@
 
 #questionBox {
 	height: 500px;
-	width: 900px;
+	width: 800px;
 	float: left;
 	box-sizing: border-box;
 }
 
 #rightSidebar {
-	width: 200px;
+	width: 320px;
 	float: right;
 }
 
@@ -63,15 +63,61 @@ ol.choices {
 
 #answers a {
 	padding-left: 6px;
+	cursor: pointer;
 }
 
 .answered {
 	background-color: #444;
 }
 
+.answered:hover {
+	background-color: #444;
+}
+
 .currentQuestion {
 	font-size: 20px;
 	font-weight: bold;
+}
+
+.questionSource, .subTopicName {
+	padding-left: 50px;
+}
+
+#runningScore {
+	width: 75%;
+}
+
+#runningScore th {
+	font-size: 20px;
+}
+
+#runningScore td {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.correctAnswers {
+	color: green;
+}
+
+.wrongAnswers {
+	color: red;
+}
+
+.submit {
+	margin-left: 12px;
+}
+
+#timer {
+	width: 60%;
+	margin: 0 auto;
+}
+
+.timer {
+	font-size: 30px;
 }
 </style>
 
@@ -80,11 +126,33 @@ ol.choices {
 var correctAnswers = 0;
 var wrongAnswers = 0;
 
+function seconds2time (seconds) {
+    var hours   = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+    var seconds = seconds - (hours * 3600) - (minutes * 60);
+    var time = "";
+
+    if (hours != 0) {
+      time = hours+":";
+    }
+    if (minutes != 0 || time !== "") {
+      minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
+      time += minutes+":";
+    }
+    if (time === "") {
+      time = seconds+"s";
+    }
+    else {
+      time += (seconds < 10) ? "0"+seconds : String(seconds);
+    }
+    return time;
+}
+
 // Set the countdown timer
 $(function() {
-	var sec = $("#timer span").text();
+	var sec = 10800;
 	var timer = setInterval(function() {
-		$("#timer span").text(--sec);
+		$("#timer .timer").text(seconds2time(--sec));
 		if(sec == 0) {
 			clearInterval(timer);
 		}
@@ -178,22 +246,25 @@ $(function() {
 		<div id="rightSidebar">
 			
 			<div id="questionInfo">
-				<h1>Question <span class='questionNumber'>1</span></h1><br />
-				<h4>Testlet 1</h4><br />
-				<h3>Topic: <span class='topicName'><%= @user_test.questions[0].topic.name %></span></h3>
-				<h3>SubTopic: <span class='subTopicName'>None</span></h3><br />
-				<h3>Source: <span class="questionSource"><%= @user_test.questions[0].source %></span></h3>
+				<h1>Question <span class='questionNumber'>1</span></h1>
+				<h4><span class="questionSource"><%= @user_test.questions[0].source %></span></h4>
+				<br /><br /><br />
+				<h3><span class='topicName'><%= @user_test.questions[0].topic.name %></span></h3>
+				<!-- <h4><span class='subTopicName'>None</span></h4> -->
 			</div> <!-- questionInfo -->
 			
-			<div id="timer">	
-				<h2>Timer</h2>
-				<h3><span>10800</span></h3>
-			</div> <!-- timer -->
+			<br /><br /><br />
 			
-			<div id="runningScore">
-				<h3>Correct: <span class="correctAnswers">0</span></h3>
-				<h3>Incorrect: <span class="wrongAnswers">0</span></h3>
-			</div> <!-- runningScore -->
+			<table id="runningScore">
+				<tr><th>Correct</th><th>Incorrect</th></tr>
+				<tr><td><span class="correctAnswers">0</span></td><td><span class="wrongAnswers">0</span></td></tr>
+			</table><!-- runningScore -->
+			
+			<br /><br /><br /><br />
+			
+			<div id="timer">	
+				<h2><span class="timer">3:00:00</span></h2>
+			</div> <!-- timer -->
 		</div>	<!-- rightSidebar -->
 			
 	</section> <!-- questionContent -->
