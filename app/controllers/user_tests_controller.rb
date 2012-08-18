@@ -25,8 +25,10 @@ class UserTestsController < ApplicationController
   
   def show
     if params[:question].present?
-    @question = UserTest.find(session[:user_test_id]).questions[params[:question].to_i-1]
-    render json: @question.to_json(:include => [:answers, :topic])
+    # @question = UserTest.find(session[:user_test_id]).questions[params[:question].to_i-1]
+    # render json: @question.to_json(:include => [:answers, :topic])
+    @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(params[:question].to_i - 1).limit(1)[0]
+    render json: @question.to_json(:include => { :question => { :methods => [:answers, :topic] } })
     end  
     
     @user_test = UserTest.find(session[:user_test_id])
@@ -39,10 +41,11 @@ class UserTestsController < ApplicationController
   
   def update
     question_number = params[:question_number].to_i
-    answered = params[:answer]
+    answered = params[:answer].to_i
     
-    utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(question_number-1).limit(1)
-    utq.answered_id = answered
+    utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(question_number-1).limit(1)[0]
+    p utq
+    utq.answered = answered
     utq.save
   end
   
