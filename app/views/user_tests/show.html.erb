@@ -200,15 +200,28 @@ $(function() {
 				
 			// Go to the next unanswered question
 			if ($(".answered").length < <%= @testlet.length %>) {
-			
 				var nextQuestion;
+				var curInterval = 1;
+				
 					for (i=0; i<30; i++) {
-						if($("#page"+(questionNumber+1+i)+" a").hasClass("answered")) {
-							continue;
-						} else {
-							nextQuestion = (questionNumber+1+i);
-							break;
-						} // if
+						if (questionNumber+1+i <= 30) {
+							if($("#page"+(questionNumber+1+i)+" a").hasClass("answered")) {
+								continue;
+							} else {
+								nextQuestion = (questionNumber+1+i);
+								break;
+							} // if the question is unanswered
+						} // if the question < 30
+						else {
+							if($("#page"+curInterval+" a").hasClass("answered")) {
+								curInterval++;
+								continue;
+							} else {
+								nextQuestion = (curInterval);
+								break;
+							}
+						} // else
+
 					} // for 
 				
 			$.getJSON(window.location.href + "?question=" + (
@@ -234,6 +247,10 @@ $(function() {
 			$("#page"+(nextQuestion)).addClass("currentQuestion");
 			
 			} // if it's not the last question
+			
+			else {
+				// load the next testlet
+			}
 			
 		} // if an answer is selected
 		
