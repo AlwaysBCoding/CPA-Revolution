@@ -159,7 +159,7 @@ $(function() {
 	}, 1000);
 });
 
-// AJAX Change Question
+// AJAX Change Question on Pagination Click
 $(function() {
 	$(".page a").click(function() {
 		if($(this).hasClass('answered') == false) {
@@ -188,35 +188,57 @@ $(function() {
 // AJAX Handle Submit
 $(function() {
 	$("#answers .submit").click(function() {
+		if($('input:radio[name=answer]:checked').length > 0) {
 		var questionNumber = parseInt($(".questionNumber").text());
-		// Gray the current question
-		$("#page"+questionNumber+" a").addClass("answered");
-		$("#pagination span").removeClass("currentQuestion");
-		$("#page"+(questionNumber+1)).addClass("currentQuestion");
 		
-		// See if the answer was correct
-		var answer = $('input:radio[name=answer]:checked').val();
-		answer == "correct" ? correctAnswers++ : wrongAnswers++;
-		$(".correctAnswers").text(correctAnswers); $(".wrongAnswers").text(wrongAnswers);
-		
+		// See if the answer was correct, add points accordingly
+		if ($("#page"+questionNumber+" a").hasClass('answered') == false) {
+			var answer = $('input:radio[name=answer]:checked').val();
+			answer == "correct" ? correctAnswers++ : wrongAnswers++;
+			$(".correctAnswers").text(correctAnswers); $(".wrongAnswers").text(wrongAnswers);		
+		} // if
 				
-		// Go to the Next Question
-		$.getJSON(window.location.href + "?question=" + (questionNumber+1), 
-				  function(data){
-			      	$(".choices").html("");
-				  	$("#questionText span").text(data.question.question_text);
-				    $(".questionSource").text(data.question.source);
-					$(".topicName").text(data.question.topic.name);
-					$(".questionNumber").text(questionNumber+1);
+			// Go to the next unanswered question
+			if ($(".answered").length < <%= @testlet.length %>) {
+			
+				var nextQuestion;
+					for (i=0; i<30; i++) {
+						if($("#page"+(questionNumber+1+i)+" a").hasClass("answered")) {
+							continue;
+						} else {
+							nextQuestion = (questionNumber+1+i);
+							break;
+						} // if
+					} // for 
+				
+			$.getJSON(window.location.href + "?question=" + (
+				nextQuestion
+				), 
+					  function(data){
+				      	$(".choices").html("");
+					  	$("#questionText span").text(data.question.question_text);
+					    $(".questionSource").text(data.question.source);
+						$(".topicName").text(data.question.topic.name);
+						$(".questionNumber").text(nextQuestion);
 
-					$.each(data.question.answers, function(index,item){
-						var value = item.correct? "correct" : "wrong";
-				  		htmlString = "<li><input type='radio' name='answer' value='" + value + "'><a>" + item.answer_text + "</a></input></li>";
-						$(".choices").append(htmlString);
-					});
-		});
-	});
-});
+						$.each(data.question.answers, function(index,item){
+							var value = item.correct? "correct" : "wrong";
+					  		htmlString = "<li><input type='radio' name='answer' value='" + value + "'><a>" + item.answer_text + "</a></input></li>";
+							$(".choices").append(htmlString);
+						}); // each
+			}); // getJSON
+			
+			// Gray the current question, activate next question
+			$("#page"+questionNumber+" a").addClass("answered");
+			$("#pagination span").removeClass("currentQuestion");
+			$("#page"+(nextQuestion)).addClass("currentQuestion");
+			
+			} // if it's not the last question
+			
+		} // if an answer is selected
+		
+	}); // click
+}); // load
 
 </script>
 
