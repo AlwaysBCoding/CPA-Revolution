@@ -24,6 +24,10 @@
 	float: right;
 }
 
+#pagination2, #pagination3 {
+	display: none;
+}
+
 /* Question Formatting 
 ===================== */
 
@@ -125,6 +129,7 @@ ol.choices {
 // Global Variables
 var correctAnswers = 0;
 var wrongAnswers = 0;
+var testlet = 1;
 
 function seconds2time (seconds) {
     var hours   = Math.floor(seconds / 3600);
@@ -148,9 +153,13 @@ function seconds2time (seconds) {
     return time;
 }
 
-// Drop the Modal
+// Set the Modal handlers
 $(function() {
 	$("#beginTest").modal();
+	$("#endTestlet").on("hide", function() {
+		testlet++;
+		// Load Testlet 2
+	}); // on
 	// Set the countdown timer
 	$("#beginTest").on("hide", function() {
 		var sec = <%= @user_test.section.time_per_test %>;
@@ -162,6 +171,9 @@ $(function() {
 		}, 1000);
 	});
 });
+
+// End the testlet
+
 
 // AJAX Change Question on Pagination Click
 $(function() {
@@ -183,11 +195,11 @@ $(function() {
 					var value = item.correct? "correct" : "wrong";
 			  		htmlString = "<li><input type='radio' name='answer' value='" + value + "'><a>" + item.answer_text + "</a></input></li>";
 					$(".choices").append(htmlString);
-				});
-	});
-		}
-	});
-});
+				}); // each
+	}); // getJSON
+		} // if
+	}); // click
+}); // load
 
 // AJAX Handle Submit
 $(function() {
@@ -205,10 +217,10 @@ $(function() {
 			// Go to the next unanswered question
 			if ($(".answered").length + 1 < <%= @testlet1.length %>) {
 				var nextQuestion;
-				var curInterval = 1;
+				var curInterval = 1 + ((testlet - 1) * <%= @user_test.section.questions_per_testlet %>);
 				
-					for (i=0; i<30; i++) {
-						if (questionNumber+1+i <= 30) {
+					for (i=0; i<<%= @user_test.section.questions_per_testlet %>; i++) {
+						if (questionNumber+1+i <= <%= @user_test.section.questions_per_testlet %>) {
 							if($("#page"+(questionNumber+1+i)+" a").hasClass("answered")) {
 								continue;
 							} else {
@@ -262,12 +274,6 @@ $(function() {
 		} // if an answer is selected
 		
 	}); // click
-	
-$(function() {
-	$("#endTestlet").on("hide", function() {
-		// Load Testlet 2
-	});
-});
 	
 }); // load
 
@@ -355,11 +361,23 @@ $(function() {
 	</section> <!-- questionContent -->
 	
 	<section id="pagination" class="clearfix">
-	<nav class="pagination">
+	<nav id="pagination1" class="pagination">
 		<% @testlet1.each_with_index do |page, index| %>
 		<span <%= "id='page#{index+1}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a <%= "class='single_digit'" if index < 9 %> href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
 		<% end %>	
-	</nav>		
+	</nav>
+	<nav id="pagination2" class="pagination">
+		<% @testlet2.each_with_index do |page, index| %>
+		<% i = @user_test.section.questions_per_testlet + index + 1 %>
+		<span <%= "id='page#{i}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+		<% end %>	
+	</nav>
+	<nav id="pagination2" class="pagination">
+		<% @testlet3.each_with_index do |page, index| %>
+		<% i = (@user_test.section.questions_per_testlet * 2) + index + 1 %>
+		<span <%= "id='page#{i}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+		<% end %>	
+	</nav>
 	</section> <!-- pagination -->			
 	
 </div>	

@@ -97,6 +97,10 @@ tr.striped {
 
 <script>
 $(function() {
+	$("#navInfo").addClass("active");
+});
+
+$(function() {
 	$("#state_selection_table a").click(function() {
 		var selected_state = $(this).attr("class");
 		$("#contentTable").html("");

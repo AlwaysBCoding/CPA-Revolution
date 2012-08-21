@@ -10,26 +10,21 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
-    <div class="container">
-
-      <a class="brand" href='<%= root_path %>'>CPA Revolution</a>
+	  <a class="brand" href='<%= root_path %>'>CPA Revolution</a>
 
       <ul class="nav">
-        <li><%= link_to 'Practice Exams', '/sections' %></li>
-		<li><%= link_to 'Exam Information', '/exam-information' %></li>
-		<li><%= link_to 'Homework Wizards', '#' %></li>
-		<li><%= link_to 'Sandbox', '/sandbox' %></li>
-		<li><%= link_to 'Forums', '#' %></li>
-		<li><%= link_to 'Contact', '/contact' %></li>
+        <li id="navSections"><%= link_to 'Practice Exams', '/sections' %></li>
+		<li id="navInfo"><%= link_to 'Exam Information', '/exam-information' %></li>
+		<li id="navSandbox"><%= link_to 'Sandbox', '/sandbox' %></li>
+		<li id="navForums"><%= link_to 'Forums', '#' %></li>
+		<li id="navContact"><%= link_to 'Contact', '/contact' %></li>
 		<% if session[:user_id].present? %>
-		<li><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
+		<li id="navSignOut"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
 		<% else %>
-		<li><%= link_to 'Sign In', '/signin' %></li>
-		<li><%= link_to 'Sign Up', '/users/new' %></li>
+		<li id="navSignIn"><%= link_to 'Sign In', '/signin' %></li>
+		<li id="navSignUp"><%= link_to 'Sign Up', '/users/new' %></li>
 		<% end %>
       </ul>
-      
-    </div>
   </div>
 </div>
 
