@@ -9,6 +9,7 @@ CpaMagic::Application.routes.draw do
   get '/exam-information' => 'info#exam_information'
   get '/sandbox' => 'info#sandbox'
   get '/contact' => 'info#contact'
+  get '/videos' => 'info#videos'
   
   get '/user_test' => 'user_tests#show'
   post '/user_test' => 'user_tests#create'
