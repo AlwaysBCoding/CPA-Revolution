@@ -4,7 +4,7 @@ class UserTestsController < ApplicationController
     
     if session[:user_id].present?
       
-     user_test = UserTest.create(user_id: session[:user_id])
+     user_test = UserTest.create(user_id: session[:user_id], section_id: params[:section_id])
       
      Question.find(:all, :order => "RANDOM()", :limit => 90).each do |question|
       
@@ -30,12 +30,12 @@ class UserTestsController < ApplicationController
     end  
     
     @user_test = UserTest.find(session[:user_test_id])
-    @testlet, @testlet2, @testlet3 = [], [], []
+    @testlet1, @testlet2, @testlet3 = [], [], []
     
-    30.times do |i|
-      @testlet << @user_test.questions[i]
-      @testlet2 << @user_test.questions[30+i]
-      @testlet3 << @user_test.questions[60+i]
+    @user_test.section.questions_per_testlet.times do |i|
+      @testlet1 << @user_test.questions[i]
+      @testlet2 << @user_test.questions[@user_test.section.questions_per_testlet+i]
+      @testlet3 << @user_test.questions[(@user_test.section.questions_per_testlet * 2)+i]
     end
   end
   
