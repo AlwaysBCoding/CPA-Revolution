@@ -24,9 +24,41 @@
 	float: right;
 }
 
+/* PAGINATION
+===================== */
 #pagination2, #pagination3 {
 	display: none;
 }
+
+.pagination a {
+	padding: 0px 10px;
+}
+
+.pagination a.single_digit {
+	padding: 0px 12px;
+}
+
+a.answered {
+	background-color: #444;
+}
+
+a.answered:hover {
+	background-color: #444;
+}
+
+.currentQuestion {
+	font-size: 20px;
+	font-weight: bold;
+	background: #fefcea; /* Old browsers */
+	background: -moz-linear-gradient(top, #fefcea 22%, #f1da36 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fefcea), color-stop(100%,#f1da36)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fefcea 22%,#f1da36 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fefcea 22%,#f1da36 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fefcea 22%,#f1da36 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #fefcea 22%,#f1da36 100%); /* W3C */
+}
+
+/*x PAGINATION x*/
 
 /* Question Formatting 
 ===================== */
@@ -52,15 +84,6 @@ ol.choices {
 	text-decoration: none;
 }
 
-.page a {
-	line-height: 15px;
-	padding: 10px;
-}
-
-.page a.single_digit {
-	padding: 10px 14px;
-}
-
 #questionText p {
 	padding: 10px;
 }
@@ -68,19 +91,6 @@ ol.choices {
 #answers a {
 	padding-left: 6px;
 	cursor: pointer;
-}
-
-.answered {
-	background-color: #444;
-}
-
-.answered:hover {
-	background-color: #444;
-}
-
-.currentQuestion {
-	font-size: 20px;
-	font-weight: bold;
 }
 
 .questionSource, .subTopicName {
@@ -180,8 +190,8 @@ $(function() {
 	$(".page a").click(function() {
 		if($(this).hasClass('answered') == false) {
 	var questionNumber = $(this).attr("href").replace(/.*=/, "");
-	$("#pagination span").removeClass("currentQuestion");
-	$("#page"+questionNumber).addClass("currentQuestion");
+	$("#pagination a").removeClass("currentQuestion");
+	$("#page"+questionNumber+" a").addClass("currentQuestion");
 	$("#answers form").attr("action", "/user_test/" + questionNumber);
 	$.getJSON(window.location.href + $(this).attr("href"), 
 			  function(data){
@@ -259,8 +269,8 @@ $(function() {
 			
 			// Gray the current question, activate next question
 			$("#page"+questionNumber+" a").addClass("answered");
-			$("#pagination span").removeClass("currentQuestion");
-			$("#page"+(nextQuestion)).addClass("currentQuestion");
+			$("#pagination a").removeClass("currentQuestion");
+			$("#page"+nextQuestion+" a").addClass("currentQuestion");
 			
 			} // if it's not the last question
 			
@@ -340,7 +350,7 @@ $(function() {
 				<h1>Question <span class='questionNumber'>1</span></h1>
 				<h4><span class="questionSource"><%= @user_test.questions[0].source %></span></h4>
 				<br /><br /><br />
-				<h3><span class='topicName'><%= @user_test.questions[0].topic.name %></span></h3>
+				<h4><span class='topicName'><%= @user_test.questions[0].topic.name %></span></h4>
 				<!-- <h4><span class='subTopicName'>None</span></h4> -->
 			</div> <!-- questionInfo -->
 			
@@ -361,23 +371,29 @@ $(function() {
 	</section> <!-- questionContent -->
 	
 	<section id="pagination" class="clearfix">
-	<nav id="pagination1" class="pagination">
+	<div id="pagination1" class="pagination">
+		<ul>
 		<% @testlet1.each_with_index do |page, index| %>
-		<span <%= "id='page#{index+1}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a <%= "class='single_digit'" if index < 9 %> href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
+		<li><span <%= "id='page#{index+1}'" %> class="page"><a class="<%= "single_digit " if index < 9 %><%= "currentQuestion" if index == 0 %>" href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span></li>
 		<% end %>	
-	</nav>
-	<nav id="pagination2" class="pagination">
+		</ul>
+	</div>
+	<div id="pagination2" class="pagination">
+		<ul>
 		<% @testlet2.each_with_index do |page, index| %>
 		<% i = @user_test.section.questions_per_testlet + index + 1 %>
-		<span <%= "id='page#{i}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+		<li><span <%= "id='page#{i}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span></li>
 		<% end %>	
-	</nav>
-	<nav id="pagination2" class="pagination">
+		</ul>
+	</div>
+	<div id="pagination2" class="pagination">
+		<ul>
 		<% @testlet3.each_with_index do |page, index| %>
 		<% i = (@user_test.section.questions_per_testlet * 2) + index + 1 %>
-		<span <%= "id='page#{i}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+		<li><span <%= "id='page#{i}'" %> class="page <%= "currentQuestion" if index == 0 %>"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span></li>
 		<% end %>	
-	</nav>
+		</ul>
+	</div>
 	</section> <!-- pagination -->			
 	
 </div>	

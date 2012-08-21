@@ -18,6 +18,7 @@ class UserTestsController < ApplicationController
       session[:user_test_id] = user_test.id
       redirect_to '/user_test'
     else 
+      flash[:notice] = "In order to generate a full length practice test you need to be signed in"
       redirect_to '/signin'
     end
    

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CPA Magic</title>
+  <title>CPA Revolution - Practice CPA Exam Questions for Free</title>
+  <link href='http://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -10,21 +11,22 @@
 
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
-	  <a class="brand" href='<%= root_path %>'>CPA Revolution</a>
-
-      <ul class="nav">
+	<a class="brand" href='<%= root_path %>'>CPA Revolution</a>
+	<div id="navWrapper">
+      <ul class="jdlNav">
         <li id="navSections"><%= link_to 'Practice Exams', '/sections' %></li>
 		<li id="navInfo"><%= link_to 'Exam Information', '/exam-information' %></li>
 		<li id="navSandbox"><%= link_to 'Sandbox', '/sandbox' %></li>
 		<li id="navForums"><%= link_to 'Forums', '#' %></li>
 		<li id="navContact"><%= link_to 'Contact', '/contact' %></li>
 		<% if session[:user_id].present? %>
-		<li id="navSignOut"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
+		<li id="navSignOut" class="pull-right"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
 		<% else %>
-		<li id="navSignIn"><%= link_to 'Sign In', '/signin' %></li>
-		<li id="navSignUp"><%= link_to 'Sign Up', '/users/new' %></li>
+		<li id="navSignIn" class="pull-right"><%= link_to 'Sign In', '/signin' %></li>
+		<li id="navSignUp" class="pull-right"><%= link_to 'Sign Up', '/users/new' %></li>
 		<% end %>
       </ul>
+	</div><!-- navWrapper -->
   </div>
 </div>
 

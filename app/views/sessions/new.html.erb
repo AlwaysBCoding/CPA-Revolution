@@ -4,7 +4,9 @@ $(function() {
 });
 </script>
 
-<%= notice %>
+<% if flash[:notice] %>
+<p class="alert"><%= flash[:notice] %></p>
+<% end %>
 
 <% if @user.present? %>
 	<%= @user.username %>
