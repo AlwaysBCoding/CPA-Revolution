@@ -30,10 +30,12 @@ class UserTestsController < ApplicationController
     end  
     
     @user_test = UserTest.find(session[:user_test_id])
-    @testlet = []
+    @testlet, @testlet2, @testlet3 = [], [], []
     
     30.times do |i|
       @testlet << @user_test.questions[i]
+      @testlet2 << @user_test.questions[30+i]
+      @testlet3 << @user_test.questions[60+i]
     end
   end
   

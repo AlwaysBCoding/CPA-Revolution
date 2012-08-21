@@ -12,7 +12,7 @@
   <div class="navbar-inner">
     <div class="container">
 
-      <a class="brand" href='<%= root_path %>'>CPA Magic</a>
+      <a class="brand" href='<%= root_path %>'>CPA Revolution</a>
 
       <ul class="nav">
         <li><%= link_to 'Practice Exams', '/sections' %></li>
@@ -20,7 +20,7 @@
 		<li><%= link_to 'Homework Wizards', '#' %></li>
 		<li><%= link_to 'Sandbox', '/sandbox' %></li>
 		<li><%= link_to 'Forums', '#' %></li>
-		<li><%= link_to 'Contact', '#' %></li>
+		<li><%= link_to 'Contact', '/contact' %></li>
 		<% if session[:user_id].present? %>
 		<li><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
 		<% else %>
