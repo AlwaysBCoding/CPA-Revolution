@@ -42,7 +42,11 @@ class UserTestsController < ApplicationController
   
   def finish
     @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id])
-    
+    @score = 0
+      @utq[0].user_test.user_test_questions.each do |answered_question|
+        answered_question.answered_correct? ? @score += 1 : @score += 0
+      end
+    @score = (@score.to_f / (@utq[0].user_test.section.questions_per_testlet * 3)*100).roundup(1).to_i
   end
   
   def update
