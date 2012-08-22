@@ -47,14 +47,17 @@ class UserTestsController < ApplicationController
         answered_question.answered_correct? ? @score += 1 : @score += 0
       end
     @score = (@score.to_f / (@utq[0].user_test.section.questions_per_testlet * 3)*100).roundup(1).to_i
+    
+    user_test = UserTest.find(session[:user_test_id])
+    user_test.score = @score
+    user_test.save
   end
   
   def update
-    question_number = params[:question_number].to_i
+    question_number = (params[:question_number].to_i - 1)
     answered = params[:answer] == "correct" ? true : false
     
     utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(question_number-1).limit(1)[0]
-    p utq
     utq.answered_correct = answered
     utq.save
 

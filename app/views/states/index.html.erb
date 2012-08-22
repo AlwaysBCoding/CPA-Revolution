@@ -1,98 +1,20 @@
 <style>
-#full_info_table {
-	display: none;
-}
-
 #contentWrapper {
 	min-width: 960px;
 	position: relative;
-	margin: 30px auto 0 auto;
+	margin: 0 auto;
 }
 
-#stateList {
-	float: left;
-	width: 200px;
+#state_selection_table th {
+	text-align: center;
+	font-family: "Helvetica";
+	font-size: 18px;
 }
 
-#contentArea {
-	width: 700px;
-	float: right;
-}
-
-/* Table Styles
-===================== */
-
-#contentTable td {
-	height: 25px;
-	position: relative;
-}
-
-#contentTable th {
-	width: 135px;
-	background: #404853;
-  	background: linear-gradient(#687587, #404853);
-	border-left: 1px solid rgba(0, 0, 0, 0.2);
-	border-right: 1px solid rgba(255, 255, 255, 0.1);
- 	color: #fff;
-	font-size: 11px;
-	padding: 9px 8px 7px 8px;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
-	text-transform: uppercase;
-}
-
-#contentTable td:last-child {
-	border-right: 1px solid #c6c9cc;
-}
-
-#contentTable td p {
-	margin-left: 20px;
-	color: #404853;
-	position: relative;
-	line-height: 25px;
-}
-
-#contentTable tr:first-child p {
-	font-weight: bold;
-	font-size: 20px;
-	margin-left: 0;
+#state_selection_table td {
 	text-align: center;
 }
 
-/* Shay Howe CSS
-===================== */
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-tbody td {
-  border-bottom: 1px solid #c6c9cc;
-  border-left: 1px solid #e4e7eb;
-  border-right: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-tr:nth-child(odd) {
-	background-color: #e8eae9;
-	border-left: 1px solid #d5d8db;
-}
-
-/* JDL Classes
-===================== */
-.highlight {
-	background-color: #FF0;
-	cursor: pointer;
-}
-
-tr.striped {
-	background-color: #e8eae9;
-      background-image: -webkit-gradient(linear, left top, left bottom, from(#f7faf9), to(#e8eae9)); 
-	  background-image: -webkit-linear-gradient(top, #f7faf9, #e8eae9); 
-	  background-image:    -moz-linear-gradient(top, #f7faf9, #e8eae9);
-	  background-image:      -o-linear-gradient(top, #f7faf9, #e8eae9); 
-	  background-image:         linear-gradient(to bottom, #f7faf9, #e8eae9);
-	border-left: 1px solid #d5d8db;
-}
 </style>
 
 <script>
@@ -103,52 +25,61 @@ $(function() {
 $(function() {
 	$("#state_selection_table a").click(function() {
 		var selected_state = $(this).attr("class");
-		$("#contentTable").html("");
-		var table_html = $("tbody." + selected_state).html();						
-		$("#contentTable").html(table_html);	
+		$("#"+selected_state).modal();
 	});
 });
 </script>
 
-<h1>State Licensure and Application Information</h1>
 
 <div id="contentWrapper">
-	<div id='stateList' class='leftSide'>
-	<table id='state_selection_table'>
-	<% @states.each do |state| %>
-		<tr>
-			<td><a href="#" class='<%= state.abbr %>'><%= state.name %></a></td>
-		</tr>
-	<% end %>			
+	<table id='state_selection_table' class='table table-striped table-bordered'>
+	<thead><tr><th colspan='3'>State Licensure and Application Information</th></tr></thead>
+	<tbody>	
+	<% @states.each_with_index do |state, index| %>
+		<% if index % 3 == 0 %>
+		<tr><td><a href="#" class='<%= state.abbr %>'><%= state.name %></a></td>
+		<% elsif index % 3 == 0 || index == 50 %>
+		<td><a href="#" class='<%= state.abbr %>'><%= state.name %></a></td></tr>
+		<% else %>
+		<td><a href="#" class='<%= state.abbr %>'><%= state.name %></a></td>
+		<% end %>
+	<% end %>	
+	</tbody>		
 	</table>
-	</div> <!-- stateList -->
-
-	<div id='contentArea' class='rightSide'>
-		<table id='contentTable'>
-		</table>	
-	</div> <!-- contentArea -->	
 </div> <!-- contentWrapper -->	
 
-<table id='full_info_table'>
 <% @states.each do |state| %>
-  <tbody class='<%= state.abbr %>'>
-	<tr><th>State</th><td><p><%= state.name %></p></td></tr>
-	<tr><th>Accounting Board</th><td><p><%= state.board_name %></p></td></tr>
-	<tr><th>Address</th><td><p><%= state.address %></p></td></tr>
-	<tr><th>Telephone Number</th><td><p><%= state.telephone_number %></p></td></tr>
-	<tr><th>Fax Number</th><td><p><%= state.fax_number %></p></td></tr>
-	<tr><th>Email</th><td><p><%= state.email_address %></p></td></tr>
-    <tr><th>Age Requirement</th><td><p><%= state.age_requirement > 0 ? state.age_requirement : "None" %></p></td></tr>
-    <tr><th>Citizenship Requirement</th><td><p><%= state.citizenship_requirement %></p></td></tr>
-    <tr><th>Residency Requirement</th><td><p><%= state.residency_requirement %></p></td></tr>
-    <tr><th>Social Security # Requirement</th><td><p><%= state.ssn_requirement %></p></td></tr>
-    <tr><th>Education Requirement</th><td><p><%= state.education_requirement %></p></td></tr>
-    <tr><th>International Examination Program</th><td><p><%= state.international_examination_program %></p></td></tr>
-    <tr><th>Hours Requirement</th><td><p><%= state.hours_requirement %></p></td></tr>
-    <tr><th>Sitting Requirement</th><td><p><%= state.sitting_requirements %></p></td></tr>
-    <tr><th>Experience Requirement</th><td><p><%= state.experience_requirements %></p></td></tr>
-    <tr><th>Ethics Requirement</th><td><p><%= state.ethics_requirements %></p></td></tr>
-    <tr><th>Notes</th><td><p><%= state.notes %></p></td></tr>
-  </tbody>
+  <div id='<%= state.abbr %>' class='modal hide fade'>
+		<div class='modal-header'>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3>Get Licensed in <%= state.name %></h3>
+		</div>
+		
+		<div class="modal-body">
+		<h4><%= state.board_name %></h4>
+		<p><%= state.address %></p>
+		<p>Telephone Number: <%= state.telephone_number %></p>
+		<p>Fax Number: <%= state.fax_number %></p>
+		<p>Email: <%= state.email_address %></p>
+		<p>Website: <%= state.website %></p><hr />
+		<h4>Licensure Requirements</h4>
+		<p><strong>Education Requirement:</strong> <%= state.education_requirement %></p>
+		<p><strong>Hours Requirement:</strong> <%= state.hours_requirement %></p>
+		<p><strong>Sitting Requirement:</strong> <%= state.sitting_requirements %></p>
+		<p><strong>Experience Requirement:</strong> <%= state.experience_requirements %></p>
+		<p><strong>Ethics Requirement:</strong> <%= state.ethics_requirements %></p><hr />		
+		<h4>Other Licensure Requirements</h4>
+		<p>Age Requirement: <%= state.age_requirement > 0 ? state.age_requirement : "None" %></p>
+		<p>Citizenship Requirement: <%= state.citizenship_requirement %></p>
+		<p>Residency Requirement: <%= state.residency_requirement %></p>
+		<p>Social Security # Requirement: <%= state.ssn_requirement %></p>
+		<p>International Examination Program: <%= state.international_examination_program %></p><hr />
+		<h4>Notes</h4>
+		<p><%= state.notes %>
+		</div>
+		
+		<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		</div>	
+	</div>
 <% end %>
-</table>
