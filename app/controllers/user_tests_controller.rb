@@ -6,7 +6,7 @@ class UserTestsController < ApplicationController
       
      user_test = UserTest.create(user_id: session[:user_id], section_id: params[:section_id])
       
-     Question.find(:all, :order => "RANDOM()", :limit => 90).each do |question|
+     Question.find(:all, :order => "RANDOM()", :limit => (user_test.section.questions_per_testlet * 3)).each do |question|
       
        utq = UserTestQuestion.new
        utq.user_test_id = user_test.id
@@ -38,6 +38,11 @@ class UserTestsController < ApplicationController
       @testlet2 << @user_test.questions[@user_test.section.questions_per_testlet+i]
       @testlet3 << @user_test.questions[(@user_test.section.questions_per_testlet * 2)+i]
     end
+  end
+  
+  def finish
+    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id])
+    
   end
   
   def update

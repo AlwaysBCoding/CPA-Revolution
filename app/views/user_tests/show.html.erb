@@ -270,9 +270,15 @@ $(function() {
 				$(".correctAnswersModal span").text($(".correctAnswers").text());
 				$(".wrongAnswersModal span").text($(".wrongAnswers").text());
 				$(".answered").removeClass("answered");
+				
+				if (testlet < 3) {
 				$("#endTestlet .testletNumber").text(testlet);
 				$("#endTestlet .testletNumberPlusOne").text(testlet+1);
 				$("#endTestlet").modal();
+				} else {
+					window.location = "/user_test/finish";
+				} // if the test is over
+				
 			} // if it is the last question
 			
 		} // if an answer is selected
