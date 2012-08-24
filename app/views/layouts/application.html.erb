@@ -3,8 +3,6 @@
 <head>
   <title>CPA Revolution - Practice CPA Exam Questions for Free</title>
   <link href='http://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=McLaren' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Acme' rel='stylesheet' type='text/css'>
 
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
@@ -39,11 +37,11 @@
 		<li id="navForums"><%= link_to 'Forums', 'http://www.accountingsandbox.com/forums' %></li>
 		<li id="navContact"><%= link_to 'Contact', '/contact' %></li>
 		<% if session[:user_id].present? %>
-		<li id="navSignOut" class="pull-right"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
-		<li id="navMyProfile" class="pull-right last"><%= link_to "My Profile", user_url(User.find(session[:user_id])) %>
+		<li id="navSignOut" class="pull-right last"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
+		<li id="navMyProfile" class="pull-right"><%= link_to "My Profile", user_url(User.find(session[:user_id])) %>
 		<% else %>
-		<li id="navSignIn" class="pull-right"><%= link_to 'Sign In', '/signin' %></li>
-		<li id="navSignUp" class="pull-right last"><%= link_to 'Sign Up', '/users/new' %></li>
+		<li id="navSignIn" class="pull-right last"><%= link_to 'Sign In', '/signin' %></li>
+		<li id="navSignUp" class="pull-right"><%= link_to 'Sign Up', '/users/new' %></li>
 		<% end %>
       </ul>
 	</div><!-- navWrapper -->

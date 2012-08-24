@@ -30,16 +30,22 @@
 }
 
 .section button {
-	margin: 25px 20px;
+	margin: 10px 20px;
 	font-weight: bold;
+}
+
+#contentArea {
+	height: 450px;
+	width: 100%;
+	display: none;
+	background-color: rgb(242,245,246);
+	border: 1px solid #c8d7dc;
 }
 
 /* JDL STYLES
 ==================== */
 
-.hover-highlight {
-	border: 5px solid #f4ff5e;
-}
+.hover-highlight {}
 
 .hidden {
 	display: none;
@@ -49,61 +55,71 @@
 
 <script>
 $(function() {
-	$("#navSections").addClass("active").find("a").css("padding-left", "15px");
+	$("#navSections").addClass("active");
 });
 </script>
 
 <script>
 $(function() {
 	$(".section img").hover(function() {
-		$("#contentTable").html("");
 		$(this).addClass("hover-highlight");
 		$(".section img:not('.hover-highlight')").stop().animate({ opacity: .4 }, 300);
-		
-		var sectionCode = $(this).parent().attr("id");
-		var sectionName = ""
-		switch (sectionCode) {
-			case "AUD": sectionName = "Auditing and Attestation"; break;
-			case "FAR": sectionName = "Financial Accounting and Reporting"; break;
-			case "REG": sectionName = "Regulation"; break;
-			case "BEC": sectionName = "Business Envirnonments and Concepts"; break;
-		}
-		$("#sectionName").html(sectionName);
-		$("#contentTable").html($("table." + sectionCode).html());
-		
 	}, function() {
 		$(this).removeClass("hover-highlight");
 		$(".section img").stop().animate( { opacity: 1 }, 300);
-		$("#sectionName").html("");
-		$("#contentTable").html("");
+	});
+});
+
+var slideCounter = 0;
+$(function() {
+	$(".section img").on("click", function(e) {
+		e.preventDefault();
+		var sectionCode = $(this).parent().attr("class");
+		$("#contentArea").html($("mark."+sectionCode).html());
+		var i = 0;
+			if (slideCounter % 2 == 0) {
+			$("div.section").not("#"+sectionCode).slideToggle(function() {
+				i++; i == 3 ? $("#contentArea").slideToggle() : "";
+				slideCounter++;
+			});
+			} else {
+				$("#contentArea").slideToggle(function() {
+				$("div.section").not("#"+sectionCode).slideToggle();	
+				slideCounter++;
+				});
+			} // else
 	});
 });
 </script>
 
 <div id="sectionContainer">
 <% @sections.each do |section| %>
-  <div class="section">
+  <div id="<%= section.code %>" class="section">
 	<h3><%= section.name %></h3>
-	<button class="btn btn-primary">Practice Topics</button>
-	<button class="btn btn-primary">Full Length Test</button>
-	<button class="btn btn-primary">Random Questions</button>
-	<a href="/sections/<%= section.code %>" id="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>	
+	<a href="/sections/<%= section.code %>"><button class="btn btn-inverse">Practice Topics</button></a>
+	<a href=""><button class="btn btn-inverse">Full Length Test</button></a>
+	<a href="/sections/<%= section.code %>"><button class="btn btn-inverse">Random Questions</button></a>
+	<a class="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>
   </div> <!-- section -->
 <% end %>
 </div> <!-- sectionContainer -->
 
+<div id="contentArea">
+	
+</div>	
+
 <section class="hidden">
-	<table class="FAR">
-		<tbody>
+	<mark class="FAR">
+		<table><tbody>
 		<tr><td>Section 1</td><td>Conceptual Framework, Standards, Standard Setting, Presentation of the Financial Statements</td><td>17-23%</td></tr>
 		<tr><td>Section 2</td><td>Financial Statement Accounts: Recognition, Measurement, Valuation, Calculation, Presentation, Disclosures</td><td>27-33%</td></tr>
 		<tr><td>Section 3</td><td>Specific Transactions, Events, and Disclosures: Recognition, Measurement, Valuation, Calculation, Presentation, and Disclosures</td><td>27-33%</td></tr>
 		<tr><td>Section 4</td><td>Governmental Accounting and Reporting</td><td>8-12%</td></tr> 
 		<tr><td>Section 5</td><td>Not-for-profit Accounting and Reporting</td><td>8-12%</td></tr>	
 		</tbody>
-	</table>		
-	<table class="REG">
-		<tbody>
+	</table></mark>		
+	<mark class="REG">
+		<table><tbody>
 		<tr><td>Section 1</td><td>Ethics, Professional, and Legal Responsibilities</td><td>15-19%</td></tr>
 		<tr><td>Section 2</td><td>Business Law</td><td>17-21%</td></tr>
 		<tr><td>Section 3</td><td>Federal Tax Process, Procedures, Accounting, and Planning</td><td>11-15%</td></tr>
@@ -111,9 +127,9 @@ $(function() {
 		<tr><td>Section 5</td><td>Federal Taxation of Individuals</td><td>13-19%</td></tr>	
 		<tr><td>Section 6</td><td>Federal Taxation of Entities</td><td>18-24%</td></tr>	
 		</tbody>
-	</table>	
-	<table class="BEC">
-		<tbody>
+	</table></mark>
+	<mark class="BEC">
+		<table><tbody>
 		<tr><td>Section 1</td><td>Corporate Governance</td><td>16-20%</td></tr>
 		<tr><td>Section 2</td><td>Economic Concepts and Analysis</td><td>16-20%</td></tr>
 		<tr><td>Section 3</td><td>Financial Management</td><td>19-23%</td></tr>
@@ -121,13 +137,14 @@ $(function() {
 		<tr><td>Section 5</td><td>Strategic Planning</td><td>10-14%</td></tr>	
 		<tr><td>Section 6</td><td>Operations Management</td><td>12-16%</td></tr>	
 		</tbody>
-	</table>	
-	<table class="AUD">
+	</table></mark>	
+	<mark class="AUD">
+		<table><btbody>
 		<tr><td>Section 1</td><td>Engagement Acceptance and Understanding the Assignment</td><td>12-16%</td></tr>
 		<tr><td>Section 2</td><td>Understanding the Entity and Its Environment (including Internal Control)</td><td>16-20%</td></tr>
 		<tr><td>Section 3</td><td>Performing Audit Procedures and Evaluating Evidence</td><td>16-20%</td></tr>
 		<tr><td>Section 4</td><td>Evaluating Audit Findings, Communications, and Reporting</td><td>16-20%</td></tr> 
 		<tr><td>Section 5</td><td>Accounting and Review Services Engagements</td><td>12-16%</td></tr>
 		<tr><td>Section 6</td><td>Professional Responsibilities</td><td>16-20%</td></tr>
-	</table>	
+	</table></mark>	
 </section>	
