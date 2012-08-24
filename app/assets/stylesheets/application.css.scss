@@ -43,6 +43,14 @@ a.brand {
 	padding-right: 15px;
 }
 
+.jdlNav li.first a {
+	padding-left: 0px;
+}
+
+.jdlNav li.last a {
+	padding-right: 0px;
+}
+
 .jdlNav a:hover {
 	text-decoration: none;
 }
@@ -50,4 +58,9 @@ a.brand {
 
 body { padding-top: 60px; }
 
+.container { 
+	margin: 0 auto;
+	width: 960px;
+	position: relative;
+}
 

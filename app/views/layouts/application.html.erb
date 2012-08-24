@@ -3,41 +3,13 @@
 <head>
   <title>CPA Revolution - Practice CPA Exam Questions for Free</title>
   <link href='http://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=McLaren' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Acme' rel='stylesheet' type='text/css'>
+
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-</head>
-<body>
 
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-	<a class="brand" href='<%= root_path %>'>CPA Revolution</a>
-	<div id="navWrapper">
-      <ul class="jdlNav">
-        <li id="navSections"><%= link_to 'Practice Exams', '/sections' %></li>
-		<li id="navInfo"><%= link_to 'Exam Information', '/exam-information' %></li>
-		<li id="navVideos"><%= link_to 'Videos', '/videos' %></li>
-		<li id="navSandbox"><%= link_to 'Sandbox', '/sandbox' %></li>
-		<li id="navForums"><%= link_to 'Forums', '#' %></li>
-		<li id="navContact"><%= link_to 'Contact', '/contact' %></li>
-		<% if session[:user_id].present? %>
-		<li id="navSignOut" class="pull-right"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
-		<li id="navMyProfile" class="pull-right"><%= link_to "My Profile", user_url(User.find(session[:user_id])) %>
-		<% else %>
-		<li id="navSignIn" class="pull-right"><%= link_to 'Sign In', '/signin' %></li>
-		<li id="navSignUp" class="pull-right"><%= link_to 'Sign Up', '/users/new' %></li>
-		<% end %>
-      </ul>
-	</div><!-- navWrapper -->
-  </div>
-</div>
-
-<div class="container">
-	<% if flash[:notice] %>
-	<p class="alert"><%= flash[:notice] %></p>
-	<% end %>
-  <%= yield %>
-</div>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -51,5 +23,39 @@
   })();
 
 </script>
+
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+	<a class="brand" href='<%= root_path %>'>CPA Revolution</a>
+	<div id="navWrapper">
+      <ul class="jdlNav">
+        <li id="navSections" class="first"><%= link_to 'Practice Exams', '/sections' %></li>
+		<li id="navInfo"><%= link_to 'Exam Information', '/exam-information' %></li>
+		<li id="navVideos"><%= link_to 'Videos', '/videos' %></li>
+		<li id="navSandbox"><%= link_to 'Sandbox', '/sandbox' %></li>
+		<li id="navForums"><%= link_to 'Forums', 'http://www.accountingsandbox.com/forums' %></li>
+		<li id="navContact"><%= link_to 'Contact', '/contact' %></li>
+		<% if session[:user_id].present? %>
+		<li id="navSignOut" class="pull-right"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
+		<li id="navMyProfile" class="pull-right last"><%= link_to "My Profile", user_url(User.find(session[:user_id])) %>
+		<% else %>
+		<li id="navSignIn" class="pull-right"><%= link_to 'Sign In', '/signin' %></li>
+		<li id="navSignUp" class="pull-right last"><%= link_to 'Sign Up', '/users/new' %></li>
+		<% end %>
+      </ul>
+	</div><!-- navWrapper -->
+  </div>
+</div>
+
+<div class="container">
+	<% if flash[:notice] %>
+	<p class="alert"><%= flash[:notice] %></p>
+	<% end %>
+  <%= yield %>
+</div>
+
 </body>
 </html>

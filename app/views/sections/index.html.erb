@@ -1,57 +1,38 @@
 <style>
 
-#wrapper {
-	min-width: 960px;
-	margin: 0 auto;
-	position: relative;
-}
-
 .section {
-	width: 215px;
+	width: 100%;
+	height: 150px;
 	border: 1px solid #c8d7dc;
 	padding: 0	px;
-	margin: 0px 20px 20px 0px;
-	float: left;
-	background-color: rgb(242,245,246); // Old browsers
+	background-color: rgb(242,245,246);
 	-webkit-border-radius: 6px;
+	position: relative;
+	font-family: 'Marmelad';
 }
 
 .section img {
-	height: 215px;
-	width: 215px;
+	height: 150px;
+	width: 150px;
 	box-sizing: border-box;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	
+}
+
+.section h3 {
+	padding-left: 25px;
 }
 
 #sectionContainer {
 	position: relative;
-	left: 15px;
 }
 
-#subNavBar {
-	width: 100%;
-	height: 300px;
-	border: 1px solid #c8d7dc;
-	padding: 0	px;
-	margin: 0px 20px 20px 0px;
-	float: left;
-	background-color: rgb(242,245,246); // Old browsers
-	-webkit-border-radius: 6px;
-	position: relative;
+.section button {
+	margin: 25px 20px;
+	font-weight: bold;
 }
-
-#sectionName {
-	display: inline-block;
-	width: 100%;
-	margin-top: 25px;
-	text-align: center;
-	font-size: 22px;
-}
-
-#contentTable {
-	width: 100%;
-	margin-top: 30px;
-}
-
 
 /* JDL STYLES
 ==================== */
@@ -68,25 +49,48 @@
 
 <script>
 $(function() {
-	$("#navSections").addClass('active');
+	$("#navSections").addClass("active").find("a").css("padding-left", "15px");
 });
 </script>
 
-<div id="wrapper">
+<script>
+$(function() {
+	$(".section img").hover(function() {
+		$("#contentTable").html("");
+		$(this).addClass("hover-highlight");
+		$(".section img:not('.hover-highlight')").stop().animate({ opacity: .4 }, 300);
+		
+		var sectionCode = $(this).parent().attr("id");
+		var sectionName = ""
+		switch (sectionCode) {
+			case "AUD": sectionName = "Auditing and Attestation"; break;
+			case "FAR": sectionName = "Financial Accounting and Reporting"; break;
+			case "REG": sectionName = "Regulation"; break;
+			case "BEC": sectionName = "Business Envirnonments and Concepts"; break;
+		}
+		$("#sectionName").html(sectionName);
+		$("#contentTable").html($("table." + sectionCode).html());
+		
+	}, function() {
+		$(this).removeClass("hover-highlight");
+		$(".section img").stop().animate( { opacity: 1 }, 300);
+		$("#sectionName").html("");
+		$("#contentTable").html("");
+	});
+});
+</script>
 
-	<div id="sectionContainer">
-	<% @sections.each do |section| %>
-	  <div class="section">
-		<a href="/sections/<%= section.code %>" id="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>	
-	  </div> <!-- section -->
-	<% end %>
-	</div> <!-- sectionContainer -->
-
-<div id="subNavBar">
-	<h3 id="sectionName"></h3>
-	<table id="contentTable">
-	</table>	
-</div> <!-- subNavBar -->
+<div id="sectionContainer">
+<% @sections.each do |section| %>
+  <div class="section">
+	<h3><%= section.name %></h3>
+	<button class="btn btn-primary">Practice Topics</button>
+	<button class="btn btn-primary">Full Length Test</button>
+	<button class="btn btn-primary">Random Questions</button>
+	<a href="/sections/<%= section.code %>" id="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>	
+  </div> <!-- section -->
+<% end %>
+</div> <!-- sectionContainer -->
 
 <section class="hidden">
 	<table class="FAR">
@@ -127,5 +131,3 @@ $(function() {
 		<tr><td>Section 6</td><td>Professional Responsibilities</td><td>16-20%</td></tr>
 	</table>	
 </section>	
-
-</div> <!-- wrapper -->
