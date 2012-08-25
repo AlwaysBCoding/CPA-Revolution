@@ -1,5 +1,7 @@
 class UserTestsController < ApplicationController
     
+  require 'json'  
+    
   def create
     
     if session[:user_id].present?
@@ -27,7 +29,9 @@ class UserTestsController < ApplicationController
   def show
     if params[:question].present?
     @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(params[:question].to_i - 1).limit(1)[0]
-    render json: @question.to_json(:include => { :question => { :methods => [:answers, :topic] } })
+        
+    var = JSON.pretty_generate(JSON.parse(@question.to_json(:include => { :question => { :methods => [:answers, :topic] } })))
+    render json: var
     end  
     
     @user_test = UserTest.find(session[:user_test_id])
