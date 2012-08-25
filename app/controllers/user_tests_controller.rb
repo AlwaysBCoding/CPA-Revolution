@@ -26,7 +26,7 @@ class UserTestsController < ApplicationController
   
   def show
     if params[:question].present?
-    @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id desc').offset(params[:question].to_i - 1).limit(1)[0]
+    @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id asc').offset(params[:question].to_i - 1).limit(1)[0]
     render json: @question.to_json(:include => { :question => { :methods => [:answers, :topic] } })
     end  
     
@@ -41,7 +41,7 @@ class UserTestsController < ApplicationController
   end
   
   def finish
-    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id desc')
+    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id asc')
     @score = 0
       @utq[0].user_test.user_test_questions.each do |answered_question|
         answered_question.answered_correct? ? @score += 1 : @score += 0
