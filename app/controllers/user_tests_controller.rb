@@ -32,6 +32,7 @@ class UserTestsController < ApplicationController
         
     var = JSON.pretty_generate(JSON.parse(@question.to_json(:include => { :question => { :methods => [:answers, :topic] } })))
     render json: var
+
     end  
     
     @user_test = UserTest.find(session[:user_test_id])
@@ -45,7 +46,7 @@ class UserTestsController < ApplicationController
   end
   
   def finish
-    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id], :order => 'id desc')
+    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id asc')
     @score = 0
       @utq[0].user_test.user_test_questions.each do |answered_question|
         answered_question.answered_correct? ? @score += 1 : @score += 0
