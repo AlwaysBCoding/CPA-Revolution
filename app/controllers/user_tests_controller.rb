@@ -26,7 +26,7 @@ class UserTestsController < ApplicationController
   
   def show
     if params[:question].present?
-    @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(params[:question].to_i - 1).limit(1)[0]
+    @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id desc').offset(params[:question].to_i - 1).limit(1)[0]
     render json: @question.to_json(:include => { :question => { :methods => [:answers, :topic] } })
     end  
     
