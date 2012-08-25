@@ -47,7 +47,7 @@ class UserTestsController < ApplicationController
     end
     
     # Only do this when the user calls the show page, not for creating JSON or logging time
-    if params[:question].present? == false && params[:time_remaining]? == false
+    if params[:question].present? == false && params[:time_remaining].present? == false
       
       # Initialize the tetlets and running score    
       @testlet1, @testlet2, @testlet3 = [], [], []
