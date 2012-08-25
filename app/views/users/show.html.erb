@@ -4,7 +4,7 @@ $(function() {
 });
 
 $(function() {
-	$(".datepicker").datepicker();
+	$(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
 });
 </script>
 
@@ -19,9 +19,12 @@ This is the show page for <%= @user.username %>
 </ul>
 
 <% @sections.each do |section| %>
-	<%= form_tag do %>
+	<%= form_tag user_url(@user) do %>
+	<input type="hidden" name="section" value="<%= section.code %>" /> 
 	<a class="<%= section.code %>"><%= image_tag "#{section.code}_logo.jpg" %></a>
-	<input class="datepicker" />
+	<input name="exam_date" class="datepicker" />
 	<%= submit_tag 'Set Date' %>
+	<input name="exam_score" />
+	<%= submit_tag 'Report Score' %>
 	<% end %>
 <% end %>	

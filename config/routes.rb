@@ -21,4 +21,6 @@ CpaMagic::Application.routes.draw do
   get '/signout' => 'sessions#destroy'
 
   resources :users
+  post '/users/:id' => 'users#scoredate', :as => 'user'
+  
 end

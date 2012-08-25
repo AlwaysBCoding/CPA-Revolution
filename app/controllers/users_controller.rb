@@ -36,5 +36,39 @@ class UsersController < ApplicationController
     
   end
   
+  def scoredate # POST /users/:id
+    @user = User.find(session[:user_id])
+    
+    # Set the USER exam_date equal to the date that comes through on the form
+    if params[:exam_date].present?
+      case params[:section]
+        when "FAR"
+          @user.far_date = params[:exam_date]; @user.save
+        when "REG"
+          @user.reg_date = params[:exam_date]; @user.save
+        when "BEC"
+          @user.bec_date = params[:exam_date]; @user.save
+        when "AUD"
+          @user.aud_date = params[:exam_date]; @user.save
+      end
+    end        
+    
+    # Set the USER exam_score equal to the score that comes through on the form
+    if params[:exam_score].present?
+      case params[:section]
+        when "FAR"
+          @user.far_score = params[:exam_score]; @user.save
+        when "REG"
+          @user.reg_score = params[:exam_score]; @user.save
+        when "BEC"  
+          @user.bec_score = params[:exam_score]; @user.save
+        when "AUD"  
+          @user.aud_score = params[:exam_score]; @user.save
+      end
+    end    
+    
+    redirect_to "/users/#{@user.id}"
+  end
+  
   
 end
