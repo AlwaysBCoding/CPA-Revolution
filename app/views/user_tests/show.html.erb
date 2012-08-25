@@ -144,8 +144,6 @@ label {
 <script>
 // There should really be a function that I run that figures out what should be the current question in everny situation. Then I can just call that function when applicable. I'm too tired to write it now though, so I think I'm going to put that off.
 
-alert("<%= @activeQuestionOnLoad %>");
-
 // Global Variables
 	// count correct answers and wrong answers, decide which testlet is the current testlet based on that
 var correctAnswers = <%= @correct_answers %>;
@@ -157,6 +155,11 @@ var testlet = 2;
 <% else %>
 var testlet = 3;
 <% end %>
+
+// Set the currentQuestion on the pagination of activeQuestionOnLoad
+$(function() {
+	$("#page"+<%= @activeQuestionOnLoad %>+" a").addClass("currentQuestion");
+});
 
 // Takes an integer of seconds and returns a string of h:mm:ss
 function seconds2time(seconds) {
@@ -270,7 +273,7 @@ $(function() {
 			$(".correctAnswers").text(correctAnswers); $(".wrongAnswers").text(wrongAnswers);	
 		
 		// Submit the question
-			$.post(window.location+"/"+questionNumber);	
+			$.post(window.location+"/"+questionNumber, {"answer": answer});	
 		} // if the question hasn't already been answered
 				
 			// Go to the next unanswered question
