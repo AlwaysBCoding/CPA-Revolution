@@ -7,6 +7,8 @@
 	padding: 0	px;
 	background-color: rgb(242,245,246);
 	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 	position: relative;
 	font-family: 'Marmelad';
 }
@@ -18,6 +20,7 @@
 	position: absolute;
 	right: 0px;
 	top: 0px;
+	cursor: pointer;
 	
 }
 
@@ -40,6 +43,9 @@
 	display: none;
 	background-color: rgb(242,245,246);
 	border: 1px solid #c8d7dc;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
 }
 
 /* JDL STYLES
@@ -96,9 +102,9 @@ $(function() {
 <% @sections.each do |section| %>
   <div id="<%= section.code %>" class="section">
 	<h3><%= section.name %></h3>
-	<a href="/sections/<%= section.code %>?quizType=topics"><button class="btn btn-inverse">Individual Topics</button></a>
+	<a href="/sections/<%= section.code %>?quiztype=topics"><button class="btn btn-inverse">Individual Topics</button></a>
 	<a href=""><button class="btn btn-inverse">Full Length Test</button></a>
-	<a href="/sections/<%= section.code %>?quizType=random"><button class="btn btn-inverse">Random Questions</button></a>
+	<a href="/sections/<%= section.code %>?quiztype=random"><button class="btn btn-inverse">Random Questions</button></a>
 	<a class="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>
   </div> <!-- section -->
 <% end %>
