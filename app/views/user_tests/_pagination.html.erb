@@ -1,0 +1,35 @@
+<section id="pagination" class="clearfix">
+<div id="pagination1" class="pagination">
+	<ul>
+	<% @testlet1.each_with_index do |question, index| %>
+	<li>
+		<span <%= "id='page#{index+1}'" %> class="page">
+		<a class="<%= "single_digit " if index < 9 %><%= "answered" if question.answered_correct != nil %>" 
+			href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
+	</li>
+	<% end %>	
+	</ul>
+</div>
+<div id="pagination2" class="pagination">
+	<ul>
+	<% @testlet2.each_with_index do |question, index| %>
+	<% i = @user_test.section.questions_per_testlet + index + 1 %>
+	<li>
+		<span <%= "id='page#{i}'" %> class="page">
+		<a class="<%= "answered" if question.answered_correct != nil %>" href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+	</li>
+	<% end %>	
+	</ul>
+</div>
+<div id="pagination3" class="pagination">
+	<ul>
+	<% @testlet3.each_with_index do |question, index| %>
+	<% i = (@user_test.section.questions_per_testlet * 2) + index + 1 %>
+	<li>
+		<span <%= "id='page#{i}'" %> class="page">
+		<a class="<%= "answered" if question.answered_correct != nil %>" href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+	</li>
+	<% end %>	
+	</ul>
+</div>
+</section> <!-- pagination -->
