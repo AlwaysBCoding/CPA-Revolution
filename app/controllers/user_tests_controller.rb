@@ -41,7 +41,7 @@ class UserTestsController < ApplicationController
   end
   
   def finish
-    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id])
+    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id], :order => 'id desc')
     @score = 0
       @utq[0].user_test.user_test_questions.each do |answered_question|
         answered_question.answered_correct? ? @score += 1 : @score += 0
