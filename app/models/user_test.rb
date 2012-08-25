@@ -1,5 +1,5 @@
 class UserTest < ActiveRecord::Base
-  attr_accessible :user_id, :score, :section_id
+  attr_accessible :user_id, :score, :section_id, :time_remaining
   
   belongs_to :user
   belongs_to :section

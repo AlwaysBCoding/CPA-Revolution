@@ -6,7 +6,10 @@ class UserTestsController < ApplicationController
     
     if session[:user_id].present?
       
-     user_test = UserTest.create(user_id: session[:user_id], section_id: params[:section_id])
+     user_test = UserTest.create(:user_id => session[:user_id], 
+                                 :section_id => params[:section_id], 
+                                 :time_remaining => Section.where(:id => params[:section_id]).first.time_per_test
+                                )
       
      Question.find(:all, :order => "RANDOM()", :limit => (user_test.section.questions_per_testlet * 3)).each do |question|
       
@@ -29,20 +32,36 @@ class UserTestsController < ApplicationController
   def show
     if params[:question].present?
     @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(params[:question].to_i - 1).limit(1)[0]
-        
-    var = JSON.pretty_generate(JSON.parse(@question.to_json(:include => { :question => { :methods => [:answers, :topic] } })))
-    render json: var
-
+    render json: JSON.pretty_generate(JSON.parse(@question.to_json(:include => { :question => { :methods => [:answers, :topic] } })))
     end  
     
     @user_test = UserTest.find(session[:user_test_id])
-    @testlet1, @testlet2, @testlet3 = [], [], []
     
-    @user_test.section.questions_per_testlet.times do |i|
-      @testlet1 << @user_test.questions[i]
-      @testlet2 << @user_test.questions[@user_test.section.questions_per_testlet+i]
-      @testlet3 << @user_test.questions[(@user_test.section.questions_per_testlet * 2)+i]
+    if params[:time_remaining].present? 
+    @user_test.time_remaining = params[:time_remaining]
+    @user_test.save
     end
+        
+    @testlet1, @testlet2, @testlet3 = [], [], []
+    @correct_answers, @wrong_answers = 0, 0
+    
+    @user_test.user_test_questions.each_with_index do |utq, index|
+      qpt = utq.question.topic.section.questions_per_testlet
+      case index
+        when 0...qpt
+          @testlet1 << utq
+        when qpt...(qpt*2)
+          @testlet2 << utq
+        when (qpt*2)..90
+          @testlet3 << utq
+      end  
+      
+      if utq.answered_correct != nil
+        utq.answered_correct? ? @correct_answers +=1 : @wrong_answers +=1
+      end
+      
+    end
+    
   end
   
   def finish
