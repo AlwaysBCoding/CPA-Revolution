@@ -11,6 +11,7 @@
 	border-radius: 6px;
 	position: relative;
 	font-family: 'Marmelad';
+	cursor: pointer;
 }
 
 .section img {
@@ -26,6 +27,7 @@
 
 .section h3 {
 	padding-left: 25px;
+	cursor: pointer;
 }
 
 #sectionContainer {
@@ -76,6 +78,7 @@ $(function() {
 	});
 });
 
+// Slide Toggle to show section info on a click to a section image
 var slideCounter = 0;
 $(function() {
 	$(".section img").on("click", function(e) {
@@ -95,6 +98,12 @@ $(function() {
 				});
 			} // else
 	});
+});
+
+// Trigger the image click on clicks to the parent div, and heading element as well
+$(function() {
+	$("div.section").on("click", function(e) { $(e.target).find('img').trigger("click"); });
+	$("div.section h3").on("click", function(e) { $(e.target).parent().find('img').trigger("click"); });
 });
 </script>
 
