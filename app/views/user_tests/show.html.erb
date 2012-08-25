@@ -160,6 +160,9 @@ var testlet = 2;
 var testlet = 3;
 <% end  %>
 
+// Figures out the current question on pageload
+alert("<%= @activeQuestionOnLoad %>");
+
 // Takes an integer of seconds and returns a string of h:mm:ss
 function seconds2time(seconds) {
     var hours   = Math.floor(seconds / 3600);
@@ -220,13 +223,16 @@ window.onbeforeunload = dbTimeRemaining;
 
 // Set the Modal handlers
 $(function() {
+	// Modal the test greeting
 	$("#beginTest").modal();
-		
+	
+	// Go to the next testlet after hiding the endTestlet modal	
 	$("#endTestlet").on("hide", function() {
 		$("#pagination"+testlet).hide();
 		$("#pagination"+(testlet+1)).show();
 		testlet++;
-				
+		
+		// Prepare the next question		
 		var questionNumber = (testlet-1) * <%= @testlet1.length %> + 1
 		getQuestionJSON(questionNumber);
 		
@@ -322,6 +328,7 @@ $(function() {
 	
 }); // load
 
+currentQuestionOnLoad();
 </script>
 
 <%= render 'test_greetings' %>
@@ -330,85 +337,12 @@ $(function() {
 	
 	<section id="questionContent">
 		
-		<div id="questionBox">
-			<div id="questionText">
-				<p><span><%= @user_test.questions[0].question_text %></span></p>
-				<hr />
-			</div> <!-- questionText -->
-			<div id="answers">
-				<%= form_tag('/user_test/1', :remote => true) do %>
-				<%= hidden_field_tag 'question_number' %>
-				<ol class="choices">
-				<% @user_test.questions[0].answers.each_with_index do |choice, index| %>
-				<li><input type="radio" name="answer" id="choice<%= index+1 %>" value=<%= choice.correct? ? "correct" : "wrong" %> /><a><label for="choice<%= index+1 %>"><%= choice.answer_text %></label></a></li>
-				<% end %>
-				</ol>
-				<hr />
-				<%= submit_tag 'Submit', :class => 'submit' %>
-				<% end %>
-			</div> <!-- choices -->		
-		</div> <!-- questionBox -->
+		<%= render 'question_box' %>
 		
-		<div id="rightSidebar">
-			
-			<div id="questionInfo">
-				<h1>Question <span class='questionNumber'>1</span></h1>
-				<h4><span class="questionSource"><%= @user_test.questions[0].source %></span></h4>
-				<br /><br /><br />
-				<h4><span class='topicName'><%= @user_test.questions[0].topic.name %></span></h4>
-				<!-- <h4><span class='subTopicName'>None</span></h4> -->
-			</div> <!-- questionInfo -->
-			
-			<br /><br /><br />
-			
-			<table id="runningScore">
-				<tr><th>Correct</th><th>Incorrect</th></tr>
-				<tr><td><span class="correctAnswers"><%= @correct_answers %></span></td><td><span class="wrongAnswers"><%= @wrong_answers %></span></td></tr>
-			</table><!-- runningScore -->
-			
-			<br /><br /><br /><br />
-			
-			<div id="timer">	
-				<h2><span class="timer"></span></h2>
-			</div> <!-- timer -->
-		</div>	<!-- rightSidebar -->
+		<%= render 'right_sidebar' %>
 			
 	</section> <!-- questionContent -->
 	
-	<section id="pagination" class="clearfix">
-	<div id="pagination1" class="pagination">
-		<ul>
-		<% @testlet1.each_with_index do |question, index| %>
-		<li>
-			<span <%= "id='page#{index+1}'" %> class="page">
-			<a class="<%= "single_digit " if index < 9 %><%= "currentQuestion " if index == 0 %><%= "answered" if question.answered_correct != nil %>" 
-				href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
-		</li>
-		<% end %>	
-		</ul>
-	</div>
-	<div id="pagination2" class="pagination">
-		<ul>
-		<% @testlet2.each_with_index do |question, index| %>
-		<% i = @user_test.section.questions_per_testlet + index + 1 %>
-		<li>
-			<span <%= "id='page#{i}'" %> class="page">
-			<a class="<%= "answered" if question.answered_correct != nil %>" href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
-		</li>
-		<% end %>	
-		</ul>
-	</div>
-	<div id="pagination3" class="pagination">
-		<ul>
-		<% @testlet3.each_with_index do |question, index| %>
-		<% i = (@user_test.section.questions_per_testlet * 2) + index + 1 %>
-		<li>
-			<span <%= "id='page#{i}'" %> class="page">
-			<a class="<%= "answered" if question.answered_correct != nil %>" href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
-		</li>
-		<% end %>	
-		</ul>
-	</div>
-	</section> <!-- pagination -->			
+<%= render 'pagination' %>		
 	
-</div>	
+</div>	<!-- contentArea -->

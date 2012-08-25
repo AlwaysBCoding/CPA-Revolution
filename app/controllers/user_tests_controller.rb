@@ -51,10 +51,12 @@ class UserTestsController < ApplicationController
       
       # Initialize the tetlets and running score    
       @testlet1, @testlet2, @testlet3 = [], [], []
-      @correct_answers, @wrong_answers = 0, 0
+      @correct_answers, @wrong_answers, @activeQuestionOnLoad = 0, 0, 0
     
       # To find how many questions per testlet, trace the associations up the tree from user_test to the section attribute questions_per_testlet
+      # Find the id of the first unsanswered question to find activeQuestionOnLoad
       qpt = @user_test.user_test_questions.first.question.topic.section.questions_per_testlet
+      active_id = @user_test.user_test_questions.where(:answered_correct => nil).order('id asc').first.id
 
       # Sort the user_test_questions into three testlets, tally the correct and wrong answers
       @user_test.user_test_questions.each_with_index do |utq, index|
@@ -70,6 +72,9 @@ class UserTestsController < ApplicationController
         if utq.answered_correct != nil
           utq.answered_correct? ? @correct_answers +=1 : @wrong_answers +=1
         end
+        
+        # When the utq id matches the id of the active question, set the instance variable equal to it
+        utq.id == active_id ? @activeQuestionOnLoad = index+1 : "";
       
       end # do 
     end # if  
