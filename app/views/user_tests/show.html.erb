@@ -141,6 +141,8 @@ label {
 </style>
 
 <script>
+// There should really be a function that I run that figures out what should be the current question in everny situation. Then I can just call that function when applicable. I'm too tired to write it now though, so I think I'm going to put that off.
+
 // Global Variables
 var correctAnswers = <%= @correct_answers %>;
 var wrongAnswers = <%= @wrong_answers %>;
@@ -381,7 +383,7 @@ $(function() {
 			<br /><br /><br /><br />
 			
 			<div id="timer">	
-				<h2><span class="timer"><%= @user_test.time_remaining == 14400 ? "4:00:00" : "3:00:00" %></span></h2>
+				<h2><span class="timer"></span></h2>
 			</div> <!-- timer -->
 		</div>	<!-- rightSidebar -->
 			
@@ -390,24 +392,34 @@ $(function() {
 	<section id="pagination" class="clearfix">
 	<div id="pagination1" class="pagination">
 		<ul>
-		<% @testlet1.each_with_index do |page, index| %>
-		<li><span <%= "id='page#{index+1}'" %> class="page"><a class="<%= "single_digit " if index < 9 %><%= "currentQuestion" if index == 0 %>" href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span></li>
+		<% @testlet1.each_with_index do |question, index| %>
+		<li>
+			<span <%= "id='page#{index+1}'" %> class="page">
+			<a class="<%= "single_digit " if index < 9 %><%= "currentQuestion " if index == 0 %><%= "answered" if question.answered_correct != nil %>" 
+				href=<%= "?question=#{index + 1}" %> data-remote="true"><%= index+1 %></a></span>
+		</li>
 		<% end %>	
 		</ul>
 	</div>
 	<div id="pagination2" class="pagination">
 		<ul>
-		<% @testlet2.each_with_index do |page, index| %>
+		<% @testlet2.each_with_index do |question, index| %>
 		<% i = @user_test.section.questions_per_testlet + index + 1 %>
-		<li><span <%= "id='page#{i}'" %> class="page"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span></li>
+		<li>
+			<span <%= "id='page#{i}'" %> class="page">
+			<a class="<%= "answered" if question.answered_correct != nil %>" href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+		</li>
 		<% end %>	
 		</ul>
 	</div>
 	<div id="pagination3" class="pagination">
 		<ul>
-		<% @testlet3.each_with_index do |page, index| %>
+		<% @testlet3.each_with_index do |question, index| %>
 		<% i = (@user_test.section.questions_per_testlet * 2) + index + 1 %>
-		<li><span <%= "id='page#{i}'" %> class="page"><a href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span></li>
+		<li>
+			<span <%= "id='page#{i}'" %> class="page">
+			<a class="<%= "answered" if question.answered_correct != nil %>" href=<%= "?question=#{i}" %> data-remote="true"><%= i %></a></span>
+		</li>
 		<% end %>	
 		</ul>
 	</div>

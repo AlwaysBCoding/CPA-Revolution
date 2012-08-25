@@ -2,6 +2,26 @@
 $(function() {
 	$("#navMyProfile").addClass("active");
 });
+
+$(function() {
+	$(".datepicker").datepicker();
+});
 </script>
 
 This is the show page for <%= @user.username %>
+
+<h2>Recent Tests</h2>
+
+<ul>
+<% @user_tests.each do |test| %>
+<li><%= "#{test.section.code}: #{test.score} | #{time_ago_in_words(test.updated_at)}" %></li>
+<% end %>
+</ul>
+
+<% @sections.each do |section| %>
+	<%= form_tag do %>
+	<a class="<%= section.code %>"><%= image_tag "#{section.code}_logo.jpg" %></a>
+	<input class="datepicker" />
+	<%= submit_tag 'Set Date' %>
+	<% end %>
+<% end %>	

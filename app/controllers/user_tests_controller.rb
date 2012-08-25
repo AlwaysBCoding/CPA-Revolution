@@ -54,7 +54,7 @@ class UserTestsController < ApplicationController
           @testlet2 << utq
         when (qpt*2)..90
           @testlet3 << utq
-      end  
+      end
       
       if utq.answered_correct != nil
         utq.answered_correct? ? @correct_answers +=1 : @wrong_answers +=1

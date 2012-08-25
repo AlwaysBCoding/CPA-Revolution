@@ -27,7 +27,8 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    
+    @user_tests = UserTest.where(:user_id => @user.id)
+    @sections = Section.all
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
