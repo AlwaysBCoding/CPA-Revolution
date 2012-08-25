@@ -102,11 +102,11 @@ class UserTestsController < ApplicationController
   def update # POST /user_test/:question_number
     
     # Get the question_number, and boolean answered value
-    question_number = (params[:question_number].to_i - 1)
+    question_number = (params[:question_number].to_i)
     answered = params[:answer] == "correct" ? true : false
     
     # Find that question number in the database, and either save it as correct(true) or wrong(false)
-    utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(question_number-1).limit(1)[0]
+    utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order("id asc").offset(question_number-1).limit(1).first
     utq.answered_correct = answered
     utq.save
 

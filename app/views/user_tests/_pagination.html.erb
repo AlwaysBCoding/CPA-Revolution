@@ -1,5 +1,5 @@
 <section id="pagination" class="clearfix">
-<div id="pagination1" class="pagination">
+<div id="pagination1" class="pagination <%= "hidden" if @activeQuestionOnLoad > @testlet1.length %>">
 	<ul>
 	<% @testlet1.each_with_index do |question, index| %>
 	<li>
@@ -10,7 +10,7 @@
 	<% end %>	
 	</ul>
 </div>
-<div id="pagination2" class="pagination">
+<div id="pagination2" class="pagination <%= "hidden" if @activeQuestionOnLoad <= @testlet1.length || @activeQuestionOnLoad > (@testlet1.length*2) %>">
 	<ul>
 	<% @testlet2.each_with_index do |question, index| %>
 	<% i = @user_test.section.questions_per_testlet + index + 1 %>
@@ -21,7 +21,7 @@
 	<% end %>	
 	</ul>
 </div>
-<div id="pagination3" class="pagination">
+<div id="pagination3" class="pagination <%= "hidden" if @activeQuestionOnLoad <= (@testlet1.length*2) %>">
 	<ul>
 	<% @testlet3.each_with_index do |question, index| %>
 	<% i = (@user_test.section.questions_per_testlet * 2) + index + 1 %>

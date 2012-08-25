@@ -26,16 +26,12 @@
 
 /* PAGINATION
 ===================== */
-#pagination2, #pagination3 {
-	display: none;
-}
-
 .pagination a {
 	padding: 0px 10px;
 }
 
 .pagination a.single_digit {
-	padding: 0px 12px;
+	padding: 0px 13px;
 }
 
 a.answered {
@@ -148,20 +144,19 @@ label {
 <script>
 // There should really be a function that I run that figures out what should be the current question in everny situation. Then I can just call that function when applicable. I'm too tired to write it now though, so I think I'm going to put that off.
 
+alert("<%= @activeQuestionOnLoad %>");
+
 // Global Variables
 	// count correct answers and wrong answers, decide which testlet is the current testlet based on that
 var correctAnswers = <%= @correct_answers %>;
 var wrongAnswers = <%= @wrong_answers %>;
-<% if @correct_answers+@wrong_answers < @user_test.section.questions_per_testlet %>
+<% if @activeQuestionOnLoad < @user_test.section.questions_per_testlet %>
 var testlet = 1;
-<% elsif @correct_answers+@wrong_answers < (@user_test.section.questions_per_testlet * 2) %>
+<% elsif @activeQuestionOnLoad < (@user_test.section.questions_per_testlet * 2) %>
 var testlet = 2;
 <% else %>
 var testlet = 3;
-<% end  %>
-
-// Figures out the current question on pageload
-alert("<%= @activeQuestionOnLoad %>");
+<% end %>
 
 // Takes an integer of seconds and returns a string of h:mm:ss
 function seconds2time(seconds) {
@@ -184,27 +179,6 @@ function seconds2time(seconds) {
       time += (seconds < 10) ? "0"+seconds : String(seconds);
     }
     return time;
-}
-
-// gets the JSON data for the questionNumber and modifies the DOM accordingly
-function getQuestionJSON(questionNumber){
-	$("#pagination a").removeClass("currentQuestion");
-	$("#page"+questionNumber+" a").addClass("currentQuestion");
-	$("#answers form").attr("action", "/user_test/" + questionNumber);
-	$.getJSON(window.location.href + $("#page"+questionNumber+" a").attr("href"), 
-			  function(data){
-		      	$(".choices").html("");
-			  	$("#questionText span").text(data.question.question_text);
-			    $(".questionSource").text(data.question.source);
-				$(".topicName").text(data.question.topic.name);
-				$(".questionNumber").text(questionNumber);
-							  
-				$.each(data.question.answers, function(index,item){
-					var value = item.correct? "correct" : "wrong";
-			  		htmlString = "<li><input type='radio' id='choice"+(index+1)+"' name='answer' value='" + value + "' /><a><label for='choice"+(index+1)+"'>"+item.answer_text+"</label></a></li>";
-					$(".choices").append(htmlString);
-				}); // each
-	}); // getJSON
 }
 
 // logs the time_remaining through a get request to /user_test/?time_remaining=
@@ -250,6 +224,27 @@ $(function() {
 	}); // on
 }); // load
 
+// gets the JSON data for the questionNumber and modifies the DOM accordingly
+function getQuestionJSON(questionNumber){
+	$("#pagination a").removeClass("currentQuestion");
+	$("#page"+questionNumber+" a").addClass("currentQuestion");
+	$("#answers form").attr("action", "/user_test/" + questionNumber);
+	$.getJSON(window.location.href + $("#page"+questionNumber+" a").attr("href"), 
+			  function(data){
+		      	$(".choices").html("");
+			  	$("#questionText span").text(data.question.question_text);
+			    $(".questionSource").text(data.question.source);
+				$(".topicName").text(data.question.topic.name);
+				$(".questionNumber").text(questionNumber);
+							  
+				$.each(data.question.answers, function(index,item){
+					var value = item.correct? "correct" : "wrong";
+			  		htmlString = "<li><input type='radio' id='choice"+(index+1)+"' name='answer' value='" + value + "' /><a><label for='choice"+(index+1)+"'>"+item.answer_text+"</label></a></li>";
+					$(".choices").append(htmlString);
+				}); // each
+	}); // getJSON
+}
+
 // AJAX Change Question on Pagination Click
 $(function() {
 	$(".page a").click(function() {
@@ -262,16 +257,21 @@ $(function() {
 
 // AJAX Handle Submit
 $(function() {
-	$("#answers .submit").click(function() {
-		if($('input:radio[name=answer]:checked').length > 0) {
+	$("#answers .submit").on("click", function(e) {
+		e.preventDefault();
 		var questionNumber = parseInt($(".questionNumber").text());
 		
-		// See if the answer was correct, add points accordingly
+		if($('input:radio[name=answer]:checked').length > 0) {
+		
+		// See if the answer was correct, add javascript points accordingly
 		if ($("#page"+questionNumber+" a").hasClass('answered') == false) {
 			var answer = $('input:radio[name=answer]:checked').val();
 			answer == "correct" ? correctAnswers++ : wrongAnswers++;
-			$(".correctAnswers").text(correctAnswers); $(".wrongAnswers").text(wrongAnswers);		
-		} // if
+			$(".correctAnswers").text(correctAnswers); $(".wrongAnswers").text(wrongAnswers);	
+		
+		// Submit the question
+			$.post(window.location+"/"+questionNumber);	
+		} // if the question hasn't already been answered
 				
 			// Go to the next unanswered question
 			if ($(".answered").length + 1 < <%= @testlet1.length %>) {
@@ -328,7 +328,6 @@ $(function() {
 	
 }); // load
 
-currentQuestionOnLoad();
 </script>
 
 <%= render 'test_greetings' %>
