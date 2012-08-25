@@ -83,6 +83,11 @@ ol.choices {
 	text-decoration: none;
 }
 
+label {
+	display: inline;
+	cursor: pointer;
+}
+
 #questionText p {
 	padding: 10px;
 }
@@ -177,7 +182,7 @@ function getQuestionJSON(questionNumber){
 							  
 				$.each(data.question.answers, function(index,item){
 					var value = item.correct? "correct" : "wrong";
-			  		htmlString = "<li><input type='radio' name='answer' value='" + value + "'><a>" + item.answer_text + "</a></input></li>";
+			  		htmlString = "<li><input type='radio' id='choice"+(index+1)+"' name='answer' value='" + value + "' /><a><label for='choice"+(index+1)+"'>"+item.answer_text+"</label></a></li>";
 					$(".choices").append(htmlString);
 				}); // each
 	}); // getJSON
@@ -334,7 +339,7 @@ $(function() {
 				<%= hidden_field_tag 'question_number' %>
 				<ol class="choices">
 				<% @user_test.questions[0].answers.each_with_index do |choice, index| %>
-				<li><input type="radio" name="answer" value=<%= choice.correct? ? "correct" : "wrong" %>><a><%= choice.answer_text %></a></input></li>
+				<li><input type="radio" name="answer" id="choice<%= index+1 %>" value=<%= choice.correct? ? "correct" : "wrong" %> /><a><label for="choice<%= index+1 %>"><%= choice.answer_text %></label></a></li>
 				<% end %>
 				</ol>
 				<hr />
