@@ -1,5 +1,5 @@
 CpaMagic::Application.routes.draw do
-  root :to => 'info#index'
+  root :to => 'sections#index'
 
   resources :states
   

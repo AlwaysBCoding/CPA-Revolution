@@ -41,14 +41,11 @@ a.brand {
 	line-height: 40px;
 	padding-left: 15px;
 	padding-right: 15px;
+	color: #fff;
 }
 
-.jdlNav li.first a {
-	padding-left: 15px;
-}
-
-.jdlNav li.last a {
-	padding-right: 15px;
+.jdlNav a:hover {
+	color: #2f96b4;
 }
 
 .jdlNav a:hover {
@@ -56,7 +53,7 @@ a.brand {
 }
 /*x NAV BAR x*/
 
-body { padding-top: 60px; }
+body { padding-top: 40px; }
 
 .container { 
 	margin: 0 auto;

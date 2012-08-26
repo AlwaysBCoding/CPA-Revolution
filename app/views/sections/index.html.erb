@@ -1,8 +1,18 @@
 <style>
 
+.container {
+	width: 1200px;
+}
+
+#subHeader {
+	width: 100%;
+	height: 200px;
+	background-color: blue;
+}
+
 .section {
 	width: 100%;
-	height: 150px;
+	height: 125px;
 	border: 1px solid #c8d7dc;
 	padding: 0	px;
 	background-color: rgb(242,245,246);
@@ -12,11 +22,12 @@
 	position: relative;
 	font-family: 'Marmelad';
 	cursor: pointer;
+	margin-bottom: 25px;
 }
 
 .section img {
-	height: 150px;
-	width: 150px;
+	height: 125px;
+	width: 125px;
 	box-sizing: border-box;
 	position: absolute;
 	right: 0px;
@@ -28,19 +39,20 @@
 .section h3 {
 	padding-left: 25px;
 	cursor: pointer;
+	font-size: 22px;
 }
 
-#sectionContainer {
+.sectionContainer {
 	position: relative;
+	margin-top: 50px;
 }
 
 .section button {
-	margin: 10px 20px;
+	margin: 10px 30px;
 	font-weight: bold;
 }
 
-#contentArea {
-	height: 450px;
+#contentAreaLeft, #contentAreaRight {
 	width: 100%;
 	display: none;
 	background-color: rgb(242,245,246);
@@ -48,6 +60,31 @@
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
+}
+
+#rightSide {
+	width: 48.5%;
+	float: right;
+}
+
+#leftSide {
+	width: 48.5%;
+	float: left;
+}
+
+/* TABLE
+===================== */
+
+td:nth-child(1) {
+	min-width: 100px;
+}
+
+td:nth-child(3) {
+	min-width: 55px;
+}
+
+th {
+	text-align: center;
 }
 
 /* JDL STYLES
@@ -81,18 +118,38 @@ $(function() {
 // Slide Toggle to show section info on a click to a section image
 var slideCounter = 0;
 $(function() {
-	$(".section img").on("click", function(e) {
+	$(".section img.right").on("click", function(e) {
 		e.preventDefault();
 		var sectionCode = $(this).parent().attr("class");
-		$("#contentArea").html($("mark."+sectionCode).html());
+		$("#contentAreaLeft").html($("mark."+sectionCode).html());
 		var i = 0;
 			if (slideCounter % 2 == 0) {
 			$("div.section").not("#"+sectionCode).slideToggle(function() {
-				i++; i == 3 ? $("#contentArea").slideToggle() : "";
+				i++; i == 3 ? $("#contentAreaLeft").slideToggle() : "";
 				slideCounter++;
 			});
 			} else {
-				$("#contentArea").slideToggle(function() {
+				$("#contentAreaLeft").slideToggle(function() {
+				$("div.section").not("#"+sectionCode).slideToggle();	
+				slideCounter++;
+				});
+			} // else
+	});
+});
+
+$(function() {
+	$(".section img.left").on("click", function(e) {
+		e.preventDefault();
+		var sectionCode = $(this).parent().attr("class");
+		$("#contentAreaRight").html($("mark."+sectionCode).html());
+		var i = 0;
+			if (slideCounter % 2 == 0) {
+			$("div.section").not("#"+sectionCode).slideToggle(function() {
+				i++; i == 3 ? $("#contentAreaRight").slideToggle() : "";
+				slideCounter++;
+			});
+			} else {
+				$("#contentAreaRight").slideToggle(function() {
 				$("div.section").not("#"+sectionCode).slideToggle();	
 				slideCounter++;
 				});
@@ -105,20 +162,42 @@ $(function() {
 	$("div.section").on("click", function(e) { $(e.target).find('img').trigger("click"); });
 	$("div.section h3").on("click", function(e) { $(e.target).parent().find('img').trigger("click"); });
 });
-</script>
+</script>	
 
-<div id="sectionContainer">
-<% @sections.each do |section| %>
-  <div id="<%= section.code %>" class="section">
-	<h3><%= section.name %></h3>
-	<a href="/sections/<%= section.code %>?quiztype=topics"><button class="btn btn-inverse">Individual Topics</button></a>
-	<a href=""><button class="btn btn-inverse">Full Length Test</button></a>
-	<a href="/sections/<%= section.code %>?quiztype=random"><button class="btn btn-inverse">Random Questions</button></a>
-	<a class="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>
-  </div> <!-- section -->
-<% end %>
-</div> <!-- sectionContainer -->
+<div id="leftSide">
+	<div class="sectionContainer">
+	<% @sections.each_with_index do |section, index| %>
+	<% if index % 2 == 0 %>
+	  <div id="<%= section.code %>" class="section">
+		<h3><%= section.name %></h3>
+		<a href="/sections/<%= section.code %>?quiztype=topics"><button class="btn">Individual Topics</button></a>
+		<a href=""><button class="btn">Full Length Test</button></a>
+		<a class="<%= section.code %>"><img class='left' src="assets/<%= section.code %>_logo.jpg" /></a>
+	  </div> <!-- section -->
+	<% end %>
+	<% end %>
+	</div> <!-- sectionContainer -->
 
-<div id="contentArea"></div>
+	<div id="contentAreaLeft"></div>
+</div>	
+
+<div id="rightSide">
+
+	<div class="sectionContainer">
+	<% @sections.each_with_index do |section, index| %>
+	<% if index % 2 == 1 %>
+	  <div id="<%= section.code %>" class="section">
+		<h3><%= section.name %></h3>
+		<a href="/sections/<%= section.code %>?quiztype=topics"><button class="btn">Individual Topics</button></a>
+		<a href=""><button class="btn">Full Length Test</button></a>
+		<a class="<%= section.code %>"><img class='right' src="assets/<%= section.code %>_logo.jpg" /></a>
+	  </div> <!-- section -->
+	<% end %>
+	<% end %>
+	</div> <!-- sectionContainer -->
+
+	<div id="contentAreaRight"></div>
+
+</div> <!-- rightSide -->
 
 <%= render 'section_info' %>

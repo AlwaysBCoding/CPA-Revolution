@@ -4,8 +4,8 @@
   <title>CPA Revolution - Practice CPA Exam Questions for Free</title>
   <link href='http://fonts.googleapis.com/css?family=Marmelad' rel='stylesheet' type='text/css'>
 
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/cupertino/jquery-ui.css" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/cupertino/jquery-ui.css" || "" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 
@@ -26,12 +26,11 @@
 </head>
 <body>
 
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
 	<a class="brand" href='<%= root_path %>'>CPA Revolution</a>
 	<div id="navWrapper">
       <ul class="jdlNav">
-        <li id="navSections" class="first"><%= link_to 'Practice Exams', '/sections' %></li>
 		<li id="navInfo"><%= link_to 'Exam Information', '/exam-information' %></li>
 		<li id="navVideos"><%= link_to 'Videos', '/videos' %></li>
 		<li id="navSandbox"><%= link_to 'Sandbox', '/sandbox' %></li>
@@ -49,10 +48,13 @@
   </div>
 </div>
 
-<div class="container">
+<div id="subHeader">
 	<% if flash[:notice] %>
 	<p class="alert"><%= flash[:notice] %></p>
 	<% end %>
+</div>
+
+<div class="container">
   <%= yield %>
 </div>
 
