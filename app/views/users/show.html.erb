@@ -1,15 +1,111 @@
+<style>
+
+.examSection {
+	width: 100%;
+	height: 150px;
+	border: 1px solid #c8d7dc;
+	padding: 0	px;
+	background-color: rgb(242,245,246);
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	position: relative;
+	font-family: 'Marmelad';
+	cursor: pointer;
+}
+
+.examSection img {
+	height: 150px;
+	width: 150px;
+	box-sizing: border-box;
+	cursor: pointer;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.examSection div {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+.examSection span {
+	position: relative;
+}
+
+.examSection h4.number {
+	color: red;
+	font-weight: bold;
+	font-size: 75px;
+	position: absolute;
+	top: 40px;
+	right: 32px;
+	z-index: 2;
+	text-shadow: 5px 5px 5px black;
+
+}
+
+.examSection h4.date {
+	color: red;
+	font-weight: bold;
+	font-size: 50px;
+	position: absolute;
+	top: 40px;
+	right: 32px;
+	z-index: 2;
+	text-shadow: 5px 5px 10px black;
+
+}
+
+.notPassed {
+	opacity: .4;
+}
+</style>
+
 <script>
 $(function() {
 	$("#navMyProfile").addClass("active");
 });
 
 $(function() {
-	$(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
+	$(".datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: new Date() });
 });
 </script>
 
-This is the show page for <%= @user.username %>
+<h2><%= @user.sections_passed %></h2>
 
+<% @sections.each_with_index do |section, index| %>
+<div class="examSection">
+	<%= form_tag user_url(@user) do %>
+	<input type="hidden" name="section" value="<%= section.code %>" /> 
+	<input name="exam_date" class="datepicker" />
+	<%= button_tag 'Set Date', :class => "btn btn-inverse" %>
+	<input name="exam_score" />
+	<%= button_tag 'Report Score', :class => "btn btn-inverse" %>
+	<% end %>
+	
+	<% if @user.score(section.code) < 75  %>
+		<% if @user.exam_date(section.code) %>
+		<div><span>
+		<h4 class="date"><%= @user.exam_date(section.code).strftime("%B%e") %></h4>	
+		<%= image_tag "#{section.code}_logo.jpg", :class => "notPassed" %>
+		</span></div>
+		<% else %>
+		<div><%= image_tag "#{section.code}_logo.jpg", :class => "notPassed" %></div>
+		<% end %>
+	
+	<% else %>
+	<div><span>
+		<h4 class="number"><%= @user.score(section.code) %></h4>	
+		<%= image_tag "#{section.code}_logo.jpg" %>
+	</span></div>
+	<% end %>
+	
+</div>
+<% end %>	
+
+<div id="recentTests">
 <h2>Recent Tests</h2>
 
 <ul>
@@ -17,14 +113,4 @@ This is the show page for <%= @user.username %>
 <li><%= "#{test.section.code}: #{test.score} | #{time_ago_in_words(test.updated_at)}" %></li>
 <% end %>
 </ul>
-
-<% @sections.each do |section| %>
-	<%= form_tag user_url(@user) do %>
-	<input type="hidden" name="section" value="<%= section.code %>" /> 
-	<a class="<%= section.code %>"><%= image_tag "#{section.code}_logo.jpg" %></a>
-	<input name="exam_date" class="datepicker" />
-	<%= submit_tag 'Set Date' %>
-	<input name="exam_score" />
-	<%= submit_tag 'Report Score' %>
-	<% end %>
-<% end %>	
+</div>

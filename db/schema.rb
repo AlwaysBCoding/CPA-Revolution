@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120825091634) do
+ActiveRecord::Schema.define(:version => 20120826002220) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(:version => 20120825091634) do
     t.string   "username"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.string   "remember_token"
     t.date     "far_date"
     t.date     "reg_date"
@@ -104,6 +104,9 @@ ActiveRecord::Schema.define(:version => 20120825091634) do
     t.integer  "reg_score"
     t.integer  "bec_score"
     t.integer  "aud_score"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "university",      :default => "CPA Revolution"
   end
 
 end
