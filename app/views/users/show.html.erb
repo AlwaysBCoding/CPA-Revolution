@@ -61,15 +61,36 @@
 .notPassed {
 	opacity: .4;
 }
+
+.scoreInput {
+	width: 100px;
+}
 </style>
 
 <script>
 $(function() {
 	$("#navMyProfile").addClass("active");
+	$(".hidden").hide();
 });
 
 $(function() {
 	$(".datepicker").datepicker({dateFormat: "yy-mm-dd", minDate: new Date() });
+});
+
+$(function() {
+	$(".addDate").on("click", function(e) {
+		$(e.target).fadeOut('fast', function() {
+			$(e.target).parent().parent().find(".setDateSubmit").fadeIn('fast');
+			$(e.target).parent().parent().find(".datepicker").fadeIn('fast');
+		});
+	});
+	
+	$(".addScore").on("click", function(e) {
+		$(e.target).fadeOut('fast', function() {
+			$(e.target).parent().parent().find('.setScoreSubmit').fadeIn('fast');
+			$(e.target).parent().parent().find('.scoreInput').fadeIn('fast');
+		});
+	});
 });
 </script>
 
@@ -78,11 +99,16 @@ $(function() {
 <% @sections.each_with_index do |section, index| %>
 <div class="examSection">
 	<%= form_tag user_url(@user) do %>
-	<input type="hidden" name="section" value="<%= section.code %>" /> 
-	<input name="exam_date" class="datepicker" />
-	<%= button_tag 'Set Date', :class => "btn btn-inverse" %>
-	<input name="exam_score" />
-	<%= button_tag 'Report Score', :class => "btn btn-inverse" %>
+	<input type="hidden" name="section" value="<%= section.code %>" />
+	<table><tbody>
+	<tr><td><%= button_tag 'Add Exam Date', :class => "btn btn-inverse addDate", :type => "button" %>
+	<%= submit_tag 'Set Date', :class => "btn btn-inverse setDateSubmit hidden" %></td>
+	<td><input name="exam_date" class="datepicker hidden" /></td></tr>
+	
+	<tr><td><%= button_tag 'Report A Score', :class => "btn btn-inverse addScore", :type => "button" %>
+	<%= submit_tag 'Submit Score!', :class => "btn btn-inverse setScoreSubmit hidden" %></td>
+	<td><input name="exam_score" class="scoreInput hidden" /></td></tr>
+	</tbody></table>
 	<% end %>
 	
 	<% if @user.score(section.code) < 75  %>
