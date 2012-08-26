@@ -1,0 +1,228 @@
+<script>
+// JS FORMat validations
+$(function() {
+	$("#face_amount").change(function() {
+		var text = $(this).val();
+		text = accounting.formatMoney(text);
+		text = text.replace(/[.]00/, "").replace(/[$]/, "");
+		$(this).val(text);
+	});
+	
+	$("#stated_rate, #market_rate").change(function() {
+		var text = $(this).val();
+		text = text.replace(/[^0-9]/,"");
+		text = text.replace(/\b0*/, "");
+		$(this).val(text);
+	});
+});
+
+// Do Everything
+$(function() {
+	$("#submit").click(function() {
+		$("#issueEntry, #amoTable").html("");
+		$("#issueEntry").addClass("table-bordered");
+		
+		// Grab the variables
+		var face_amount = $("#face_amount").val().replace(/[^\d]/, "").replace(/[,]/, "");
+		var stated_rate = $("#stated_rate").val().replace(/[^\d]/, "") / 100.0;
+		var market_rate = $("#market_rate").val().replace(/[^\d]/, "") / 100.0;
+		var ppyr = $("#ppyr").val();
+		var periods = ($("#yrs").val() * $("#ppyr").val());
+		
+	// Find the present value of the issue
+	var step1 = (face_amount / Math.pow((1 + (market_rate / ppyr)),periods));
+	var step2a = ((stated_rate / ppyr) * face_amount);
+	var step2b = (step2a * (1 - (1 / Math.pow((1 + (market_rate / ppyr)),periods))) / (market_rate / ppyr));
+	var presentValue = Math.round(step1 + step2b);
+	
+	// Recalibrate variables
+	var premium = presentValue - face_amount;
+	var discount = face_amount - presentValue;
+
+	// Create the journal entry	
+	$("#issueEntry").append("<thead><tr><th colspan='4'>Journal Entry for Issuance</th></tr></thead>");
+	$("#issueEntry").append("<tbody><tr><td>Cash</td><td class='label label-success'>" + accounting.formatMoney(presentValue).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>");
+	
+	if(premium > 0) {
+		$("#issueEntry").append("<tr><td colspan='2'></td><td>Premium on Bonds</td><td class='label label-important'>" + accounting.formatMoney(premium).replace(/[.]00/, "") + "</td></tr>");
+	} else if(discount > 0) {
+		$("#issueEntry").append("<tr><td>Discount on Bonds</td><td class='label label-success'>" + accounting.formatMoney(discount).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>");
+	}
+	
+	$("#issueEntry").append("<tr><td colspan='2'></td><td>Bonds Payable</td><td class='label label-important'>" + accounting.formatMoney(face_amount).replace(/[.]00/, "") + "</td></tr></tbody>");
+	
+	// Create the Amortization Table
+	if(premium > 0) {
+	$("#amoTable").append("<thead><tr><th>Payment Number</th><th>Interest X</th><th>Coupon Payment</th><th>Amortization Amount</th><th>Carrying Value</th><th>Unamortized Premium</th></tr></thead>");
+	} else if(discount > 0) {
+	$("#amoTable").append("<thead><tr><th>Payment Number</th><th>Interest X</th><th>Coupon Payment</th><th>Amortization Amount</th><th>Carrying Value</th><th>Unamortized Discount</th></tr></thead>");
+	}
+	
+	if(premium > 0 && $("#amo_method").val() == "Effective Interest") {
+	// Set up variables
+	var carryingValue = parseInt(face_amount) + parseInt(premium);
+	var unAmo = (carryingValue - face_amount);
+	var interestX = Math.round(carryingValue * (market_rate / ppyr));
+	var amoAmt = step2a - interestX; 
+	
+	$("#amoTable").append("<tr><td>0</td><td>$0</td><td>$0</td><td>$0</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+	
+	for(x=1;x<periods;x++) {
+		interestX = Math.round(carryingValue * (market_rate / ppyr));
+		amoAmt = step2a - interestX;
+		carryingValue = (carryingValue - amoAmt);
+		unAmo = (carryingValue - face_amount);
+		
+	$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(interestX).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(amoAmt).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+	} // for
+	
+	$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(step2a - (carryingValue - face_amount)).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(carryingValue - face_amount).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(face_amount).replace(/[.]00/, "") + "</td><td>$0</td></tr>");
+	
+	} // premium
+	
+	if(discount > 0 && $("#amo_method").val() == "Effective Interest") {
+	// Set up variables
+	var carryingValue = parseInt(face_amount) - parseInt(discount);
+	var unAmo = (face_amount - carryingValue);
+	var interestX = Math.round(carryingValue * (market_rate / ppyr)); 
+	var amoAmt = interestX - step2a;
+
+	$("#amoTable").append("<tr><td>0</td><td>$0</td><td>$0</td><td>$0</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+	
+	for(x=1;x<periods;x++) {
+		interestX = Math.round(carryingValue * (market_rate / ppyr));
+		amoAmt = interestX - step2a;
+		carryingValue = (carryingValue + amoAmt);
+		unAmo = (face_amount - carryingValue);
+		
+		$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(interestX).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(amoAmt).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+		} // for
+		
+		$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(step2a + (face_amount - carryingValue)).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(face_amount - carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(face_amount).replace(/[.]00/, "") + "</td><td>$0</td></tr>");
+			
+	} // discount
+	
+	// Straight Line
+	
+	if(premium > 0 && $("#amo_method").val() == "Straight Line") {
+		var carryingValue = parseInt(face_amount) + parseInt(premium);
+		var unAmo = (carryingValue - face_amount);
+		var slx = Math.round(unAmo / periods);
+		
+		$("#amoTable").append("<tr><td>0</td><td>$0</td><td>$0</td><td>$0</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+		
+		for(x=1;x<periods;x++) {
+			amoAmt = step2a - (step2a-slx);
+			carryingValue -= amoAmt;
+			unAmo -= amoAmt;
+			
+			$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(step2a - slx).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(amoAmt).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+		} // for
+		
+			$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(step2a - (carryingValue - face_amount)).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(carryingValue - face_amount).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(face_amount).replace(/[.]00/, "") + "</td><td>$0</td></tr>");
+		
+	} // premium
+	
+	if(discount > 0 && $("#amo_method").val() == "Straight Line") { 
+		var carryingValue = parseInt(face_amount) - parseInt(discount);
+		var unAmo = (face_amount - carryingValue);
+		var slx = Math.round(unAmo / periods);
+		
+		$("#amoTable").append("<tr><td>0</td><td>$0</td><td>$0</td><td>$0</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+		
+		for (x=1;x<periods;x++) {
+			amoAmt = step2a - (step2a-slx);
+			carryingValue += amoAmt;
+			unAmo -= amoAmt;
+			
+			$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(step2a + slx).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(amoAmt).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(unAmo).replace(/[.]00/, "") + "</td></tr>");
+		} // for
+		
+		$("#amoTable").append("<tr><td>" + x + "</td><td>" + accounting.formatMoney(step2a + (face_amount - carryingValue)).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(step2a).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(face_amount - carryingValue).replace(/[.]00/, "") + "</td><td>" + accounting.formatMoney(face_amount).replace(/[.]00/, "") + "</td><td>$0</td></tr>");
+		
+	} // discount
+	
+	$("#amoTableDiv").css("overflow-y", "scroll");
+	});	
+	
+});
+
+</script>	
+
+<style>
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#wrapper {
+	max-width: 1200px;
+	min-width: 1200px;
+	position: relative;
+	margin: 0 auto;
+}
+
+.tableWrapper {
+	width: 400px;
+	position: relative;
+	float: left;
+}
+
+#contentArea {
+	float: right;
+	width: 650px;
+}
+
+.tableWrapper th {
+	text-align: center;
+}
+
+input.small {
+	width: 60px;
+}
+
+input.medium {
+	width: 100px;
+}
+
+#amoTableDiv {
+	height: 500px;
+}
+
+#amoTable th, #amoTable td {
+	text-align: center;
+}
+</style>
+
+<div class="tableWrapper">
+<table class="table table-bordered">
+<thead>
+	<tr><th colspan='2'>BOND WIZARD</th></tr>
+</thead>
+<tbody>		
+	<tr><td>Bond Amount</td><td><div class="input-prepend"><span class="add-on">$</span><input id="face_amount" type="text" class="medium" /></div></td></tr>	
+	<tr><td>Amortization Method</td><td><select id="amo_method"><option>Effective Interest</option><option>Straight Line</option></select></td></tr>	
+	<tr><td>Stated Rate</td><td><div class="input-append"><input id="stated_rate" class="input-append small" type="text" /><span class="add-on">%</span></div></td></tr>	
+	<tr><td>Market Rate</td><td><div class="input-append"><input id="market_rate" class="input-append small" type="text" /><span class="add-on">%</span></div></td></tr>	
+	<tr><td>Number of Years</td><td><input id="yrs" type="text" class="small" /></td></tr>	
+	<tr><td>Payments per Year</td><td><input id="ppyr" type="text" class="small" /></td></tr>	
+	<tr><td colspan='2'><button id="submit" class="btn btn-inverse">Submit</button></td></tr>	
+</tbody>	
+</table>
+</div>
+
+<div id="contentArea">
+	<table id="issueEntry" class="table">	
+	</table>
+
+	<div id="amoTableDiv">
+	<table id="amoTable" class="table">
+	</table>
+	</div>
+			
+</div>

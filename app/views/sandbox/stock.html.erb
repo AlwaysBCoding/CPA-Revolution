@@ -1,0 +1,282 @@
+<script>
+// JS FORMat validations
+$(function() {
+	$("#initialIssueNo, #initialIssuePrice").change(function() {
+		var text = $(this).val();
+		text = accounting.formatMoney(text);
+		text = text.replace(/[.]00/, "").replace(/[$]/, "");
+		$(this).val(text);
+	});
+});
+
+// Global Variable Definitions
+var sharesOutstandingTracker = 0;
+var treasurySharesTracker = 0;
+var treasuryRepurchasePrice = 0;
+var APIC_TST = 0;
+
+// Issue the stock, create the initial journal entry, show chooseAction
+$(function() {
+	$("#issueSubmit").click(function() {
+		$("#issueJournal").html("");
+		var dollarsPerShare = $("#initialIssuePrice").val().replace(/[^\d]/, "").replace(/[,]/, "");
+		var numberOfShares = $("#initialIssueNo").val().replace(/[^\d]/, "").replace(/[,]/, "");
+		var parValue = $("#parValue").val().replace(/[^\d]/, "").replace(/[,]/, "");
+		var htmlString = "";
+		sharesOutstandingTracker += numberOfShares;		
+				
+		htmlString += "<thead><tr><th colspan='4'>Journal Entry for Issuance</th></tr></thead><tbody>";
+		htmlString += "<tr><td>Cash</td><td class='label label-success'>" + accounting.formatMoney(dollarsPerShare*numberOfShares).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>"; 
+		
+	if (parseInt(parValue) < parseInt(dollarsPerShare)) {
+		htmlString += "<tr><td colspan='2'></td><td>Additional Paid in Capital</td><td class='label label-important'>" + accounting.formatMoney(numberOfShares * (dollarsPerShare - parValue)).replace(/[.]00/, "") + "</td></tr>"; 
+	} 
+	else if (parseInt(parValue) > parseInt(dollarsPerShare)) {
+		htmlString += "<tr><td>Additional Paid in Capital</td><td class='label label-success'>" + accounting.formatMoney(numberOfShares * (parValue - dollarsPerShare)).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>"; 
+	}	
+		
+		htmlString += "<tr><td colspan='2'></td><td>Common Stock</td><td class='label label-important'>" + accounting.formatMoney(parValue*numberOfShares).replace(/[.]00/, "") + "</td></tr>";
+		htmlString += "</tbody>";
+				
+		$("#issueJournal").append(htmlString);
+		$("#chooseAction").show().animate({opacity: 1}, 500);
+		$("#sharesOutstandingTracker").text("Shares Outstanding: " + accounting.formatMoney(sharesOutstandingTracker).replace(/[.]00/, "").replace(/[$]/, ""));
+	});
+});
+
+// Define the code for each action
+var dividendCode = "<thead><tr><th colspan='2'>Issue a Dividend!</th></tr></thead><tbody>";
+	dividendCode += "<tr><td>Dividend Type</td><td><select id='dividendType' class='small'><option value='cash'>Cash</option><option value='stock'>Stock</option></select></td></tr>";
+	dividendCode += "<tr><td>Dividend Amount</td><td><div class='input-prepend'><span class='add-on'>$</span><input id='dividendAmount' type='text' class='small' /></div></td></tr>";
+	dividendCode += "<tr><td><button id='submit-dividend' class='btn btn-inverse'>Submit</button></td><td><button id='back' class='btn btn-inverse'>Back</button></td></tr>";
+	dividendCode += "</tbody>";
+	
+var splitCode = "<thead><tr><th colspan='2'>Split the Stock!</th></tr></thead><tbody>";
+	splitCode += "<tr><td><button id='submit-split' class='btn btn-inverse'>Submit</button></td><td><button id='back' class='btn btn-inverse'>Back</button></td></tr>";
+	splitCode += "</tbody>";
+
+var buyBackCode = "<thead><tr><th colspan='2'>Buy Back Some Stock!</th></tr></thead><tbody>";
+	buyBackCode += "<tr><td>Accounting Method</td><td><select id='treasuryType' class='small'><option value='cost'>Cost</option><option value='parValue'>Par Value</option></select></td></tr>";
+	buyBackCode += "<tr><td>Shares Repurchased</td><td><input id='sharesRepurchased' type='text' class='medium' /></td></tr>";
+	buyBackCode += "<tr><td>Repurchase Price</td><td><div class='input-prepend'><span class='add-on'>$</span><input id='repurchasePrice' type='text' class='small' /></div></td></tr>";
+	buyBackCode += "<tr><td><button id='submit-buyBack' class='btn btn-inverse'>Submit</button></td><td><button id='back' class='btn btn-inverse'>Back</button></td></tr>";
+	buyBackCode += "</tbody>";
+
+// Issue More Stock
+$(function() {	
+	$("#issueMore").click(function() {
+		var issueMoreCode = "<thead><tr><th colspan='2'>Sell Some Stock!</th></tr></thead><tbody>";
+			issueMoreCode += "<tr><td>New Shares</td><td><select id='newShares' class='small'>";
+			if (treasurySharesTracker > 0) { issueMoreCode += "<option value='fromTreasury'>From Treasury</option>"; }
+			issueMoreCode += "'<option value='newStock'>New Stock</option></select></td></tr>";
+			issueMoreCode += "<tr><td>Number of Shares</td><td><input id='numberOfShares' type='text' class='medium' /></td></tr>";
+			issueMoreCode += "<tr><td>Market Price / Share</td><td><div class='input-prepend'><span class='add-on'>$</span><input id='marketPrice' type='text' class='small' /></div></td></tr>";
+			issueMoreCode += "<tr><td><button id='submit-issueMore' class='btn btn-inverse'>Submit</button></td><td><button id='back' class='btn btn-inverse'>Back</button></td></tr>";
+			issueMoreCode += "</tbody>";
+		
+		$(".action").html("");
+		$(this).parents("#chooseAction").animate({opacity: 0},300).delay(300).hide(100);
+		$(".action").append(issueMoreCode).show().delay(800).animate({opacity: 1},300);
+	});
+	
+	$(".action").on("click", "#submit-issueMore", function() {
+		issueMoreJournalCode = "<table id='issueMoreJournal' class='journalEntry table'>";
+		var numberOfShares = parseInt($(this).parents(".action").find("#numberOfShares").val().replace(/[,]/, ""));
+		var marketPrice = parseInt($(this).parents(".action").find("#marketPrice").val().replace(/[,]/, ""));
+		
+		if ($(this).parents(".action").find("#newShares").val() == 'fromTreasury') {
+			
+			issueMoreJournalCode += "<thead><tr><th colspan='4'>Reissue " + accounting.formatMoney(numberOfShares).replace(/[.]00/, "").replace(/[$]/, "") + " shares from treasury at " + accounting.formatMoney(marketPrice).replace(/[.]00/, "") + "</th></tr></thead>";
+			issueMoreJournalCode += "<tbody><tr><td>Cash</td><td class='label label-success'>" + accounting.formatMoney(numberOfShares*marketPrice).replace(/[.]00/, "") + "</td><td colspan='2'></tr>";
+			
+			if (marketPrice > treasuryRepurchasePrice) {
+			issueMoreJournalCode += "<tr><td colspan='2'><td>Additional Paid in Capital - TST</td><td class='label label-important'>" + accounting.formatMoney((marketPrice - treasuryRepurchasePrice) * numberOfShares).replace(/[.]00/, "") + "</td></tr>";
+			APIC_TST += ((marketPrice - treasuryRepurchasePrice) * numberOfShares);
+			} else if (marketPrice < treasuryRepurchasePrice) {
+			var totalLoss = (numberOfShares * treasuryRepurchasePrice) - (numberOfShares * marketPrice);
+				if (totalLoss <= APIC_TST) {
+					issueMoreJournalCode += "<tr><td>Additional Paid in Capital - TST</td><td class='label label-success'>" + accounting.formatMoney((treasuryRepurchasePrice - marketPrice) * numberOfShares).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>";
+					APIC_TST -= (treasurRepurchasePrice - marketPrice) * numberOfShares;
+				} else if (totalLoss > APIC_TST) {
+					if (APIC_TST > 0) { issueMoreJournalCode += "<tr><td>Additional Paid in Capital - TST</td><td class='label label-success'>" + accounting.formatMoney(APIC_TST).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>"; }
+					issueMoreJournalCode += "<tr><td>Retained Earnings</td><td class='label label-success'>" + accounting.formatMoney(((treasuryRepurchasePrice - marketPrice) * numberOfShares) - APIC_TST).replace(/[.]00/, "") + "</td><td colspan='2'></td></tr>";
+					APIC_TST = 0;
+					}
+				}
+			issueMoreJournalCode += "<tr><td colspan='2'><td>Treasury Stock</td><td class='label label-important'>" + accounting.formatMoney(numberOfShares*treasuryRepurchasePrice).replace(/[.]00/, "") + "</td></tr>";
+			
+			sharesOutstandingTracker += numberOfShares;
+			treasurySharesTracker -= numberOfShares;	
+ 		} // from Treasury
+		
+		issueMoreJournalCode += "</tbody></table>";
+		$("#contentArea").append(issueMoreJournalCode);
+		$("#sharesOutstandingTracker").text("Shares Outstanding: " + accounting.formatMoney(sharesOutstandingTracker).replace(/[.]00/, "").replace(/[$]/, ""));
+		$("#treasurySharesTracker").text("Shares in Treasury: " + accounting.formatMoney(treasurySharesTracker).replace(/[.]00/, "").replace(/[$]/, ""));
+		$(".action #back").trigger('click');
+	});
+});
+
+// Declare Dividend
+$(function() {
+	$("#dividend").click(function() {
+		$(".action").html("");
+		$(this).parents("#chooseAction").animate({opacity: 0},300).delay(300).hide(100);
+		$(".action").append(dividendCode).show().delay(800).animate({opacity: 1},300);
+	});
+	
+	$(".action").on("change", "#dividendType", function() {
+		if ($(this).val() == "stock") {
+			$(this).parent().parent().parent().find('tr:nth-child(2)').html("<td>Dividend Amount</td><td><div class='input-append'><input id='dividendAmount' type='text' class='small' /><span class='add-on'>shares</span></div></td>");
+		} else if ($(this).val() == "cash") {
+			$(this).parent().parent().parent().find('tr:nth-child(2)').html("<td>Dividend Amount</td><td><div class='input-prepend'><span class='add-on'>$</span><input id='dividendAmount' type='text' class='small' /></div></td>");
+		}
+	});
+});
+
+// Split Stock
+$(function() {	
+	$("#split").click(function() {
+		$(".action").html("");
+		$(this).parents("#chooseAction").animate({opacity: 0},300).delay(300).hide(100);
+		$(".action").append(splitCode).show().delay(800).animate({opacity: 1},300);
+	});
+});	
+
+// Buy Back Stock
+$(function() {
+	$("#buyBack").click(function() {
+		$(".action").html("");
+		$(this).parents("#chooseAction").animate({opacity: 0},300).delay(300).hide(100);
+		$(".action").append(buyBackCode).show().delay(800).animate({opacity: 1},300);
+	});
+});
+
+$(function() {
+	$(".action").on("click", "#submit-buyBack", function() {
+		
+		var sharesRepurchased = parseInt($(this).parents(".action").find("#sharesRepurchased").val().replace(/[^\d]/, "").replace(/[,]/, ""));
+		var repurchasePrice = parseInt($(this).parents(".action").find("#repurchasePrice").val().replace(/[^\d]/, "").replace(/[,]/, ""));
+		treasuryRepurchasePrice += repurchasePrice;
+		var buyBackJournalCode = "<table id='buyBackJournal' class='journalEntry table'>";
+		
+		if($(this).parents(".action").find("#treasuryType").val() == 'cost') {
+				buyBackJournalCode += "<thead><tr><th colspan='4'>Stock Repurchase (" + sharesRepurchased + " shares at $" + repurchasePrice + ") [cost method]</th></tr></thead>";
+				buyBackJournalCode += "<tbody><tr><td>Treasury Stock</td><td class='label label-success'>" + accounting.formatMoney(sharesRepurchased*repurchasePrice).replace(/[.]00/, "") + "</td><td colspan='2'></tr>";
+				buyBackJournalCode += "<tr><td colspan='2'><td>Cash</td><td class='label label-important'>" + accounting.formatMoney(sharesRepurchased*repurchasePrice).replace(/[.]00/, "") + "</td></tr>";
+				buyBackJournalCode += "</tbody></table>";	
+		} else if($(this).parents(".action").find("#treasuryType").val() == 'parValue') {
+			
+		}
+		
+		$("#contentArea").append(buyBackJournalCode);
+		sharesOutstandingTracker -= sharesRepurchased;
+		treasurySharesTracker += sharesRepurchased;
+		$("#sharesOutstandingTracker").text("Shares Outstanding: " + accounting.formatMoney(sharesOutstandingTracker).replace(/[.]00/, "").replace(/[$]/, ""));
+		$("#treasurySharesTracker").text("Shares in Treasury: " + accounting.formatMoney(treasurySharesTracker).replace(/[.]00/, "").replace(/[$]/, ""));
+		$(".action #back").trigger('click');
+	});
+});
+
+// Bind the actions to .action
+$(function() {
+	$(".action").on("click", "#back", function() {
+		$(".action").animate({opacity: 0},300).delay(300).hide(100);
+		$("#chooseAction").delay(800).show(100).animate({opacity: 1},300);
+	});
+	
+	$(".action").on("change", "#numberOfShares", function() {
+		var text = $(this).val();
+		text = accounting.formatMoney(text);
+		text = text.replace(/[.]00/, "").replace(/[$]/, "");
+		$(this).val(text);
+	});
+});
+</script>
+
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#wrapper {
+	max-width: 1000px;
+	min-width: 1000px;
+	position: relative;
+	margin: 25px auto 0 auto;
+}
+
+#leftSide {
+	float: left;
+	width: 325px;
+}
+
+#chooseAction {
+	display: none;
+	opacity: 0;
+}
+
+.action {
+	display: none;
+	opacity: 0;
+}
+
+#contentArea {
+	float: right;
+	width: 575px;
+	margin-bottom: 30px;
+}
+
+input.medium {
+	width: 125px;
+}
+
+input.small {
+	width: 100px;
+}
+
+select.small {
+	width: 150px;
+}
+</style>
+	
+<div id="leftSide">	
+<table id="initialIssue" class="table table-bordered">
+	<thead>
+		<tr><th colspan='2'>Lets issue some stock!</th></tr>
+	</thead>
+	
+	<tbody>
+		<tr><td>Number of Shares</td><td><input id='initialIssueNo' type='text' class='medium' /></td></tr>
+		<tr><td>Par Value</td><td><div class="input-prepend"><span class="add-on">$</span><input id='parValue' type='text' class='small' /></div></td></tr>
+		<tr><td>Selling Price / Share</td><td><div class="input-prepend"><span class="add-on">$</span><input id='initialIssuePrice' type='text' class='small' /></div></td></tr>
+		<tr><td colspan='2'><button id="issueSubmit" class="btn btn-inverse">Submit</button></td></tr>
+	</tbody>	
+</table>	
+
+<table id="chooseAction" class="table table-bordered">
+	<thead>
+		<tr><th colspan='2'>Choose an action</th></tr>
+	</thead>
+	
+	<tbody>
+		<tr><td><button id="issueMore" class="btn">Sell Stock</button></td><td><button id="dividend" class="btn">Declare Dividend</td></tr>
+		<tr><td><button id="split" class="btn">Split Stock</button></td><td><button id="buyBack" class="btn">Buy Back Stock</td></tr>
+	</tbody>		
+</table>
+
+<table class="action table table-bordered">
+</table>	
+</div> <!-- leftSide -->
+
+<div id="contentArea">
+	<table id="issueJournal" class="journalEntry table">
+	</table>	
+</div>
+
+
+
+
+

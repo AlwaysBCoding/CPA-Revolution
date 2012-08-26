@@ -15,4 +15,12 @@ class InfoController < ApplicationController
   def contact
   end
   
+  def stock
+    render 'sandbox/stock.html.erb'
+  end
+  
+  def bonds
+    render 'sandbox/bonds.html.erb'
+  end
+  
 end

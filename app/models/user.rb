@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
       when 3
         return "Almost there! (3 sections passed)"
       when 4
-        return "CPA!!!!!"
+        return "Certified to do it in public"
     end          
   end
 
