@@ -53,7 +53,11 @@ a.brand {
 }
 /*x NAV BAR x*/
 
-body { padding-top: 40px; }
+body { 
+	padding-top: 40px; 
+	overflow-x: hidden;
+	background: url('lightpaperfibers.png');
+}
 
 .container { 
 	margin: 0 auto;

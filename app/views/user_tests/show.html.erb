@@ -34,17 +34,17 @@
 	padding: 0px 13px;
 }
 
-a.answered {
+/*a.answered {
 	background-color: #444;
 }
 
 a.answered:hover {
 	background-color: #444;
-}
+}*/
 
 .currentQuestion {
 	font-weight: bold;
-	background: #fefcea; /* Old browsers */
+	background: #f1da36; /* Old browsers */
 	background: -moz-linear-gradient(top, #fefcea 22%, #f1da36 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fefcea), color-stop(100%,#f1da36)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, #fefcea 22%,#f1da36 100%); /* Chrome10+,Safari5.1+ */
@@ -53,6 +53,25 @@ a.answered:hover {
 	background: linear-gradient(to bottom, #fefcea 22%,#f1da36 100%); /* W3C */
 }
 
+.answeredWrong, .answeredWrong:hover {
+	background: #f03838; /* Old browsers */
+	background: -moz-linear-gradient(top, #fefcea 22%, #f03838 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fefcea), color-stop(100%,#f03838)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fefcea 22%,#f03838 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fefcea 22%,#f03838 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fefcea 22%,#f03838 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #fefcea 22%,#f03838 100%); /* W3C */
+}
+
+.answeredCorrect, .answeredCorrect:hover {
+	background: #38f044; /* Old browsers */
+	background: -moz-linear-gradient(top, #fefcea 22%, #38f044 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fefcea), color-stop(100%,#38f044)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fefcea 22%,#38f044 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fefcea 22%,#38f044 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fefcea 22%,#38f044 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #fefcea 22%,#38f044 100%); /* W3C */
+}
 /*x PAGINATION x*/
 
 /* Question Formatting 
@@ -306,6 +325,7 @@ $(function() {
 			
 			// Gray the current question
 			$("#page"+questionNumber+" a").addClass("answered");
+			answer == "correct" ? $("#page"+questionNumber+" a").addClass("answeredCorrect") : $("#page"+questionNumber+" a").addClass("answeredWrong");
 			
 			} // if it's not the last question
 			

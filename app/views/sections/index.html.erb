@@ -78,6 +78,26 @@
 	float: left;
 }
 
+/* SUB HEADER
+===================== */
+#subHeaderWrapper {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+#subHeader h3 {
+	margin-left: 50px;
+	margin-top: 37px;
+	font-size: 52px;
+}
+
+#subHeader h4 {
+	margin-left: 125px;
+	font-size: 30px;
+	padding-top: 10px;
+}
+
+
 /* TABLE
 ===================== */
 
@@ -110,7 +130,7 @@ $(function() {
 });
 
 $(function() {
-	$("#subHeader").html($("#subHeaderHTML").html());
+	$("#subHeaderWrapper").html($("#subHeaderHTML").html());
 });
 
 $(function() {
@@ -153,7 +173,7 @@ $(function() {
 		e.preventDefault();
 		var sectionCode = $(this).parent().attr("class");
 		$("#contentAreaRight").html($("mark."+sectionCode).html());
-		$("#sectionStatsLeft").html("Hello");
+		$("#sectionStatsLeft").html("This is a content area for a User/Section relationship");
 		var i = 0;
 			if (slideCounter % 2 == 0) {
 			$("div.section").not("#"+sectionCode).slideToggle(function() {
@@ -175,6 +195,7 @@ $(function() {
 $(function() {
 	$("div.section").on("click", function(e) { $(e.target).find('img').trigger("click"); });
 	$("div.section h3").on("click", function(e) { $(e.target).parent().find('img').trigger("click"); });
+	
 });
 </script>	
 
