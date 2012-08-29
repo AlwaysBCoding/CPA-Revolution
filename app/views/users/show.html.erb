@@ -70,7 +70,7 @@ $(function() {
 			<% if @user.passed_section?("#{section.code}") %>
 			<td><%= @user.score("#{section.code}") %></td>
 			<% elsif @user.exam_date("#{section.code}").present? %>
-			<td><%= @user.exam_date("#{section.code}").strftime("%B %eth") %></td>
+			<td><%= @user.exam_date("#{section.code}").strftime("%B %e") %></td>
 			<% else %>
 			<td>?</td>
 			<% end %>

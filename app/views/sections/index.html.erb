@@ -115,7 +115,7 @@ th {
 
 /* MISC
 ===================== */
-#sectionStatsRight p, #sectionStatsLeft p{
+p.passScore {
 	color: green;
 	font-weight: bold;
 	font-size: 90px;
@@ -125,6 +125,15 @@ th {
 	margin-left: 50px;
 }
 
+p.examDate {
+	color: blue;
+	font-weight: bold;
+	font-size: 70px;
+	text-shadow: 5px 5px 5px black;
+	z-index: 2;
+	margin-top: 60px;
+	margin-left: 35px;
+}
 /* JDL STYLES
 ==================== */
 
@@ -163,12 +172,12 @@ $(function() {
 		e.preventDefault();
 		var sectionCode = $(this).parent().attr("class");
 		$("#contentAreaLeft").html($("mark."+sectionCode).html());
-		$("#sectionStatsRight").html("<p>Passed: "+$("#"+sectionCode.toLowerCase()+"Stats").text()+"</p>");
+		$("#sectionStatsRight").html($("#"+sectionCode.toLowerCase()+"Stats").html());
 		var i = 0;
 			if (slideCounter % 2 == 0) {
 			$("div.section").not("#"+sectionCode).stop().slideToggle(function() {
-				i++; i == 3 ? $("#contentAreaLeft").slideToggle() : "";
-					 i == 3 ? $("#sectionStatsRight").slideToggle() : "";
+				i++; i == 3 ? $("#contentAreaLeft").stop().slideToggle() : "";
+					 i == 3 ? $("#sectionStatsRight").stop().slideToggle() : "";
 				slideCounter++;
 			});
 			} else {
@@ -185,12 +194,12 @@ $(function() {
 		e.preventDefault();
 		var sectionCode = $(this).parent().attr("class");
 		$("#contentAreaRight").html($("mark."+sectionCode).html());
-		$("#sectionStatsLeft").html("<p>Passed: "+$("#"+sectionCode.toLowerCase()+"Stats").text()+"</p>");
+		$("#sectionStatsLeft").html($("#"+sectionCode.toLowerCase()+"Stats").html());
 		var i = 0;
 			if (slideCounter % 2 == 0) {
 			$("div.section").not("#"+sectionCode).stop().slideToggle(function() {
-				i++; i == 3 ? $("#contentAreaRight").slideToggle() : "";
-					 i == 3 ? $("#sectionStatsLeft").slideToggle() : "";
+				i++; i == 3 ? $("#contentAreaRight").stop().slideToggle() : "";
+					 i == 3 ? $("#sectionStatsLeft").stop().slideToggle() : "";
 				slideCounter++;
 			});
 			} else {

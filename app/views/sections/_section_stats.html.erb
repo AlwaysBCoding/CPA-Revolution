@@ -1,7 +1,9 @@
 <div id="farStats" class="hidden">
 <% if @user %>
 	<% if @user.passed_section?("FAR") %>
-	<p class="passScore"><%= @user.far_score %></p>
+	<p class="passScore">Passed: <%= @user.far_score %></p>
+	<% elsif @user.exam_date("FAR").present? %>
+	<p class="examDate"><%= @user.far_date.strftime("%B %e") %></p>
 	<% end %>
 <% end %>	
 </div>
@@ -9,7 +11,9 @@
 <div id="regStats" class="hidden">
 <% if @user %>
 	<% if @user.passed_section?("REG") %>
-	<p class="passScore"><%= @user.reg_score %></p>
+	<p class="passScore">Passed: <%= @user.reg_score %></p>
+	<% elsif @user.exam_date("REG").present? %>
+	<p class="examDate"><%= @user.reg_date.strftime("%B %e") %></p>
 	<% end %>
 <% end %>	
 </div>
@@ -17,7 +21,9 @@
 <div id="becStats" class="hidden">
 <% if @user %>
 	<% if @user.passed_section?("BEC") %>
-	<p class="passScore"><%= @user.bec_score %></p>
+	<p class="passScore">Passed: <%= @user.bec_score %></p>
+	<% elsif @user.exam_date("BEC").present? %>
+	<p class="examDate"><%= @user.bec_date.strftime("%B %e") %></p>
 	<% end %>
 <% end %>
 </div>
@@ -25,7 +31,9 @@
 <div id="audStats" class="hidden">
 <% if @user %>
 	<% if @user.passed_section?("AUD") %>
-	<p class="passScore"><%= @user.aud_score %></p>
+	<p class="passScore">Passed: <%= @user.aud_score %></p>
+	<% elsif @user.exam_date("AUD").present? %>
+	<p class="examDate"><%= @user.aud_date.strftime("%B %e") %></p>
 	<% end %>
 <% end %>	
 </div>				
