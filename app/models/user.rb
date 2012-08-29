@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
         return aud_score.to_i
     end      
   end
+
+  def passed_section?(code)
+    score(code) > 75
+  end
   
   def exam_date(code)
     case code 
@@ -57,4 +61,39 @@ class User < ActiveRecord::Base
     end          
   end
 
+  def get_scores
+    far, reg, bec, aud = "", "", "", ""
+    
+    if passed_section?("FAR") 
+      far = far_score
+    elsif far_date.present?
+      far = far_date.strftime("%B %eth")
+    else 
+      far = "?"
+    end
+    if passed_section?("REG") 
+      reg = reg_score
+    elsif reg_date.present?
+      reg = reg_date.strftime("%B %eth")
+    else 
+      reg = "?"
+    end
+    if passed_section?("BEC") 
+      bec = bec_score
+    elsif bec_date.present?
+      bec = bec_date.strftime("%B %eth")
+    else 
+      bec = "?"
+    end
+    if passed_section?("AUD") 
+      aud = aud_score
+    elsif far_date.present?
+      aud = aud_date.strftime("%B %eth")
+    else 
+      aud = "?"
+    end
+    
+    "FAR: #{far} | REG: #{reg} | BEC: #{bec} | AUD: #{aud}"
+  end
+  
 end

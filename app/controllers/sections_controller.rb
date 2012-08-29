@@ -3,7 +3,11 @@ class SectionsController < ApplicationController
   # GET /sections.json
   def index
     @sections = Section.all
-
+   
+    if session[:user_id].present?
+    @user = User.find(session[:user_id])
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @sections }

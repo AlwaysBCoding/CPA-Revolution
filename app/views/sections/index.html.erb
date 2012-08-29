@@ -93,7 +93,7 @@
 
 #subHeader h4 {
 	margin-left: 125px;
-	font-size: 30px;
+	font-size: 26px;
 	padding-top: 10px;
 }
 
@@ -111,6 +111,18 @@ td:nth-child(3) {
 
 th {
 	text-align: center;
+}
+
+/* MISC
+===================== */
+#sectionStatsRight p, #sectionStatsLeft p{
+	color: green;
+	font-weight: bold;
+	font-size: 90px;
+	text-shadow: 5px 5px 5px black;
+	z-index: 2;
+	margin-top: 60px;
+	margin-left: 50px;
 }
 
 /* JDL STYLES
@@ -133,6 +145,7 @@ $(function() {
 	$("#subHeaderWrapper").html($("#subHeaderHTML").html());
 });
 
+// Hover opacity fade effect
 $(function() {
 	$(".section img").hover(function() {
 		$(this).addClass("hover-highlight");
@@ -150,7 +163,7 @@ $(function() {
 		e.preventDefault();
 		var sectionCode = $(this).parent().attr("class");
 		$("#contentAreaLeft").html($("mark."+sectionCode).html());
-		$("#sectionStatsRight").html("Hello");
+		$("#sectionStatsRight").html("<p>Passed: "+$("#"+sectionCode.toLowerCase()+"Stats").text()+"</p>");
 		var i = 0;
 			if (slideCounter % 2 == 0) {
 			$("div.section").not("#"+sectionCode).slideToggle(function() {
@@ -167,13 +180,12 @@ $(function() {
 			} // else
 	});
 });
-
 $(function() {
 	$(".section img.left").on("click", function(e) {
 		e.preventDefault();
 		var sectionCode = $(this).parent().attr("class");
 		$("#contentAreaRight").html($("mark."+sectionCode).html());
-		$("#sectionStatsLeft").html("This is a content area for a User/Section relationship");
+		$("#sectionStatsLeft").html("<p>Passed: "+$("#"+sectionCode.toLowerCase()+"Stats").text()+"</p>");
 		var i = 0;
 			if (slideCounter % 2 == 0) {
 			$("div.section").not("#"+sectionCode).slideToggle(function() {
@@ -238,6 +250,6 @@ $(function() {
 
 </div> <!-- rightSide -->
 
-<%= render 'section_info' %>
-
 <%= render 'subHeader' %>
+<%= render 'section_info' %>
+<%= render 'section_stats' %>

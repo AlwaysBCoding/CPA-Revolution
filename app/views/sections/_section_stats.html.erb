@@ -1,0 +1,31 @@
+<div id="farStats" class="hidden">
+<% if @user %>
+	<% if @user.passed_section?("FAR") %>
+	<p class="passScore"><%= @user.far_score %></p>
+	<% end %>
+<% end %>	
+</div>
+
+<div id="regStats" class="hidden">
+<% if @user %>
+	<% if @user.passed_section?("REG") %>
+	<p class="passScore"><%= @user.reg_score %></p>
+	<% end %>
+<% end %>	
+</div>
+
+<div id="becStats" class="hidden">
+<% if @user %>
+	<% if @user.passed_section?("BEC") %>
+	<p class="passScore"><%= @user.bec_score %></p>
+	<% end %>
+<% end %>
+</div>
+
+<div id="audStats" class="hidden">
+<% if @user %>
+	<% if @user.passed_section?("AUD") %>
+	<p class="passScore"><%= @user.aud_score %></p>
+	<% end %>
+<% end %>	
+</div>				

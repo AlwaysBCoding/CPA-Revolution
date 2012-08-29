@@ -34,14 +34,6 @@
 	padding: 0px 13px;
 }
 
-/*a.answered {
-	background-color: #444;
-}
-
-a.answered:hover {
-	background-color: #444;
-}*/
-
 .currentQuestion {
 	font-weight: bold;
 	background: #f1da36; /* Old browsers */
@@ -55,22 +47,22 @@ a.answered:hover {
 
 .answeredWrong, .answeredWrong:hover {
 	background: #f03838; /* Old browsers */
-	background: -moz-linear-gradient(top, #fefcea 22%, #f03838 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fefcea), color-stop(100%,#f03838)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #fefcea 22%,#f03838 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #fefcea 22%,#f03838 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #fefcea 22%,#f03838 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #fefcea 22%,#f03838 100%); /* W3C */
+	background: -moz-linear-gradient(top, #fceaea 22%, #f03838 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fceaea), color-stop(100%,#f03838)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fceaea 22%,#f03838 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fceaea 22%,#f03838 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fceaea 22%,#f03838 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #fceaea 22%,#f03838 100%); /* W3C */
 }
 
 .answeredCorrect, .answeredCorrect:hover {
 	background: #38f044; /* Old browsers */
-	background: -moz-linear-gradient(top, #fefcea 22%, #38f044 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#fefcea), color-stop(100%,#38f044)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #fefcea 22%,#38f044 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #fefcea 22%,#38f044 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #fefcea 22%,#38f044 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #fefcea 22%,#38f044 100%); /* W3C */
+	background: -moz-linear-gradient(top, #ecfcea 22%, #38f044 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(22%,#ecfcea), color-stop(100%,#38f044)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ecfcea 22%,#38f044 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ecfcea 22%,#38f044 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ecfcea 22%,#38f044 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #ecfcea 22%,#38f044 100%); /* W3C */
 }
 /*x PAGINATION x*/
 
@@ -254,7 +246,8 @@ function getQuestionJSON(questionNumber){
 	$.getJSON(window.location.href + $("#page"+questionNumber+" a").attr("href"), 
 			  function(data){
 		      	$(".choices").html("");
-			  	$("#questionText span").text(data.question.question_text);
+				var textile_string = "table(table table-bordered).\n|_.Choice|_.Lease A|_.Lease B|\n|A|Operating Lease|Capital Lease|\n|B|Operating Lease|Operating Lease|\n|C|Capital Lease|Capital Lease|\n|D|Capital Lease|Operating Lease|".replace("table(table table-bordered).\n", "");
+			  	$("#questionText span").JQtextile('textile', textile_string);
 			    $(".questionSource").text(data.question.source);
 				$(".topicName").text(data.question.topic.name);
 				$(".questionNumber").text(questionNumber);
@@ -323,7 +316,7 @@ $(function() {
 			
 			getQuestionJSON(nextQuestion);
 			
-			// Gray the current question
+			// Color the just answered question appropriately
 			$("#page"+questionNumber+" a").addClass("answered");
 			answer == "correct" ? $("#page"+questionNumber+" a").addClass("answeredCorrect") : $("#page"+questionNumber+" a").addClass("answeredWrong");
 			

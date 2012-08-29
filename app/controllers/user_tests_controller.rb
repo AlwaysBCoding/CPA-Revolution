@@ -35,6 +35,7 @@ class UserTestsController < ApplicationController
     # If the request has a ?question= at the end of it, then render the JSON data of the question
     if params[:question].present?
     @question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(params[:question].to_i - 1).limit(1)[0]
+    puts @question
     render json: JSON.pretty_generate(JSON.parse(@question.to_json(:include => { :question => { :methods => [:answers, :topic] } })))
     end  
     
