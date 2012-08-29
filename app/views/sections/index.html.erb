@@ -166,15 +166,15 @@ $(function() {
 		$("#sectionStatsRight").html("<p>Passed: "+$("#"+sectionCode.toLowerCase()+"Stats").text()+"</p>");
 		var i = 0;
 			if (slideCounter % 2 == 0) {
-			$("div.section").not("#"+sectionCode).slideToggle(function() {
+			$("div.section").not("#"+sectionCode).stop().slideToggle(function() {
 				i++; i == 3 ? $("#contentAreaLeft").slideToggle() : "";
 					 i == 3 ? $("#sectionStatsRight").slideToggle() : "";
 				slideCounter++;
 			});
 			} else {
-				$("#sectionStatsRight").slideToggle();
-				$("#contentAreaLeft").slideToggle(function() {
-				$("div.section").not("#"+sectionCode).slideToggle();	
+				$("#sectionStatsRight").stop().slideToggle();
+				$("#contentAreaLeft").stop().slideToggle(function() {
+				$("div.section").not("#"+sectionCode).stop().slideToggle();	
 				slideCounter++;
 				});
 			} // else
@@ -188,15 +188,15 @@ $(function() {
 		$("#sectionStatsLeft").html("<p>Passed: "+$("#"+sectionCode.toLowerCase()+"Stats").text()+"</p>");
 		var i = 0;
 			if (slideCounter % 2 == 0) {
-			$("div.section").not("#"+sectionCode).slideToggle(function() {
+			$("div.section").not("#"+sectionCode).stop().slideToggle(function() {
 				i++; i == 3 ? $("#contentAreaRight").slideToggle() : "";
 					 i == 3 ? $("#sectionStatsLeft").slideToggle() : "";
 				slideCounter++;
 			});
 			} else {
-				$("#sectionStatsLeft").slideToggle();
-				$("#contentAreaRight").slideToggle(function() {
-				$("div.section").not("#"+sectionCode).slideToggle();	
+				$("#sectionStatsLeft").stop().slideToggle();
+				$("#contentAreaRight").stop().slideToggle(function() {
+				$("div.section").not("#"+sectionCode).stop().slideToggle();	
 				slideCounter++;
 				});
 			} // else

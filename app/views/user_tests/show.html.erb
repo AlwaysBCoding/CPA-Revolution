@@ -246,8 +246,7 @@ function getQuestionJSON(questionNumber){
 	$.getJSON(window.location.href + $("#page"+questionNumber+" a").attr("href"), 
 			  function(data){
 		      	$(".choices").html("");
-				var textile_string = "table(table table-bordered).\n|_.Choice|_.Lease A|_.Lease B|\n|A|Operating Lease|Capital Lease|\n|B|Operating Lease|Operating Lease|\n|C|Capital Lease|Capital Lease|\n|D|Capital Lease|Operating Lease|".replace("table(table table-bordered).\n", "");
-			  	$("#questionText span").JQtextile('textile', textile_string);
+			  	$("#questionText span").text(data.question.question_text);
 			    $(".questionSource").text(data.question.source);
 				$(".topicName").text(data.question.topic.name);
 				$(".questionNumber").text(questionNumber);
