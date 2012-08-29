@@ -6,4 +6,8 @@ class Question < ActiveRecord::Base
   
   has_many :answers
   belongs_to :topic
+  
+  def question_text
+    RedCloth.new(self[:question_text]).to_html
+  end
 end

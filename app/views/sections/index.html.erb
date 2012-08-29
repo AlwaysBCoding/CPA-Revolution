@@ -245,7 +245,7 @@ $(function() {
 	  <div id="<%= section.code %>" class="section">
 		<h3><%= section.name %></h3>
 		<a href="/sections/<%= section.code %>"><button class="btn">Individual Topics</button></a>
-		<%= link_to button_tag("Full Length Test", :class => 'btn'), '/user_test', :method => 'post' %></a>
+		<%= link_to button_tag("Full Length Test", :class => 'btn'), "/user_test?section_id=#{section.id}", :method => 'post' %></a>
 		<a class="<%= section.code %>"><img class='right' src="assets/<%= section.code %>_logo.jpg" /></a>
 	  </div> <!-- section -->
 	<% end %>

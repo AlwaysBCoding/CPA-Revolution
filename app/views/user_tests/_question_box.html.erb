@@ -1,8 +1,8 @@
 <div id="questionBox">
 	<div id="questionText">
-		<p><span><%= @user_test.questions[@activeQuestionOnLoad-1].question_text %></span></p>
-		<hr />
+		<%= raw @user_test.questions[@activeQuestionOnLoad-1].question_text %>
 	</div> <!-- questionText -->
+	<hr />
 	<div id="answers">
 		<%= form_tag("/user_test/#{@activeQuestionOnLoad}", :remote => true) do %>
 		<%= hidden_field_tag 'question_number' %>
