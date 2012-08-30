@@ -1,5 +1,15 @@
 <style>
 
+.leftSide {
+	width: 48.5%;
+	float: left;
+}
+
+.rightSide {
+	width: 48.5%;
+	float: right;
+}
+
 .examSection h4.number {
 	color: red;
 	font-weight: bold;
@@ -21,15 +31,15 @@
 	margin-left: 20px;
 }
 
+h2 {
+	text-align: center;
+}
+
 /* JDL Styles
 ====================== */
 
 .container {
 	margin-top: 25px;
-}
-
-.hidden {
-	display: none;
 }
 
 .inline {
@@ -63,6 +73,7 @@ $(function() {
 
 <h2><%= "#{@user.first_name} #{@user.last_name}" %> (<%= @user.university %>)</h2>
 
+<div class="leftSide">
 <table id="scoreTable" class="table table-bordered">
 	<% @sections.each do |section| %>
 		<tr>
@@ -75,8 +86,10 @@ $(function() {
 			<td>?</td>
 			<% end %>
 	<% end %>
-</table>	
+</table>
+</div> <!-- leftSide -->	
 
+<div class="rightSide">
 <button id="addDate" class="btn btn-inverse block">Add Exam Date</button>
 	<%= form_tag user_url, :id => 'addDateForm', :class => 'hidden' do %>
 	<table><tr>
@@ -93,13 +106,4 @@ $(function() {
 	<td><%= submit_tag 'Add Score', :id => 'addScoreSubmit', :class => 'btn btn-inverse' %></td>
 	</tr></table>
 	<% end %>
-
-<div class="hidden" id="recentTests">
-<h2>Recent Tests</h2>
-
-<ul>
-<% @user_tests.each do |test| %>
-<li><%= "#{test.section.code}: #{test.score} | #{time_ago_in_words(test.updated_at)}" %></li>
-<% end %>
-</ul>
-</div>
+</div> <!-- rightSide>	

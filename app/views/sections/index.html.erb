@@ -44,6 +44,10 @@ $(function() {
 	<h3 class="alert alert-info">Create an account to start studying</h3>
 	<%= render 'signUp' %>
 	</div>
+	<% else %>
+	<div id="signUp">
+	<h3 class="alert alert-info">Stats for <%= @user.username %></h3>	
+	</div>
 	<% end %>
 
 </div>	
