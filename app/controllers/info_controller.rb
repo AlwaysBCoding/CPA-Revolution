@@ -6,9 +6,6 @@ class InfoController < ApplicationController
   def exam_information
   end
   
-  def videos
-  end
-  
   def sandbox
     render 'sandbox/index.html.erb'
   end

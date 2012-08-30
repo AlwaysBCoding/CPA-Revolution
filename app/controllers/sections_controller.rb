@@ -6,7 +6,9 @@ class SectionsController < ApplicationController
    
     if session[:user_id].present?
     @user = User.find(session[:user_id])
-    end
+    else
+    @user = User.new
+    end   
     
     respond_to do |format|
       format.html # index.html.erb
