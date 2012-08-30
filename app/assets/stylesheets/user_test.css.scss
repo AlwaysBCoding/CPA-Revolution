@@ -1,3 +1,157 @@
-// Place all the styles related to the UserTest controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.user_tests {
+
+/* DIV Layout
+===================== */
+	
+.container {
+  width: 1200px; }
+
+#contentArea {
+  width: 1200px;
+  margin: 35px auto;
+  position: relative; }
+
+#questionBox {
+  height: 500px;
+  width: 800px;
+  float: left;
+  box-sizing: border-box; }
+
+#rightSidebar {
+  width: 320px;
+  float: right; }
+
+#pagination {
+  padding-top: 50px; }
+
+/* PAGINATION
+===================== */
+
+.pagination a {
+  padding: 0px 10px;
+  &.single_digit {
+    padding: 0px 13px; } }
+
+.currentQuestion {
+  font-weight: bold;
+  background: #f1da36;
+  background: -moz-linear-gradient(top, #fefcea 22%, #f1da36 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #fefcea), color-stop(100%, #f1da36));
+  background: -webkit-linear-gradient(top, #fefcea 22%, #f1da36 100%);
+  background: -o-linear-gradient(top, #fefcea 22%, #f1da36 100%);
+  background: -ms-linear-gradient(top, #fefcea 22%, #f1da36 100%);
+  background: linear-gradient(to bottom, #fefcea 22%, #f1da36 100%); }
+
+.answeredWrong {
+  background: #f03838;
+  background: -moz-linear-gradient(top, #fceaea 22%, #f03838 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #fceaea), color-stop(100%, #f03838));
+  background: -webkit-linear-gradient(top, #fceaea 22%, #f03838 100%);
+  background: -o-linear-gradient(top, #fceaea 22%, #f03838 100%);
+  background: -ms-linear-gradient(top, #fceaea 22%, #f03838 100%);
+  background: linear-gradient(to bottom, #fceaea 22%, #f03838 100%);
+  &:hover {
+    background: #f03838;
+    background: -moz-linear-gradient(top, #fceaea 22%, #f03838 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #fceaea), color-stop(100%, #f03838));
+    background: -webkit-linear-gradient(top, #fceaea 22%, #f03838 100%);
+    background: -o-linear-gradient(top, #fceaea 22%, #f03838 100%);
+    background: -ms-linear-gradient(top, #fceaea 22%, #f03838 100%);
+    background: linear-gradient(to bottom, #fceaea 22%, #f03838 100%); } }
+
+.answeredCorrect {
+  background: #38f044;
+  background: -moz-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ecfcea), color-stop(100%, #38f044));
+  background: -webkit-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+  background: -o-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+  background: -ms-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+  background: linear-gradient(to bottom, #ecfcea 22%, #38f044 100%);
+  &:hover {
+    background: #38f044;
+    background: -moz-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(22%, #ecfcea), color-stop(100%, #38f044));
+    background: -webkit-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+    background: -o-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+    background: -ms-linear-gradient(top, #ecfcea 22%, #38f044 100%);
+    background: linear-gradient(to bottom, #ecfcea 22%, #38f044 100%); } }
+
+/* Question Formatting 
+===================== */
+
+.clearfix {
+  clear: both; }
+
+#questionBox {
+  p {
+    font-size: 16px;
+    padding: 3px; }
+  li {
+    font-size: 16px;
+    padding: 3px;
+    margin-left: 10px; } }
+
+ol.choices {
+  list-style-type: upper-alpha; }
+
+.choices a:hover {
+  text-decoration: none; }
+
+label {
+  display: inline;
+  cursor: pointer; }
+
+#questionText p {
+  margin: 0px;	
+  padding: 10px;}
+
+#answers a {
+  padding-left: 6px;
+  cursor: pointer; }
+
+#questionText {
+  max-height: 325px;
+  overflow-y: scroll; }
+
+/* RIGHT SIDEBAR
+===================== */
+
+#questionInfo {
+	h1, h3, h4 {
+	  text-align: center;
+	}
+}
+
+#runningScore {
+  width: 75%;
+  margin: 0 auto;
+  th {
+    font-size: 20px; }
+  td {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 15px;
+    padding-bottom: 15px; } }
+
+.correctAnswers {
+  color: green; }
+
+.wrongAnswers {
+  color: red; }
+
+.submit {
+  margin-left: 12px; }
+
+#timer {
+  width: 60%;
+  margin: 0 auto;
+	h2 {
+		text-align: center;
+	}
+ }
+
+.timer {
+  font-size: 30px; }
+
+}
