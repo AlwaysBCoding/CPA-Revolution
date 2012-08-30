@@ -1,8 +1,8 @@
 namespace :updates do
   desc "Enters the unformatted AICPA released questions data into the database as dummy data"
   task :far_questions => :environment do 
-    #Question.destroy_all
-    #puts "Axing Question DB"
+    Question.destroy_all
+    puts "Axing Question DB"
     
     f = File.open("#{Rails.root}/doc/mcq_2.txt", 'r')    
     f = f.readlines
