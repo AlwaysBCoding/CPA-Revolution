@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120826002220) do
+ActiveRecord::Schema.define(:version => 20120830232400) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20120826002220) do
     t.boolean  "correct"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.boolean  "eval"
   end
 
   create_table "questions", :force => true do |t|
@@ -107,6 +108,17 @@ ActiveRecord::Schema.define(:version => 20120826002220) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "university",      :default => "CPA Revolution"
+  end
+
+  create_table "variables", :force => true do |t|
+    t.integer  "question_id"
+    t.string   "format"
+    t.integer  "minimun"
+    t.integer  "maximum"
+    t.integer  "multiple"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
 end

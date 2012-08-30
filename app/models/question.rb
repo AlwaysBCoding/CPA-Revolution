@@ -5,6 +5,7 @@ class Question < ActiveRecord::Base
   has_many :user_tests, :through => :user_test_questions
   
   has_many :answers
+  has_many :variables
   belongs_to :topic
   
   def question_text
