@@ -3,7 +3,7 @@ class CreateVariables < ActiveRecord::Migration
     create_table :variables do |t|
       t.integer :question_id
       t.string :format
-      t.integer :minimun
+      t.integer :minimum
       t.integer :maximum
       t.integer :multiple
       t.string :description
