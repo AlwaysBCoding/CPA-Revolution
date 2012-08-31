@@ -24,21 +24,21 @@ end
   Section.create(:code => "FAR",
                   :name => "Financial Accounting and Reporting",
                   :questions_per_testlet => 30,
-                  :time_per_test = 14400)
+                  :time_per_test => 14400)
   
   Section.create(:code => "REG",
               :name => "Regulation",
               :questions_per_testlet => 24,
-              :time_per_test = 10800)
+              :time_per_test => 10800)
                               
   Section.create(:code => "BEC",
                       :name => "Business Environment and Concepts",
                       :questions_per_testlet => 24,
-                      :time_per_test = 10800)
+                      :time_per_test => 10800)
                                                   
   Section.create(:code => "AUD",
         :name => "Auditing and Attestation",
         :questions_per_testlet => 30,
-        :time_per_test = 14400)                
+        :time_per_test => 14400)                
 
 # END Sections Create
