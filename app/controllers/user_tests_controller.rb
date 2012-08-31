@@ -20,7 +20,10 @@ class UserTestsController < ApplicationController
          utq.save
        end
       
-      session[:user_test_id] = user_test.id
+    user = User.find(session[:user_id])
+    user.active_test = user_test.id
+    user.save
+    
       redirect_to '/user_test'
       
     else 
@@ -32,14 +35,16 @@ class UserTestsController < ApplicationController
   
   def show # GET /user_test
     
+    @user = User.find(session[:user_id])
+    
     # If the request has a ?question= at the end of it, then render the JSON data of the question
     if params[:question].present?
-      @user_test_question = UserTestQuestion.where(:user_test_id => session[:user_test_id]).offset(params[:question].to_i - 1).limit(1)[0]
+      @user_test_question = UserTestQuestion.where(:user_test_id => @user.active_test).offset(params[:question].to_i - 1).limit(1)[0]
       
       render json: { question: @user_test_question.question, answers: @user_test_question.question.answers, topic: @user_test_question.question.topic }
     end  
     
-    @user_test = UserTest.find(session[:user_test_id])
+    @user_test = UserTest.find(@user.active_test)
     
     # Handle the auto-caching of the time remaining, the request comes in with a ?time_remaining= every five minutes
     if params[:time_remaining].present? 
@@ -84,8 +89,10 @@ class UserTestsController < ApplicationController
   
   def finish # GET /user_test/finish
     
+    @user = User.find(session[:user_id])
+    
     # Grade the test
-    @utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order('id asc')
+    @utq = UserTestQuestion.where(:user_test_id => @user.active_test).order('id asc')
     @score = 0
       @utq.first.user_test.user_test_questions.each do |answered_question|
         answered_question.answered_correct? ? @score += 1 : @score += 0
@@ -95,19 +102,23 @@ class UserTestsController < ApplicationController
     @score = (@score.to_f / (@utq[0].user_test.section.questions_per_testlet * 3)*100).roundup(1).to_i
     
     # Save the score to the database
-    user_test = UserTest.find(session[:user_test_id])
+    user_test = UserTest.find(@user.active_test)
     user_test.score = @score
     user_test.save
+    
+    @user.active_test = nil
+    @user.save
   end
   
   def update # POST /user_test/:question_number
+    user = User.find(session[:user_id])
     
     # Get the question_number, and boolean answered value
     question_number = (params[:question_number].to_i)
     answered = params[:answer] == "correct" ? true : false
     
     # Find that question number in the database, and either save it as correct(true) or wrong(false)
-    utq = UserTestQuestion.where(:user_test_id => session[:user_test_id]).order("id asc").offset(question_number-1).limit(1).first
+    utq = UserTestQuestion.where(:user_test_id => user.active_test).order("id asc").offset(question_number-1).limit(1).first
     utq.answered_correct = answered
     utq.save
 

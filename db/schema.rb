@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120830232400) do
+ActiveRecord::Schema.define(:version => 20120831171804) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20120830232400) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "university",      :default => "CPA Revolution"
+    t.integer  "active_test"
   end
 
   create_table "variables", :force => true do |t|
