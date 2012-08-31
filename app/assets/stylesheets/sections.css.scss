@@ -65,9 +65,10 @@ $glassBlue: rgba(242, 245, 246, 0.4);
   float: left;
   margin-top: 25px; }
 
-#signUp {
+#signUp, #sectionStats {
   width: 100%;
   height: 500px;
+  overflow-y: auto;
   background-color: $glassBlue;
   border: 1px solid #c8d7dc;
   -webkit-border-radius: 6px;
@@ -81,6 +82,10 @@ $glassBlue: rgba(242, 245, 246, 0.4);
   form {
 	width: 80%;
 	margin: 25px auto 0 auto; } }
+
+#sectionStats h3 {
+	margin-bottom: 0;
+	padding: 0; }
 
 .university_field {
   margin-top: 50px; }
@@ -122,6 +127,8 @@ td {
 th {
   text-align: center; }
 
+#statsTable td {
+	text-align: center; }
 /* JDL STYLES */
 
 .hidden {

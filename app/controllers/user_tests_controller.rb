@@ -42,6 +42,7 @@ class UserTestsController < ApplicationController
       @user_test_question = UserTestQuestion.where(:user_test_id => @user.active_test).offset(params[:question].to_i - 1).limit(1)[0]
       
       render json: { question: @user_test_question.question, answers: @user_test_question.question.answers, topic: @user_test_question.question.topic }
+      
     end  
     
     @user_test = UserTest.find(@user.active_test)

@@ -70,3 +70,10 @@ body {
 .hidden {
 	display: none;
 }
+
+.flashNotice {
+	text-align: center;
+	z-index: 5;
+	position: absolute;
+	width: 100%;
+}

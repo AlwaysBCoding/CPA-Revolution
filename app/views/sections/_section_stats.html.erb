@@ -1,39 +1,10 @@
-<div id="farStats" class="hidden">
-<% if @user %>
-	<% if @user.passed_section?("FAR") %>
-	<p class="passScore">Passed: <%= @user.far_score %></p>
-	<% elsif @user.exam_date("FAR").present? %>
-	<p class="examDate"><%= @user.far_date.strftime("%B %e") %></p>
+<table id="statsTable" class="table">
+	<tr><th colspan='3'>Recent Tests</th></tr>
+	<% @user.user_tests.reverse.each_with_index do |finished_test, index| %>
+		<% if index < 3 %>
+	<tr><td><%= finished_test.section.code %></td><td><%= finished_test.score %></td><td><%= "#{time_ago_in_words(finished_test.updated_at)} ago".sub("about", "") %></td></tr>
+		<% end %>
 	<% end %>
-<% end %>	
-</div>
-
-<div id="regStats" class="hidden">
-<% if @user %>
-	<% if @user.passed_section?("REG") %>
-	<p class="passScore">Passed: <%= @user.reg_score %></p>
-	<% elsif @user.exam_date("REG").present? %>
-	<p class="examDate"><%= @user.reg_date.strftime("%B %e") %></p>
-	<% end %>
-<% end %>	
-</div>
-
-<div id="becStats" class="hidden">
-<% if @user %>
-	<% if @user.passed_section?("BEC") %>
-	<p class="passScore">Passed: <%= @user.bec_score %></p>
-	<% elsif @user.exam_date("BEC").present? %>
-	<p class="examDate"><%= @user.bec_date.strftime("%B %e") %></p>
-	<% end %>
-<% end %>
-</div>
-
-<div id="audStats" class="hidden">
-<% if @user %>
-	<% if @user.passed_section?("AUD") %>
-	<p class="passScore">Passed: <%= @user.aud_score %></p>
-	<% elsif @user.exam_date("AUD").present? %>
-	<p class="examDate"><%= @user.aud_date.strftime("%B %e") %></p>
-	<% end %>
-<% end %>	
-</div>				
+	<tr><th colspan='3'>Best Topics</th></tr>
+	<tr><th colspan='3'>Worst Topics</th></tr>
+</table>	

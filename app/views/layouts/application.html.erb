@@ -24,6 +24,9 @@
 		<% if session[:user_id].present? %>
 		<li id="navSignOut" class="pull-right last"><%= link_to "Sign Out (#{User.find(session[:user_id]).username}) ", '/signout' %></li>
 		<li id="navMyProfile" class="pull-right"><%= link_to "My Profile", user_url(User.find(session[:user_id])) %>
+			<% if User.find(session[:user_id]).active_test %>
+				<li id="currentTest" class="pull-right"><%= link_to 'Current Test', '/user_test' %></li>
+			<% end %>
 		<% else %>
 		<li id="navSignIn" class="pull-right last"><%= link_to 'Sign In', '/signin' %></li>
 		<li id="navSignUp" class="pull-right"><%= link_to 'Sign Up', '/users/new' %></li>
@@ -34,10 +37,10 @@
 </div>
 
 <div id="subHeader">
-	<div id="subHeaderWrapper">
 	<% if flash[:notice] %>
-	<p class="alert"><%= flash[:notice] %></p>
+	<p class="flashNotice alert"><%= flash[:notice] %></p>
 	<% end %>
+	<div id="subHeaderWrapper">
 	</div>
 </div>
 

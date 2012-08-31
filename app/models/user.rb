@@ -95,5 +95,11 @@ class User < ActiveRecord::Base
     
     "FAR: #{far} | REG: #{reg} | BEC: #{bec} | AUD: #{aud}"
   end
+
+  def best_topics(number)
+  end
+  
+  def worst_topics(number)
+  end  
   
 end

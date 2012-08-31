@@ -2,21 +2,16 @@
 	
 	<div id="questionInfo">
 		<h1>Question <span class='questionNumber'><%= @activeQuestionOnLoad %></span></h1>
-		<h4><span class="questionSource"><%= @user_test.questions[@activeQuestionOnLoad-1].source %></span></h4>
-		<br /><br /><br />
-		<h3><span class='topicName'><%= @user_test.questions[@activeQuestionOnLoad-1].topic.name %></span></h3>
+		<h3 class="alert alert-info"><span class='topicName'><%= @user_test.questions[@activeQuestionOnLoad-1].topic.name %></span></h3>
+		<h4><span class="questionSource hidden"><%= @user_test.questions[@activeQuestionOnLoad-1].source %></span></h4>
 		<!-- <h4><span class='subTopicName'>None</span></h4> -->
 	</div> <!-- questionInfo -->
 	
-	<br /><br /><br />
-	
 	<table id="runningScore">
 		<tr><th>Correct</th><th>Incorrect</th></tr>
-		<tr><td><span class="correctAnswers"><%= @correct_answers %></span></td><td><span class="wrongAnswers"><%= @wrong_answers %></span></td></tr>
-	</table><!-- runningScore -->
-	
-	<br /><br /><br /><br />
-	
+		<tr><td class="correctArea"><span class="correctAnswers"><%= @correct_answers %></span></td><td class="wrongArea"><span class="wrongAnswers"><%= @wrong_answers %></span></td></tr>
+	</table><!-- runningScore -->	
+
 	<div id="timer">	
 		<h2><span class="timer"></span></h2>
 	</div> <!-- timer -->

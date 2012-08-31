@@ -45,8 +45,9 @@ $(function() {
 	<%= render 'signUp' %>
 	</div>
 	<% else %>
-	<div id="signUp">
-	<h3 class="alert alert-info">Stats for <%= @user.username %></h3>	
+	<div id="sectionStats">
+	<h3 class="alert alert-info">Stats for <%= @user.username %></h3>
+	<%= render 'section_stats' %>	
 	</div>
 	<% end %>
 
@@ -71,4 +72,3 @@ $(function() {
 
 <%= render 'subHeader' %>
 <%= render 'section_info' %>
-<%= render 'section_stats' %>

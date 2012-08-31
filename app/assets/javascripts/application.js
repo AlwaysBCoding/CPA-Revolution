@@ -14,3 +14,7 @@
 //= require jquery-ui
 //= require jquery_ujs
 //= require_tree .
+
+$(function() {
+	$(".flashNotice").delay(1500).animate({opacity: 0}, 1000);
+});
