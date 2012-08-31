@@ -20,30 +20,25 @@ f.each_with_index do |state_str, i|
 end
 # End Add Accountancy Board Information to the Database
 # ~ ~ ~ ~ ~
-# Add questions_per_testlet and time_per_test
+# Create the Four Sections
+  Section.create(:code => "FAR",
+                  :name => "Financial Accounting and Reporting",
+                  :questions_per_testlet => 30,
+                  :time_per_test = 14400)
+  
+  Section.create(:code => "REG",
+              :name => "Regulation",
+              :questions_per_testlet => 24,
+              :time_per_test = 10800)
+                              
+  Section.create(:code => "BEC",
+                      :name => "Business Environment and Concepts",
+                      :questions_per_testlet => 24,
+                      :time_per_test = 10800)
+                                                  
+  Section.create(:code => "AUD",
+        :name => "Auditing and Attestation",
+        :questions_per_testlet => 30,
+        :time_per_test = 14400)                
 
-s = Section.all
-s.each do |section|
-
-  case section.code
-    when "FAR"
-      s.questions_per_testlet = 30
-      s.time_per_test = 14400
-      s.save
-    when "REG"
-      s.questions_per_testlet = 24
-      s.time_per_test = 10800
-      s.save
-    when "BEC"
-      s.questions_per_testlet = 24
-      s.time_per_test = 10800
-      s.save
-    when "AUD"
-      s.questions_per_testlet = 30
-      s.time_per_test = 14400
-      s.save
-  end
-
-end
-
-# END questions_per_testlet and time_per_test
+# END Sections Create

@@ -10,7 +10,7 @@ namespace :updates do
     
     array.each do |topic|
       t = Topic.new
-      t.section_id = 1
+      t.section_id = Section.find_by_code("FAR").id
       t.code = topic[0].to_s
       t.name = topic[1].chomp.to_s
       t.save
