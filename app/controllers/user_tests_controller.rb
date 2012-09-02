@@ -93,17 +93,17 @@ class UserTestsController < ApplicationController
     @user = User.find(session[:user_id])
     
     # Grade the test
-    @utq = UserTestQuestion.where(:user_test_id => @user.active_test).order('id asc')
+    user_test = UserTest.find(@user.active_test)
+    @utq = user_test.user_test_questions.order('id asc')
     @score = 0
-      @utq.first.user_test.user_test_questions.each do |answered_question|
-        answered_question.answered_correct? ? @score += 1 : @score += 0
+      @utq.each do |answered_question|
+        answered_question.answered_correct? ? @score += 1 : @score += 0;
       end
     
     # Score the test based on the grade
-    @score = (@score.to_f / (@utq[0].user_test.section.questions_per_testlet * 3)*100).roundup(1).to_i
+    @score = (@score.to_f / (@utq.first.user_test.section.questions_per_testlet * 3)*100).roundup(1).to_i
     
     # Save the score to the database
-    user_test = UserTest.find(@user.active_test)
     user_test.score = @score
     user_test.save
     
