@@ -76,9 +76,9 @@ ActiveRecord::Schema.define(:version => 20120831171804) do
   create_table "user_test_questions", :force => true do |t|
     t.integer  "user_test_id"
     t.integer  "question_id"
-    t.boolean  "answered_correct"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.boolean  "answered_correct"
   end
 
   create_table "user_tests", :force => true do |t|

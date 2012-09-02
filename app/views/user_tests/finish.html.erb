@@ -45,11 +45,7 @@ li.alert {
 <ol>
 <% @utq.each do |utq| %>
 	<div class="questionSummary">
-	<% if utq.answered_correct? %>
-	<li class="alert alert-success"><%= utq.question.question_text %></li>
-	<% else %>
-	<li class="alert alert-error"><%= utq.question.question_text %></li>
-	<% end %>
+	<li class="alert <%= utq.answered_correct? ? "alert-success" : "alert-error"; %>"><%= raw utq.question.question_text %></li>
 	<ol class="answers">
 		<% utq.question.answers.each do |choice| %>
 			<li class="<%= choice.correct? ? "alert alert-info" : "" %>"><span><%= choice.answer_text %></span></li>
