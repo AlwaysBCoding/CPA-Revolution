@@ -1,13 +1,13 @@
 <div id="questionBox">
 	<div id="questionText">
-		<%= raw @user_test.questions[@activeQuestionOnLoad-1].question_text %>
+		<%= raw @questions.first.question_text %>
 	</div> <!-- questionText -->
 	<hr />
 	<div id="answers">
-		<%= form_tag("/user_test/#{@activeQuestionOnLoad}", :remote => true) do %>
+		<%= form_tag("/topic/2", :remote => true) do %>
 		<%= hidden_field_tag 'question_number' %>
 		<ol class="choices">
-		<% @user_test.questions[@activeQuestionOnLoad-1].answers.each_with_index do |choice, index| %>
+		<% @questions.first.answers.each_with_index do |choice, index| %>
 		<li><input type="radio" name="answer" id="choice<%= index+1 %>" value=<%= choice.correct? ? "correct" : "wrong" %> /><a><label for="choice<%= index+1 %>"><%= choice.answer_text %></label></a></li>
 		<% end %>
 		</ol>
