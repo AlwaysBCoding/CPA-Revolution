@@ -1,5 +1,5 @@
 	<div id="quizSetup">
-		<%= form_tag '/user_test' do %>
+		<%= form_tag '/topic' do %>
 		<%= hidden_field_tag :section_id, @section.id %>
 		<table id="topicsTable" class="table table-bordered">
 			<tbody>
@@ -7,21 +7,21 @@
 					<% case index % 4 %>
 						<% when 0 %>
 							<tr><td><%= label_tag "#{topic.code}", "#{topic.name}" %>
-								<%= check_box_tag("topics", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td>
+								<%= check_box_tag("topics[]", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td>
 						<% when 1 %>
 						    <td><%= label_tag "#{topic.code}", "#{topic.name}" %>
-							<%= check_box_tag("topics", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td>
+							<%= check_box_tag("topics[]", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td>
 						<% when 2 %>
 							<td><%= label_tag "#{topic.code}", "#{topic.name}" %>
-							<%= check_box_tag("topics", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td>
+							<%= check_box_tag("topics[]", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td>
 						<% when 3 %>	
 							<td><%= label_tag "#{topic.code}", "#{topic.name}" %>
-							<%= check_box_tag("topics", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td></tr>
+							<%= check_box_tag("topics[]", "#{topic.code}", checked = false, :id => "#{topic.code}") %></td></tr>
 					<% end %>
 				<% end %>
 				<tr><td><%= button_tag('Select All', :type => 'button', :id => 'selectAll', :class => 'btn btn-success') %></td>
 					<td><%= button_tag('Unselect All', :type => 'button', :id => 'unselectAll', :class => 'btn btn-danger') %></td>
-					<td colspan='2'><%= button_tag('Practice Topics', :id => 'practiceTopics', :class => 'btn btn-inverse') %></td></tr>
+					<td colspan='2'><%= submit_tag('Practice Topics', :id => 'practiceTopics', :class => 'btn btn-inverse') %></td></tr>
 			</tbody>
 		</table>			
 		<% end %>

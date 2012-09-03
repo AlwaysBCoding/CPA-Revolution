@@ -24,6 +24,8 @@ CpaMagic::Application.routes.draw do
   resources :users
   post '/users/:id' => 'users#scoredate', :as => 'user'
   
+  post '/topic' => 'topics#show'
+  
   get '/sandbox/bonds' => 'info#bonds', :as => 'sandbox_bond'
   get '/sandbox/stock' => 'info#stock', :as => 'sandbox_stock'
 end
