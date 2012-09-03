@@ -52,7 +52,7 @@ class UserTestsController < ApplicationController
       
       # Initialize the tetlets and running score    
       @testlet1, @testlet2, @testlet3 = [], [], []
-      @correct_answers, @wrong_answers, @activeQuestionOnLoad = 0, 0, 0
+      @correct_answers, @wrong_answers, @activeQuestionOnLoad, @currentTestlet = 0, 0, 0, 0
     
       # Find the id of the first unsanswered question to find activeQuestionOnLoad
       @qpt = @user_test.section.questions_per_testlet
@@ -71,16 +71,19 @@ class UserTestsController < ApplicationController
         end
         
         # When the utq id matches the id of the active question, set the instance variable equal to it
-        utq.id == active_id ? @activeQuestionOnLoad = index+1 : "";
+        if utq.id == active_id
+          @activeQuestionOnLoad = index+1
+        end  
       
-      end # do 
-    end # if  
-    
-    case @activeQuestionOnLoad
-      when 1..@qpt then @currentTestlet = 1
-      when (@qpt+1)..(@qpt*2) then @currentTestlet = 2
-      when (@qpt*2+1)..(@qpt*3) then @currentTestlet = 3
-    end        
+      end # do
+      
+      case @activeQuestionOnLoad
+        when 1..@qpt then @currentTestlet = 1
+        when (@qpt+1)..(@qpt*2) then @currentTestlet = 2
+        when (@qpt*2+1)..(@qpt*3) then @currentTestlet = 3
+      end
+       
+    end # if   
     
   end
   

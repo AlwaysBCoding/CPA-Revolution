@@ -83,28 +83,28 @@
         //    }, 1000); // setInterval
         //  }); // on
         // }); // load
-// 
-// // gets the JSON data for the questionNumber and modifies the DOM accordingly
-// function getQuestionJSON(questionNumber){
-//  $("#pagination a").removeClass("currentQuestion");
-//  $("#page"+questionNumber+" a").addClass("currentQuestion");
-//  $("#answers form").attr("action", "/user_test/" + questionNumber);
-//  $.getJSON(window.location.href + $("#page"+questionNumber+" a").attr("href"), 
-//        function(data){
-//            $(".choices").html("");
-//          $("#questionText").html(data.question.question_text);
-//          $(".questionSource").text(data.question.source);
-//        $(".topicName").text(data.topic.name);
-//        $(".questionNumber").text(questionNumber);
-//                
-//        $.each(data.answers, function(index,item){
-//          var value = item.correct? "correct" : "wrong";
-//            htmlString = "<li><input type='radio' id='choice"+(index+1)+"' name='answer' value='" + value + "' /><a><label for='choice"+(index+1)+"'>"+item.answer_text+"</label></a></li>";
-//          $(".choices").append(htmlString);
-//        }); // each
-//  }); // getJSON
-// }
-// 
+        // 
+        // // gets the JSON data for the questionNumber and modifies the DOM accordingly
+        // function getQuestionJSON(questionNumber){
+        //  $("#pagination a").removeClass("currentQuestion");
+        //  $("#page"+questionNumber+" a").addClass("currentQuestion");
+        //  $("#answers form").attr("action", "/user_test/" + questionNumber);
+        //  $.getJSON(window.location.href + $("#page"+questionNumber+" a").attr("href"), 
+        //        function(data){
+        //            $(".choices").html("");
+        //          $("#questionText").html(data.question.question_text);
+        //          $(".questionSource").text(data.question.source);
+        //        $(".topicName").text(data.topic.name);
+        //        $(".questionNumber").text(questionNumber);
+        //                
+        //        $.each(data.answers, function(index,item){
+        //          var value = item.correct? "correct" : "wrong";
+        //            htmlString = "<li><input type='radio' id='choice"+(index+1)+"' name='answer' value='" + value + "' /><a><label for='choice"+(index+1)+"'>"+item.answer_text+"</label></a></li>";
+        //          $(".choices").append(htmlString);
+        //        }); // each
+        //  }); // getJSON
+        // }
+        // 
 // // AJAX Change Question on Pagination Click
 // $(function() {
 //  $(".page a").click(function() {
