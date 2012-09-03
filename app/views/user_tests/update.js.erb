@@ -1,6 +1,7 @@
 $("#pagination a").removeClass("currentQuestion");
 
 <% if @endTestlet %>
+console.log("<%= @nextQuestion %>");
 $("#endTestlet .testletNumber").text("<%= @value %>");
 $(".testletNumberPlusOne").text("<%= @value+1 %>");
 $("#hiddenNextQuestion").text("<%= @nextQuestion %>");
@@ -9,10 +10,10 @@ $("#endTestlet").modal();
 
 <% if @answered == true %>
 $("#page<%= @question_number %> a").addClass("answered answeredCorrect");
-$(".navbar-inner").effect("highlight", {color: "green"});
+$(".navbar-inner").effect("highlight", {color: "green"}, 800);
 <% else %>
 $("#page<%= @question_number %> a").addClass("answered answeredWrong");
-$(".navbar-inner").effect("highlight", {color: "red"});
+$(".navbar-inner").effect("highlight", {color: "red"}, 800);
 <% end %>
 
 $.getJSON("/user_test/?question=<%= @nextQuestion %>", function(data) {

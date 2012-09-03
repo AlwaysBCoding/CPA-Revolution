@@ -67,5 +67,4 @@ $ ->
         if answer is "correct" then correctAnswers += 1 else wrongAnswers += 1
         if answer is "correct" then $(".correctAnswers").text("#{correctAnswers}") else $(".wrongAnswers").text("#{wrongAnswers}")
         $.post "/user_test/#{questionNumber}", 
-          "answer": answer
-    
+          "answer": answer  

@@ -12,7 +12,7 @@ CpaMagic::Application.routes.draw do
   get '/videos' => 'info#videos'
 
   get '/user_test' => 'user_tests#show'
-  get '/user_test/finish' => 'user_tests#finish'
+  get '/user_test/finish' => 'user_tests#finish', :as => "finish"
   post '/user_test' => 'user_tests#create'
   post '/user_test/:question_number' => 'user_tests#update'
   put '/user_test' => 'user_tests#store_time'

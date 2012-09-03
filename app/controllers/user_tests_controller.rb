@@ -101,10 +101,15 @@ class UserTestsController < ApplicationController
     utq.save
     
     nextQuestionObject = UserTest.find(user.active_test).user_test_questions.where(:answered_correct => nil).order("id asc").first
-    @nextQuestion = UserTest.find(user.active_test).user_test_questions.order("id asc").index(nextQuestionObject) + 1
-
-    @endTestlet = (@nextQuestion-1) % qpt == 0 ? true : false; 
-    @value = (@nextQuestion-1) / qpt
+    if nextQuestionObject
+      @nextQuestion = UserTest.find(user.active_test).user_test_questions.order("id asc").index(nextQuestionObject) + 1      
+      @endTestlet = (@nextQuestion-1) % qpt == 0 ? true : false; 
+      @value = (@nextQuestion-1) / qpt
+    else
+      redirect_to finish_url
+      return
+    end    
+    
     respond_to do |format|
       format.js
     end
