@@ -35,9 +35,19 @@ $ ->
     currentTestlet = $(".currentTestlet").html()
     currentQuestion = $(".questionNumber").html()
     
-    # Initialize the page [Color the current question, drop the greeting modal]
+    # Initialize the page [Color the current question, drop the greeting modal, set the handler for the endtestlet modal]
     $("#page#{currentQuestion} a").addClass("currentQuestion")
+    
     $("#beginTest").modal()
+    $("#endTestlet").on "hide", ->
+      nextQuestion = $("#hiddenNextQuestion").text()
+      if nextQuestion is "25" or "31"
+        $("#pagination1").hide()
+        $("#pagination2").show()
+      else if nextQuestion is "49" or "61"
+        $("#pagination2").hide()
+        $("#pagination3").show()  
+      changeToQuestion(nextQuestion)        
     
     #setInterval countDown, 1000    
     

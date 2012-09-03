@@ -5,7 +5,7 @@ class UserTestQuestion < ActiveRecord::Base
   belongs_to :question
   
   def section
-    question.topic.section.code
+    question.topic.section
   end
   
   def addQuestionColoring

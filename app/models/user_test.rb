@@ -14,7 +14,11 @@ class UserTest < ActiveRecord::Base
   end
   
   def section
+    if user_test_questions.first
     user_test_questions.first.question.topic.section
+    else
+    Section.first 
+    end
   end
 
 end

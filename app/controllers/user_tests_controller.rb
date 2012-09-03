@@ -96,12 +96,15 @@ class UserTestsController < ApplicationController
     
     # Find that question number in the database, and either save it as correct(true) or wrong(false)
     utq = UserTestQuestion.where(:user_test_id => user.active_test).order("id asc").offset(@question_number-1).limit(1).first
+    qpt = utq.section.questions_per_testlet
     utq.answered_correct = @answered
     utq.save
     
     nextQuestionObject = UserTest.find(user.active_test).user_test_questions.where(:answered_correct => nil).order("id asc").first
     @nextQuestion = UserTest.find(user.active_test).user_test_questions.order("id asc").index(nextQuestionObject) + 1
 
+    @endTestlet = (@nextQuestion-1) % qpt == 0 ? true : false; 
+    @value = (@nextQuestion-1) / qpt
     respond_to do |format|
       format.js
     end
