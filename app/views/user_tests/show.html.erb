@@ -13,53 +13,53 @@
         // var testlet = 3;
         // <% end %>
         // 
-// // Set the currentQuestion on the pagination of activeQuestionOnLoad
-// $(function() {
-//  $("#page"+<%= @activeQuestionOnLoad %>+" a").addClass("currentQuestion");
-// });
-// 
-// // Takes an integer of seconds and returns a string of h:mm:ss
-// function seconds2time(seconds) {
-//     var hours   = Math.floor(seconds / 3600);
-//     var minutes = Math.floor((seconds - (hours * 3600)) / 60);
-//     var seconds = seconds - (hours * 3600) - (minutes * 60);
-//     var time = "";
-// 
-//     if (hours != 0) {
-//       time = hours+":";
-//     }
-//     if (minutes != 0 || time !== "") {
-//       minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
-//       time += minutes+":";
-//     }
-//     if (time === "") {
-//       time = seconds+"s";
-//     }
-//     else {
-//       time += (seconds < 10) ? "0"+seconds : String(seconds);
-//     }
-//     return time;
-// }
-// 
-// // logs the time_remaining through a get request to /user_test/?time_remaining=
-// function dbTimeRemaining() {
-//  var time = $("#timer .timer").text();
-//  var hours = parseInt(time.match(/\d:/)[0].replace(":", ""));
-//  var minutes = parseInt(time.match(/:\d+:/)[0].replace(":", "").replace(":", ""));
-//  var seconds = parseInt(time.match(/\d+$/)[0]);
-//  var time_remaining = (hours * 3600) + (minutes * 60) + (seconds);
-//  $.get(window.location.href + "?time_remaining=" + time_remaining);
-// }
-// 
-// // db the time remaining every 5 minutes and on the unload event 
-// setInterval(dbTimeRemaining, 300000);
-// window.onbeforeunload = dbTimeRemaining;
-// 
-// // Set the Modal handlers
-// $(function() {
-//  // Modal the test greeting
-//  $("#beginTest").modal();
-//  
+        // // Set the currentQuestion on the pagination of activeQuestionOnLoad
+        // $(function() {
+        //  $("#page"+<%= @activeQuestionOnLoad %>+" a").addClass("currentQuestion");
+        // });
+        // 
+        // // Takes an integer of seconds and returns a string of h:mm:ss
+        // function seconds2time(seconds) {
+        //     var hours   = Math.floor(seconds / 3600);
+        //     var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+        //     var seconds = seconds - (hours * 3600) - (minutes * 60);
+        //     var time = "";
+        // 
+        //     if (hours != 0) {
+        //       time = hours+":";
+        //     }
+        //     if (minutes != 0 || time !== "") {
+        //       minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
+        //       time += minutes+":";
+        //     }
+        //     if (time === "") {
+        //       time = seconds+"s";
+        //     }
+        //     else {
+        //       time += (seconds < 10) ? "0"+seconds : String(seconds);
+        //     }
+        //     return time;
+        // }
+        // 
+        // // logs the time_remaining through a get request to /user_test/?time_remaining=
+        // function dbTimeRemaining() {
+        //  var time = $("#timer .timer").text();
+        //  var hours = parseInt(time.match(/\d:/)[0].replace(":", ""));
+        //  var minutes = parseInt(time.match(/:\d+:/)[0].replace(":", "").replace(":", ""));
+        //  var seconds = parseInt(time.match(/\d+$/)[0]);
+        //  var time_remaining = (hours * 3600) + (minutes * 60) + (seconds);
+        //  $.get(window.location.href + "?time_remaining=" + time_remaining);
+        // }
+        // 
+        // // db the time remaining every 5 minutes and on the unload event 
+        // setInterval(dbTimeRemaining, 300000);
+        // window.onbeforeunload = dbTimeRemaining;
+        // 
+        // // Set the Modal handlers
+        // $(function() {
+        //  // Modal the test greeting
+        //  $("#beginTest").modal();
+        //  
 //  // Go to the next testlet after hiding the endTestlet modal 
 //  $("#endTestlet").on("hide", function() {
 //    $("#pagination"+testlet).hide();
@@ -72,17 +72,17 @@
 //    
 //  }); // on
 //  
-//  // Set the countdown timer
-//  $("#beginTest").on("hide", function() {
-//    var sec = <%= @user_test.time_remaining %>;
-//    var timer = setInterval(function() {
-//      $("#timer .timer").text(seconds2time(--sec));
-//      if(sec == 0) {
-//        clearInterval(timer);
-//      }
-//    }, 1000); // setInterval
-//  }); // on
-// }); // load
+        //  // Set the countdown timer
+        //  $("#beginTest").on("hide", function() {
+        //    var sec = <%= @user_test.time_remaining %>;
+        //    var timer = setInterval(function() {
+        //      $("#timer .timer").text(seconds2time(--sec));
+        //      if(sec == 0) {
+        //        clearInterval(timer);
+        //      }
+        //    }, 1000); // setInterval
+        //  }); // on
+        // }); // load
 // 
 // // gets the JSON data for the questionNumber and modifies the DOM accordingly
 // function getQuestionJSON(questionNumber){

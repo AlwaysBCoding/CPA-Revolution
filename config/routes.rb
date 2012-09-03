@@ -15,6 +15,7 @@ CpaMagic::Application.routes.draw do
   get '/user_test/finish' => 'user_tests#finish'
   post '/user_test' => 'user_tests#create'
   post '/user_test/:question_number' => 'user_tests#update'
+  put '/user_test' => 'user_tests#store_time'
   
   post '/signin' => 'sessions#create'
   get '/signin' => 'sessions#new'

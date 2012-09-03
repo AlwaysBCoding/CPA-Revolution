@@ -47,12 +47,6 @@ class UserTestsController < ApplicationController
     
     @user_test = UserTest.find(@user.active_test)
     
-    # Handle the auto-caching of the time remaining, the request comes in with a ?time_remaining= every five minutes
-    if params[:time_remaining].present? 
-    @user_test.time_remaining = params[:time_remaining]
-    @user_test.save
-    end
-    
     # Only do this when the user calls the show page, not for creating JSON or logging time
     if params[:question].present? == false && params[:time_remaining].present? == false
       
@@ -61,15 +55,15 @@ class UserTestsController < ApplicationController
       @correct_answers, @wrong_answers, @activeQuestionOnLoad = 0, 0, 0
     
       # Find the id of the first unsanswered question to find activeQuestionOnLoad
-      qpt = @user_test.section.questions_per_testlet
+      @qpt = @user_test.section.questions_per_testlet
       active_id = @user_test.user_test_questions.where(:answered_correct => nil).order('id asc').first.id
 
       # Sort the user_test_questions into three testlets, tally the correct and wrong answers
       @user_test.user_test_questions.each_with_index do |utq, index|
         case index
-          when 0...qpt then @testlet1 << utq
-          when qpt...(qpt*2) then @testlet2 << utq
-          when (qpt*2)...(qpt*3) then @testlet3 << utq
+          when 0...@qpt then @testlet1 << utq
+          when @qpt...(@qpt*2) then @testlet2 << utq
+          when (@qpt*2)...(@qpt*3) then @testlet3 << utq
         end
       
         if utq.answered_correct != nil
@@ -83,12 +77,36 @@ class UserTestsController < ApplicationController
     end # if  
     
     case @activeQuestionOnLoad
-      when 1..qpt then @currentTestlet = 1
-      when (qpt+1)..(qpt*2) then @currentTestlet = 2
-      when (qpt*2+1)..(qpt*3) then @currentTestlet = 3
+      when 1..@qpt then @currentTestlet = 1
+      when (@qpt+1)..(@qpt*2) then @currentTestlet = 2
+      when (@qpt*2+1)..(@qpt*3) then @currentTestlet = 3
     end        
     
   end
+  
+  def update # POST /user_test/:question_number
+    user = User.find(session[:user_id])
+    
+    # Get the question_number, and boolean answered value
+    question_number = (params[:question_number].to_i)
+    answered = params[:answer] == "correct" ? true : false
+    
+    # Find that question number in the database, and either save it as correct(true) or wrong(false)
+    utq = UserTestQuestion.where(:user_test_id => user.active_test).order("id asc").offset(question_number-1).limit(1).first
+    utq.answered_correct = answered
+    utq.save
+
+    redirect_to "/user_test"
+  end
+  
+  def store_time # PUT /user_test
+    if params[:time_remaining].present?
+      user = User.find(session[:user_id])
+      user_test = UserTest.find(user.active_test)
+      user_test.time_remaining = params[:time_remaining]
+      user_test.save
+    end  
+  end  
   
   def finish # GET /user_test/finish
     
@@ -111,21 +129,6 @@ class UserTestsController < ApplicationController
     
     @user.active_test = nil
     @user.save
-  end
-  
-  def update # POST /user_test/:question_number
-    user = User.find(session[:user_id])
-    
-    # Get the question_number, and boolean answered value
-    question_number = (params[:question_number].to_i)
-    answered = params[:answer] == "correct" ? true : false
-    
-    # Find that question number in the database, and either save it as correct(true) or wrong(false)
-    utq = UserTestQuestion.where(:user_test_id => user.active_test).order("id asc").offset(question_number-1).limit(1).first
-    utq.answered_correct = answered
-    utq.save
-
-    redirect_to "/user_test"
   end
   
 end

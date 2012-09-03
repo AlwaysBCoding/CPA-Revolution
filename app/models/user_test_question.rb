@@ -8,4 +8,12 @@ class UserTestQuestion < ActiveRecord::Base
     question.topic.section.code
   end
   
+  def addQuestionColoring
+    if answered_correct?
+      "answered answeredCorrect"
+    elsif answered_correct == false
+      "answered answeredWrong"  
+    end
+  end
+  
 end

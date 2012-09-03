@@ -13,7 +13,7 @@
 	</table><!-- runningScore -->	
 
 	<div id="timer">	
-		<h2><span class="timer"></span></h2>
+		<h2><span class="timer"><%= Time.at(@user_test.time_remaining).utc.strftime("%l:%M:%S") %></span></h2>
 	</div> <!-- timer -->
 	
 	<div id="initialInfo" class="hidden">
