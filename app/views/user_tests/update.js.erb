@@ -1,0 +1,24 @@
+$("#pagination a").removeClass("currentQuestion");
+
+<% if @answered == true %>
+$("#page<%= @question_number %> a").addClass("answered answeredCorrect");
+<% else %>
+$("#page<%= @question_number %> a").addClass("answered answeredWrong");
+<% end %>
+
+$.getJSON("/user_test/?question=<%= @nextQuestion %>", function(data) {
+  $(".choices").html("");
+  $("#questionText").html(data.question.question_text);
+  $(".questionSource").text(data.question.source);
+  $(".topicName").text(data.topic.name);
+  $(".questionNumber").text("<%= @nextQuestion %>");
+  
+  $.each(data.answers, function(index, item) {
+    value = item.correct ? "correct" : "wrong";
+    $(".choices").append("<li><input type='radio' id='choice"+index+1+"' name='answer' value='"+value+"' /><a><label for='choice"+index+1+"'>"+item.answer_text+"</label></a></li>");
+  });
+});
+
+$("#answers form").attr("action", "/user_test/<%= @nextQuestion %>");
+
+$("#page<%= @nextQuestion %> a").addClass("currentQuestion");

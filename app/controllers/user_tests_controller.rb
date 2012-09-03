@@ -91,15 +91,21 @@ class UserTestsController < ApplicationController
     user = User.find(session[:user_id])
     
     # Get the question_number, and boolean answered value
-    question_number = (params[:question_number].to_i)
-    answered = params[:answer] == "correct" ? true : false
+    @question_number = (params[:question_number].to_i)
+    @answered = params[:answer] == "correct" ? true : false
     
     # Find that question number in the database, and either save it as correct(true) or wrong(false)
-    utq = UserTestQuestion.where(:user_test_id => user.active_test).order("id asc").offset(question_number-1).limit(1).first
-    utq.answered_correct = answered
+    utq = UserTestQuestion.where(:user_test_id => user.active_test).order("id asc").offset(@question_number-1).limit(1).first
+    utq.answered_correct = @answered
     utq.save
+    
+    nextQuestionObject = UserTest.find(user.active_test).user_test_questions.where(:answered_correct => nil).order("id asc").first
+    @nextQuestion = UserTest.find(user.active_test).user_test_questions.order("id asc").index(nextQuestionObject) + 1
 
-    redirect_to "/user_test"
+    respond_to do |format|
+      format.js
+    end
+    
   end
   
   def store_time # PUT /user_test
