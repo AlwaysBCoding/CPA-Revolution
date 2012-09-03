@@ -12,5 +12,9 @@ class UserTest < ActiveRecord::Base
     utq = self.user_test_questions
     utq.count > 0 && utq.where(:answered_correct => nil).count == 0 ? self.completed = true : "";
   end
+  
+  def section
+    user_test_questions.first.question.topic.section
+  end
 
 end

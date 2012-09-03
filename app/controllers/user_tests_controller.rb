@@ -60,20 +60,16 @@ class UserTestsController < ApplicationController
       @testlet1, @testlet2, @testlet3 = [], [], []
       @correct_answers, @wrong_answers, @activeQuestionOnLoad = 0, 0, 0
     
-      # To find how many questions per testlet, trace the associations up the tree from user_test to the section attribute questions_per_testlet
       # Find the id of the first unsanswered question to find activeQuestionOnLoad
-      qpt = @user_test.user_test_questions.first.question.topic.section.questions_per_testlet
+      qpt = @user_test.section.questions_per_testlet
       active_id = @user_test.user_test_questions.where(:answered_correct => nil).order('id asc').first.id
 
       # Sort the user_test_questions into three testlets, tally the correct and wrong answers
       @user_test.user_test_questions.each_with_index do |utq, index|
         case index
-          when 0...qpt
-            @testlet1 << utq
-          when qpt...(qpt*2)
-            @testlet2 << utq
-          when (qpt*2)..90
-            @testlet3 << utq
+          when 0...qpt then @testlet1 << utq
+          when qpt...(qpt*2) then @testlet2 << utq
+          when (qpt*2)...(qpt*3) then @testlet3 << utq
         end
       
         if utq.answered_correct != nil
@@ -85,6 +81,12 @@ class UserTestsController < ApplicationController
       
       end # do 
     end # if  
+    
+    case @activeQuestionOnLoad
+      when 1..qpt then @currentTestlet = 1
+      when (qpt+1)..(qpt*2) then @currentTestlet = 2
+      when (qpt*2+1)..(qpt*3) then @currentTestlet = 3
+    end        
     
   end
   
