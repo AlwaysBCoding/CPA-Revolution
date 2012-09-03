@@ -2,8 +2,10 @@ $("#pagination a").removeClass("currentQuestion");
 
 <% if @answered == true %>
 $("#page<%= @question_number %> a").addClass("answered answeredCorrect");
+$(".correctAnswers").effect("highlight", {color: "green"}, 1100);
 <% else %>
 $("#page<%= @question_number %> a").addClass("answered answeredWrong");
+$(".wrongAnswers").effect("highlight", {color: "red"}, 1100);
 <% end %>
 
 $.getJSON("/user_test/?question=<%= @nextQuestion %>", function(data) {
