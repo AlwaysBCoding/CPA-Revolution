@@ -1,36 +1,3 @@
-<script>
-$(function() {
-	$("#navSections").addClass('active');
-	$("#subHeaderWrapper").append("<h2><%= @section.name %></h2>");
-});
-
-// Check boxes on clicks to the td element
-$(function() {
-	$("#topicsTable td").on("click", function(e) {
-		$(e.target).find("input").trigger("click");
-	});
-});
-
-// Activate the select all and unselect all buttons
-$(function() {
-	$("#selectAll").on("click", function(e) {
-		$(e.target).parents('#topicsTable').find('input').attr('checked', true);
-		$('input').trigger('change');
-	});
-	$("#unselectAll").on("click", function(e) {
-		$(e.target).parents('#topicsTable').find('input').attr('checked', false);
-		$('input').trigger('change');
-	});
-});
-
-// Color the background green when the box is checked, red when it isn't
-$(function() {
-	$("#topicsTable input").on("change", function(e) {
-		$(e.target).is(':checked') ? $(e.target).parent().addClass("label label-success") : $(e.target).parent().removeClass("label label-success");
-	});
-});
-</script>
-
 	<div id="quizSetup">
 		<%= form_tag '/user_test' do %>
 		<%= hidden_field_tag :section_id, @section.id %>
@@ -59,3 +26,7 @@ $(function() {
 		</table>			
 		<% end %>
 	</div> <!-- quizSetup -->
+
+<div id="subHeaderHTML" class="hidden">
+<h2><%= @section.name %></h2>
+</div>  
