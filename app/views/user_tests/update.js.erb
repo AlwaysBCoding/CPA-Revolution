@@ -1,7 +1,6 @@
 $("#pagination a").removeClass("currentQuestion");
 
 <% if @endTestlet %>
-console.log("<%= @nextQuestion %>");
 $("#endTestlet .testletNumber").text("<%= @value %>");
 $(".testletNumberPlusOne").text("<%= @value+1 %>");
 $("#hiddenNextQuestion").text("<%= @nextQuestion %>");

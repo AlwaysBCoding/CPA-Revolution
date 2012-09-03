@@ -106,12 +106,13 @@ class UserTestsController < ApplicationController
       @endTestlet = (@nextQuestion-1) % qpt == 0 ? true : false; 
       @value = (@nextQuestion-1) / qpt
     else
-      redirect_to finish_url
+      render :js => "window.location = '/user_test/finish'"
       return
     end    
     
     respond_to do |format|
       format.js
+      format.html 
     end
     
   end

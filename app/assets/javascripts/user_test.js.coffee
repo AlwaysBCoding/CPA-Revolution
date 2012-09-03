@@ -41,12 +41,13 @@ $ ->
     $("#beginTest").modal()
     $("#endTestlet").on "hide", ->
       nextQuestion = $("#hiddenNextQuestion").text()
+      console.log(nextQuestion)
       if nextQuestion is "25" or "31"
         $("#pagination1").hide()
         $("#pagination2").show()
       else if nextQuestion is "49" or "61"
-        $("#pagination2").hide()
-        $("#pagination3").show()  
+        $("#pagination2").css("display", "none")
+        $("#pagination3").css("display", "block")  
       changeToQuestion(nextQuestion)        
     
     #setInterval countDown, 1000    
