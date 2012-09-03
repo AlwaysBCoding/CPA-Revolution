@@ -11,5 +11,12 @@ class TopicsController < ApplicationController
     @questions.shuffle!
   end  
   
+  def question
+    if params[:question].present?
+      @question = Question.find(params[:question])
+      
+      render json: { question: @question, answers: @question.answers, topic: @question.topic }
+    end
+  end
   
 end

@@ -3,7 +3,7 @@
     <% @questions.each_with_index do |question, index| %>
       <li>
         <span id="page<%= index+1 %>" class="page">
-          <a class="<%= "single_digit" if index < 9 %>" href="<%= "?question=#{index+1}" %>" data-remote="true"><%= index+1 %></a>
+          <a id="<%= question.id %>" class="<%= "single_digit " if index < 9 %><%= "currentQuestion" if index == 0 %>" href="<%= "?question=#{question.id}" %>" data-remote="true"><%= index+1 %></a>
         </span>
       </li>  
     <% end %>  
