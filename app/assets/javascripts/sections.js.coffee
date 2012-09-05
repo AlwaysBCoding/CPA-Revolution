@@ -47,10 +47,4 @@ $ ->
       
     $("#unselectAll").on "click", (e) ->
       $(e.target).parents("#topicsTable").find('input').attr('checked', false)
-      $('input').trigger('change')   
-      
-    $("#topicsTable input").on "change", (e) ->
-      if $(e.target).is(':checked')
-        $(e.target).parent().addClass("label label-success")
-      else
-        $(e.target).parent().removeClass("label label-success")
+      $('input').trigger('change')

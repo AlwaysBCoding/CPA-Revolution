@@ -25,3 +25,6 @@ gem 'nokogiri'
 gem 'bcrypt-ruby'
 gem 'RedCloth'
 gem 'pry-rails'
+
+gem 'bootstrap-sass'
+gem 'bootswatch-rails'

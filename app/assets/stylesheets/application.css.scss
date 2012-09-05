@@ -1,55 +1,42 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require_tree .
- */
+// Example using 'Cerulean' bootswatch
+//
+// First import journal variables
+@import "bootswatch/spacelab/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// And finally bootswatch style itself
+@import "bootswatch/spacelab/bootswatch";
+
+@import "sections";
+
+@import "user_test";
 
 /* NAV BAR
 ===================== */
-#navWrapper {
+
+#navMyProfile {
+	margin-left: 350px;
+}
+
+#navSignIn {
+	margin-left: 500px;
+}
+
+@media all and (max-width: 1150px) and (min-width: 0px) {
+	#navMyProfile, #navSignIn {
+		margin-left: 0px;
+	}
+}
+
+.nav, .navbar, .navbar-inner {
 	min-width: 960px;
-	max-width: 960px;
-	margin: 0 auto;
-	text-align: center;
-	height: 40px;
-	position: relative;
 }
 
-.jdlNav {
-	list-style-type: none;
-	height: 100%;
-}
-
-a.brand {
-	font-family: 'Marmelad', sans-serif;
-	position: relative;
-	left: 50px;
-}
-
-.jdlNav a {
-	font-family: 'Marmelad', sans-serif;
-	display: inline;
-	float: left;
-	line-height: 40px;
-	padding-left: 15px;
-	padding-right: 15px;
-	color: #fff;
-}
-
-.jdlNav a:hover {
-	color: #2f96b4;
-}
-
-.jdlNav a:hover {
-	text-decoration: none;
+.brand {
+	margin-left: 25px !important;
+	margin-right: 25px !important;
 }
 /*x NAV BAR x*/
 

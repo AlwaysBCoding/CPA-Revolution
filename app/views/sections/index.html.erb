@@ -20,8 +20,8 @@
 	<% @sections.each_with_index do |section, index| %>
 	  <div id="<%= section.code %>" class="section">
 		<h3><%= section.name %></h3>
-		<a href="/sections/<%= section.code %>"><button class="btn">Individual Topics</button></a>
-		<%= link_to button_tag("Full Length Test", :class => 'btn'), "/user_test?section_id=#{section.id}", :method => 'post' %></a>
+		<a href="/sections/<%= section.code %>"><button class="btn btn-info">Individual Topics</button></a>
+		<%= link_to button_tag("Full Length Test", :class => 'btn btn-primary'), "/user_test?section_id=#{section.id}", :method => 'post' %></a>
 		<a class="<%= section.code %>"><img src="assets/<%= section.code %>_logo.jpg" /></a>
 	  </div> <!-- section -->
 	<% end %>
@@ -33,7 +33,7 @@
 
 <div id="subHeaderHTML" class='hidden'>
 	<h3>CPA Revolution</h3>
-	<h4>Create full length CPA practice tests at the click of a button</h4>
+	<h4>Practice full length CPA tests at the click of a button</h4>
 </div>
 
 <%= render 'section_info' %>

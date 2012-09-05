@@ -35,9 +35,16 @@ $glassBlue: rgba(242, 245, 246, 0.4);
     top: 0px;
     cursor: pointer; }
   h3 {
+	margin-top: 15px;
+	margin-bottom: 10px;
     padding-left: 25px;
     cursor: pointer;
-    font-size: 19px; } }
+    font-size: 19px; } 
+  button {
+	font-size: 14px !important;
+	padding: 10px;
+	text-shadow: 2px 2px 2px #000;
+	}}
 
 .sectionContainer {
   position: relative;
@@ -110,8 +117,9 @@ input.actions {
   h3 {
     font-size: 52px;
     text-align: center;
-    margin-top: 20px; }
+    margin-top: 30px; }
   h4 {
+	margin-top: 15px;
     font-size: 26px;
     padding-top: 10px;
     text-align: center; } }
@@ -138,7 +146,6 @@ th {
 ===================== */
 #quizSetup {
   width: 100%;
-  height: 500px;
   border: 1px solid #c8d7dc;
   background-color: rgb(242, 245, 246);
   -webkit-border-radius: 6px;
@@ -148,6 +155,7 @@ th {
   margin-top: 25px; }
 
 #topicsTable {
+	border-bottom: none;
   td {
     position: relative;
     cursor: pointer; }
