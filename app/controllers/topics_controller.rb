@@ -16,7 +16,9 @@ class TopicsController < ApplicationController
       @question = Question.find(params[:question])
       
       render json: { question: @question, answers: @question.answers, topic: @question.topic }
+      return
     end
+    redirect_to root_url
   end
   
 end

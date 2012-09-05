@@ -1,25 +1,25 @@
 ACCR,Accounts Receivable
-BALS,Specific Balance Sheet
-BENS,Other Post-Retirement Benefits
+BALS,Balance Sheet
+BENS,Post-Retirement Benefits
 BOND,Bonds
-CONS,Consolidated Financial Statements
-CONT,Contingencies and other Liabilities
+CONS,Consolidation
+CONT,Contingencies and Liabilities
 DERV,Derivatives and Hedges
 DEPX,Depreciation
-EPSC,Earnings per Share Calculations
-FINS,Flow of the Financial Statements
+EPSC,Earnings per Share
+FINS,Financial Statements Flow
 FCUR,Foreign Currency Transactions
 FWRK,Conceptual Framework
 GOVT,Government Accounting
 IFRS,Straight IFRS
-INCS,Specific Income Statement
+INCS,Income Statement
 INVT,Inventory
 ITAN,Intangible Assets
 ITAX,Income Taxes
 IVST,Investments in Securities
 LEAS,Leases
 LTAS,Long Term Assets
-LTCC,Long Term Construction Contracts
+LTCC,Construction Contracts
 LTLS,Long Term Liabilities
 MISF,Miscellaneous
 NFPR,Not-for-Profit Accounting

@@ -9,7 +9,7 @@
 	<li class="alert <%= utq.answered_correct? ? "alert-success" : "alert-error"; %>"><%= raw utq.question.question_text %></li>
 	<ol class="answers">
 		<% utq.question.answers.each do |choice| %>
-			<li class="<%= choice.correct? ? "alert alert-info" : "" %>"><span><%= choice.answer_text %></span></li>
+			<li class="<%= choice.correct? ? "correctChoice" : "" %>"><span><%= choice.answer_text %></span></li>
 		<% end %>
 	</ol>
 	</div>
