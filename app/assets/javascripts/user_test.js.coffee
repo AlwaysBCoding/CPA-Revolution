@@ -42,15 +42,15 @@ $ ->
     $("#endTestlet").on "hide", ->
       nextQuestion = $("#hiddenNextQuestion").text()
       console.log(nextQuestion)
-      if nextQuestion is "25" or "31"
+      if nextQuestion is "25" or nextQuestion is "31"
         $("#pagination1").hide()
         $("#pagination2").show()
-      else if nextQuestion is "49" or "61"
+      else if nextQuestion is "49" or nextQuestion is "61"
         $("#pagination2").css("display", "none")
         $("#pagination3").css("display", "block")  
       changeToQuestion(nextQuestion)        
     
-    #setInterval countDown, 1000    
+    setInterval countDown, 1000    
     
     $(".page a").on "click", ->
       if not $(@).hasClass("answered")
