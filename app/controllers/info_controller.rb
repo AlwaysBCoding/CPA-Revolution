@@ -21,6 +21,8 @@ class InfoController < ApplicationController
     case params["issueStockType"]
       when "commonStock"
         @stockType = "Common Stock"
+      when "preferredStockNoInformation"
+        @stockType = "Preferred Stock"  
     end
     
     @numberOfShares = params["issueNumberOfShares"].gsub(/[^\d]/, "").to_i
@@ -34,13 +36,18 @@ class InfoController < ApplicationController
     @sharesOutstanding = params["issueSharesOutstanding"].gsub(/[^\d]/, "").to_i + @numberOfShares
     
     @cash = @numberOfShares * @marketPrice - @issueCosts
-    @stockCredit = @numberOfShares * @parValue
+    @stockCredit = @numberOfShares * @parValue unless @parValue == 0
     
     if @marketPrice > @parValue
-    @APIC = @numberOfShares * (@marketPrice - @parValue)
+    @APIC = @numberOfShares * (@marketPrice - @parValue) unless @parValue == 0
     elsif @parValue > @marketPrice
     @discount = @numberOfShares * (@parValue - @marketPrice)
     end
+    
+    if @parValue == 0
+    @stockCredit = @numberOfShares * @marketPrice
+    end
+    
     
     render 'sandbox/stock/issue.js.erb'
   end
