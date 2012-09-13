@@ -27,7 +27,7 @@
 	margin: 10px auto 0 auto;
 }
 
-#otherActions {
+#otherActions, #sharesOutstandingDiv, #sharesInTreasuryDiv {
 	display: none;
 }
 
@@ -41,15 +41,22 @@
 	font-size: 16px;
 	text-shadow: 3px 3px 3px #333;
 }
+
+.journalEntry tbody tr:hover td,
+.journalEntry tbody tr:hover th {
+  background-color: #ecedc5;
+  color: #000;
+  text-shadow: none;
+}
 </style>
 
 <script>	
 var $subHeader = $("#subHeader");
 $subHeader.append("<h2>Available Actions</h2>");
 $subHeader.append("<button id='issueStockButton' class='btn btn-inverse'>Issue Stock</button>");
-$subHeader.append("<div id='otherActions'><button id='buyBackStockButton' class='btn btn-inverse'>Buy Back Stock</button><button id='declareDividendButton' class='btn btn-inverse'>Declare Dividend</button><button id='splitStockButton' class='btn btn-inverse'>Split Stock</button></div>");
-$subHeader.append("<h2>Shares Outstanding</h2>");
-$subHeader.append("<h3 id='sharesOutstanding'>0</h3>");
+$subHeader.append("<div id='otherActions'><button id='buyBackStockButton' class='btn btn-inverse'>Buy Back Stock</button><button id='declareDividendButton' class='btn btn-inverse'>Declare Dividend</button><button id='splitStockButton' class='btn btn-inverse'>Split Stock</button><button id='calculateEPSButton' class='btn btn-inverse'>Calculate EPS</button></div>");
+$subHeader.append("<div id='sharesOutstandingDiv'><h2>Shares Outstanding</h2><h3 id='sharesOutstanding'>0</h3></div>");
+$subHeader.append("<div id='sharesInTreasuryDiv'><h2>Shares In Treasury</h2><h3 id='sharesInTreasury'>0</h3></div>");
 
 $(function() {
 
@@ -76,6 +83,7 @@ $(document).on("click", "#issueIssueCostsOn", function() {
 	<tr><td colspan='2'>Par Value</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueParValue' name="issueParValue" type='text' class='small' /></div></td></tr>
 	<tr><td colspan='2'>Market Price per Share</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueMarketPrice' name="issueMarketPrice" type='text' class='small' /></div></td></tr>
 	<tr><td><input id="issueIssueCostsOn" type="checkbox"><td>Issue Costs</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueIssueCosts' name="issueIssueCosts" type='text' class='small' disabled/></div></td></tr>
+	<tr><td><input id="issueDateOn" type="checkbox"><td>Date of Issuance</td><td><input id='issueDate' name="issueDate" type='text' class='small' disabled/></td></tr>
 	<%= hidden_field_tag 'issueSharesOutstanding', '0' %>
 	<tr><td colspan='3'><%= submit_tag 'Issue Stock', :class => 'btn btn-danger' %></td></tr>
 </table>

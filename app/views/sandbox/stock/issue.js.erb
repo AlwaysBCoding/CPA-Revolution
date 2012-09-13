@@ -1,5 +1,10 @@
+var numberOfShares = <%= @numberOfShares %>
+var parValue = <%= @parValue %>
+var marketPrice = <%= @marketPrice %>
+
 var journalEntry = ""
-journalEntry += "<table class='table'>";
+journalEntry += "<table class='table journalEntry'>";
+journalEntry += "<tr><th colspan='4'>"+numberOfShares+" shares (Par Value: $"+parValue+") issued at $"+marketPrice+"</th></tr>"; 
 journalEntry += "<tr><td>Cash</td><td class='label label-success'><%= number_to_currency @cash, :precision => 0 %></td><td></td><td></td></tr>";
 
 <% if @issueCosts > 0 %>
@@ -26,5 +31,8 @@ $("#issueSharesOutstanding").val(<%= @sharesOutstanding %>);
 if($("#otherActions").hasClass("immune") == false) {
 	$("#otherActions").slideToggle(function() {
 		$("#otherActions").addClass("immune");
+		$("#sharesOutstandingDiv").slideToggle(function() {
+			$("#sharesOutstandingDiv").addClass("immune");
+			});
 	});
 }
