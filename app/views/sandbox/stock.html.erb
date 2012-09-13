@@ -1,4 +1,9 @@
 <style>
+
+li, a {
+	cursor: pointer;
+}
+
 .container {
 	width: 900px;
 	height: 100px;
@@ -59,6 +64,10 @@
 	min-width: 750px;
 }
 
+.table tbody tr:hover td, .table tbody tr:hover th {
+	background-color: transparent;
+}
+
 .journalEntry tbody tr:hover td,
 .journalEntry tbody tr:hover th {
   background-color: transparent;
@@ -66,8 +75,8 @@
   text-shadow: none;
 }
 
-li, a {
-	cursor: pointer;
+.defaultDisabled {
+	background-color: #999;
 }
 </style>
 
@@ -84,6 +93,8 @@ $bottomArea.append("<div id='journalEntries'></div>");
 $bottomArea.append("<div id='paginationArea' class='pagination'><ul id='paginationUl'></ul></div>");
 
 $(function() {
+	
+$("")
 
 $(document).on("click", "#issueStockButton", function() {
 	$("#chooseNextAction").animate({opacity: 0}, 500).hide(100, function() {
@@ -95,17 +106,15 @@ $(document).on("click", "#issueStockButton", function() {
 $(document).on("click", "#issueIssueCostsOn", function() {
 	if($("#issueIssueCosts").attr("disabled")) {
 		$("#issueIssueCosts").removeAttr("disabled");
+		$(this).parent().parent().removeClass("defaultDisabled");
 	} else {
 		$("#issueIssueCosts").attr("disabled", "disabled");
+		$(this).parent().parent().addClass("defaultDisabled");
 	}
 });
 
-$(document).on("click", "#issueIssueDateOn", function() {
-	if($("#issueIssueDate").attr("disabled")) {
-		$("#issueIssueDate").removeAttr("disabled");
-	} else {
-		$("#issueIssueDate").attr("disabled", "disabled");
-	}
+$(document).on("click", "#issueDateOn", function() {
+	$(this).parent().parent().toggleClass("defaultDisabled");
 });
 
 $(document).on("click", "li.paginationLi", function() {
@@ -128,8 +137,8 @@ $(document).on("click", "li.paginationLi", function() {
 	<tr><td colspan='2'>Number of Shares</td><td><input id='issueNumberOfShares' name="issueNumberOfShares" type='text' class='medium' /></td></tr>
 	<tr><td colspan='2'>Par Value</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueParValue' name="issueParValue" type='text' class='small' /></div></td></tr>
 	<tr><td colspan='2'>Market Price per Share</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueMarketPrice' name="issueMarketPrice" type='text' class='small' /></div></td></tr>
-	<tr><td><input id="issueIssueCostsOn" type="checkbox"><td>Issue Costs</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueIssueCosts' name="issueIssueCosts" type='text' class='small' disabled/></div></td></tr>
-	<tr><td><input id="issueDateOn" type="checkbox"><td>Date of Issuance</td><td><input id='issueDate' name="issueDate" type='text' class='small' disabled/></td></tr>
+	<tr class='defaultDisabled'><td><input id="issueIssueCostsOn" type="checkbox"><td>Issue Costs</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueIssueCosts' name="issueIssueCosts" type='text' class='small' disabled/></div></td></tr>
+	<tr class='defaultDisabled'><td><input id="issueDateOn" type="checkbox"><td>Date of Issuance</td><td><%= select_month(1, :field_name => "issueDateMonth") %><select id="date_issueDateDay" name="date[issueDateDay]"><option value='1'>1</option><option value='15'>15</option><option value='30'>30</option></select><% year_array = (1..20).map {|i| "Year #{i}"} %><%= select_tag("date[issueDateYear]", options_for_select(year_array)) %></td></tr>
 	<%= hidden_field_tag 'issueSharesOutstanding', '0' %>
 	<tr><td colspan='3'><%= submit_tag 'Issue Stock', :class => 'btn btn-danger' %></td></tr>
 </table>
