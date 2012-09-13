@@ -29,4 +29,6 @@ CpaMagic::Application.routes.draw do
   
   get '/sandbox/bonds' => 'info#bonds', :as => 'sandbox_bond'
   get '/sandbox/stock' => 'info#stock', :as => 'sandbox_stock'
+  
+  post '/stock/issue' => 'info#stock_issue'
 end

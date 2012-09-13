@@ -1,0 +1,30 @@
+var journalEntry = ""
+journalEntry += "<table class='table'>";
+journalEntry += "<tr><td>Cash</td><td class='label label-success'><%= number_to_currency @cash, :precision => 0 %></td><td></td><td></td></tr>";
+
+<% if @issueCosts > 0 %>
+journalEntry += "<tr><td>Issue Costs</td><td class='label label-success'><%= number_to_currency @issueCosts, :precision => 0 %></td><td></td><td></td></tr>";
+<% end %>
+
+<% if @discount %>
+journalEntry += "<tr><td>Discount</td><td class='label label-success'><%= number_to_currency @discount, :precision => 0 %></td><td></td><td></td></tr>";
+<% end %>
+
+journalEntry += "<tr><td></td><td></td><td><%= @stockType %></td><td class='label label-important'><%= number_to_currency @stockCredit, :precision => 0 %></td></tr>";
+
+<% if @APIC %>
+journalEntry += "<tr><td></td><td></td><td>Additional Paid in Capital</td><td class='label label-important'><%= number_to_currency @APIC, :precision => 0 %></td></tr>";
+<% end %>
+
+journalEntry += "</table>";
+
+$("#journalEntries").append(journalEntry);
+
+$("#sharesOutstanding").html(<%= @sharesOutstanding %>);
+$("#issueSharesOutstanding").val(<%= @sharesOutstanding %>);
+
+if($("#otherActions").hasClass("immune") == false) {
+	$("#otherActions").slideToggle(function() {
+		$("#otherActions").addClass("immune");
+	});
+}
