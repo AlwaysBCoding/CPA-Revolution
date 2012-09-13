@@ -3,6 +3,7 @@
 	width: 900px;
 	height: 100px;
 	padding-left: 150px;
+	margin-top: 25px;
 }
 
 #subHeader {
@@ -12,6 +13,12 @@
 	width: 250px;
 	float: left;
 	padding-left: 25px;
+}
+
+#bottomArea {
+	position: absolute;
+	bottom: 100px;
+	left: 25%;
 }
 
 #subHeader h2 {
@@ -33,15 +40,23 @@
 	display: none;
 }
 
-#issueStockTable {
+#chooseNextAction {
 	margin-top: 25px;
 	display: none;
 	opacity: 0;
 }
 
+#chooseNextAction h1 {
+	text-align: center;
+}
+
 .label {
 	font-size: 16px;
 	text-shadow: 3px 3px 3px #333;
+}
+
+.journalEntry {
+	min-width: 750px;
 }
 
 .journalEntry tbody tr:hover td,
@@ -50,20 +65,31 @@
   color: #000;
   text-shadow: none;
 }
+
+li, a {
+	cursor: pointer;
+}
 </style>
 
 <script>	
 var $subHeader = $("#subHeader");
 $subHeader.append("<h2>Available Actions</h2>");
 $subHeader.append("<button id='issueStockButton' class='btn btn-inverse'>Issue Stock</button>");
-$subHeader.append("<div id='otherActions'><button id='buyBackStockButton' class='btn btn-inverse'>Buy Back Stock</button><button id='declareDividendButton' class='btn btn-inverse'>Declare Dividend</button><button id='splitStockButton' class='btn btn-inverse'>Split Stock</button><button id='calculateEPSButton' class='btn btn-inverse'>Calculate EPS</button><button id='generateSEStatement' class='btn btn-inverse'>Generate Statement of SE</button></div>");
+$subHeader.append("<div id='otherActions'><button id='buyBackStockButton' class='btn btn-inverse'>Buy Back Stock</button><button id='declareDividendButton' class='btn btn-inverse'>Declare Dividend</button><button id='splitStockButton' class='btn btn-inverse'>Split Stock</button><button id='calculateEPSButton' class='btn btn-success'>Calculate EPS</button><button id='generateSEStatement' class='btn btn-success'>Generate Statement of SE</button></div>");
 $subHeader.append("<div id='sharesOutstandingDiv'><h2>Shares Outstanding</h2><h3 id='sharesOutstanding'>0</h3></div>");
 $subHeader.append("<div id='sharesInTreasuryDiv'><h2>Shares In Treasury</h2><h3 id='sharesInTreasury'>0</h3></div>");
+
+var $bottomArea = $("#bottomArea");
+$bottomArea.append("<div id='journalEntries'></div>");
+$bottomArea.append("<div id='paginationArea' class='pagination'><ul id='paginationUl'></ul></div>");
 
 $(function() {
 
 $(document).on("click", "#issueStockButton", function() {
-	$("#issueStockTable").show().animate({opacity: 1},300);
+	$("#chooseNextAction").animate({opacity: 0}, 500).hide(100, function() {
+		$("#issueStockTable input").not(".btn, #issueSharesOutstanding").val("");
+		$("#issueStockTable").show().animate({opacity: 1},500);
+	});
 });
 
 $(document).on("click", "#issueIssueCostsOn", function() {
@@ -74,8 +100,26 @@ $(document).on("click", "#issueIssueCostsOn", function() {
 	}
 });
 
+$(document).on("click", "#issueIssueDateOn", function() {
+	if($("#issueIssueDate").attr("disabled")) {
+		$("#issueIssueDate").removeAttr("disabled");
+	} else {
+		$("#issueIssueDate").attr("disabled", "disabled");
+	}
+});
+
+$(document).on("click", "li.paginationLi", function() {
+	var activeNumber = $(this).attr("data-pagination");
+	$(".journalEntry").not("#journalEntry"+activeNumber).hide();
+	$("#journalEntry"+activeNumber).show();
+});
+
 });
 </script>
+
+<div id='chooseNextAction' class='well well-large'>
+<h1>Choose Another Action</h1>
+</div>
 
 <%= form_tag '/stock/issue', :id => 'issueStockForm', :remote => true do %>
 <table id="issueStockTable" class="table table-bordered">
@@ -91,5 +135,3 @@ $(document).on("click", "#issueIssueCostsOn", function() {
 </table>
 <% end %>
 
-<div id="journalEntries">
-</div>	

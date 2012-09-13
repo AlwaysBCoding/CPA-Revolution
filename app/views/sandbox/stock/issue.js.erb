@@ -1,10 +1,13 @@
+$(".journalEntry").hide();
+
 var numberOfShares = <%= @numberOfShares %>
 var parValue = <%= @parValue %>
 var marketPrice = <%= @marketPrice %>
+var nextPagination = $("#paginationUl li").length + 1
 
 var journalEntry = ""
-journalEntry += "<table class='table journalEntry'>";
-journalEntry += "<tr><th colspan='4'>"+numberOfShares+" shares (Par Value: $"+parValue+") issued at $"+marketPrice+"</th></tr>"; 
+journalEntry += "<table id='journalEntry"+nextPagination+"' class='table journalEntry'>";
+journalEntry += "<tr><th colspan='4'>[Entry "+nextPagination+"] Stock Issue: "+numberOfShares+" shares (Par Value: $"+parValue+") issued at $"+marketPrice+"</th></tr>"; 
 journalEntry += "<tr><td>Cash</td><td class='label label-success'><%= number_to_currency @cash, :precision => 0 %></td><td></td><td></td></tr>";
 
 <% if @issueCosts > 0 %>
@@ -24,9 +27,13 @@ journalEntry += "<tr><td></td><td></td><td>Additional Paid in Capital</td><td cl
 journalEntry += "</table>";
 
 $("#journalEntries").append(journalEntry);
-
+$("#paginationUl").append("<li class='paginationLi' data-pagination='"+nextPagination+"'><a>"+nextPagination+"</a></li>");
 $("#sharesOutstanding").html(<%= @sharesOutstanding %>);
 $("#issueSharesOutstanding").val(<%= @sharesOutstanding %>);
+
+$("#issueStockTable").animate({opacity: 0}, 500).hide(100, function() {
+	$("#chooseNextAction").show().animate({opacity: 1}, 500);
+});
 
 if($("#otherActions").hasClass("immune") == false) {
 	$("#otherActions").slideToggle(function() {
