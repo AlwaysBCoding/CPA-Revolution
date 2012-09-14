@@ -125,8 +125,9 @@ $(document).on("click", "#issueDateOn", function(e) {
 
 $(document).on("click", "li.paginationLi", function() {
 	var activeNumber = $(this).attr("data-pagination");
-	$(".journalEntry").not("#journalEntry"+activeNumber).hide();
-	$("#journalEntry"+activeNumber).show();
+	$(".journalEntry").not("#journalEntry"+activeNumber).hide('slow', function() {
+		$("#journalEntry"+activeNumber).show('slow');
+	});
 });
 
 });
@@ -141,7 +142,7 @@ $(document).on("click", "li.paginationLi", function() {
 	<tr><th colspan='3'>Lets Issue Some Stock!</th></tr>
 	<tr><td colspan='2'>Stock Type:</td><td><select id="issueStockType" name="issueStockType"><option value="commonStock">Common Stock</option><option value="preferredStockNoInformation">Preferred Stock - No Information</option><option value="preferredStockParticipating">Preferred Stock - Participating</option><option value="preferredStockCumulative">Preferred Stock - Cumulative</option><option value="preferredStockConvertible">Preferred Stock - Convertible</option><option value="preferredStockCallable">Preferred Stock - Callable</option></select></td></tr>
 	<tr><td colspan='2'>Number of Shares</td><td><input id='issueNumberOfShares' name="issueNumberOfShares" type='text' class='medium' /></td></tr>
-	<tr><td colspan='2'>Par Value</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueParValue' name="issueParValue" type='text' class='small' /></div></td></tr>
+	<tr><td colspan='2'>Par/Stated Value</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueParValue' name="issueParValue" type='text' class='small' /></div></td></tr>
 	<tr><td colspan='2'>Market Price per Share</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueMarketPrice' name="issueMarketPrice" type='text' class='small' /></div></td></tr>
 	<tr class='defaultDisabled'><td><input id="issueIssueCostsOn" type="checkbox"><td>Issue Costs</td><td><div class="input-prepend"><span class="add-on">$</span><input id='issueIssueCosts' name="issueIssueCosts" type='text' class='small' disabled/></div></td></tr>
 	<tr class='defaultDisabled'><td><input id="issueDateOn" type="checkbox"><td>Date of Issuance</td><td><%= select_month(1, :field_name => "issueDateMonth") %><select id="date_issueDateDay" name="date[issueDateDay]"><option value='1'>1</option><option value='15'>15</option><option value='30'>30</option></select><% year_array = (1..20).map {|i| "Year #{i}"} %><%= select_tag("date[issueDateYear]", options_for_select(year_array)) %></td></tr>
