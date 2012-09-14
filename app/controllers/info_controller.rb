@@ -25,6 +25,15 @@ class InfoController < ApplicationController
         @stockType = "Preferred Stock"  
     end
     
+    if params[:date]
+    @issueDateMonth = Date::MONTHNAMES[params["date"]["issueDateMonth"].to_i]
+    @issueDateDay = params["date"]["issueDateDay"].to_i
+    @issueDateYear = params["date"]["issueDateYear"]
+    @dateString = "on #{@issueDateMonth} #{@issueDateDay}, #{@issueDateYear}"
+    else
+    @issueDateMonth, @issueDateDay, @issueDateYear, @dateString = nil, nil, nil, nil
+    end
+    
     @numberOfShares = params["issueNumberOfShares"].gsub(/[^\d]/, "").to_i
     @parValue = params["issueParValue"].gsub(/[^\d]/, "").to_i
     @marketPrice = params["issueMarketPrice"].gsub(/[^\d]/, "").to_i

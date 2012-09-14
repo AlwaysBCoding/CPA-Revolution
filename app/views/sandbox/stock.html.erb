@@ -94,7 +94,7 @@ $bottomArea.append("<div id='paginationArea' class='pagination'><ul id='paginati
 
 $(function() {
 	
-$("")
+$("#date_issueDateMonth, #date_issueDateDay, #date_issueDateYear").attr("disabled", "disabled");
 
 $(document).on("click", "#issueStockButton", function() {
 	$("#chooseNextAction").animate({opacity: 0}, 500).hide(100, function() {
@@ -113,8 +113,14 @@ $(document).on("click", "#issueIssueCostsOn", function() {
 	}
 });
 
-$(document).on("click", "#issueDateOn", function() {
-	$(this).parent().parent().toggleClass("defaultDisabled");
+$(document).on("click", "#issueDateOn", function(e) {
+	if($("#date_issueDateMonth").attr("disabled")) {
+		$("#date_issueDateMonth, #date_issueDateDay, #date_issueDateYear").removeAttr("disabled");
+		$(e.target).parent().parent().removeClass("defaultDisabled");
+	} else {
+		$("#date_issueDateMonth, #date_issueDateDay, #date_issueDateYear").attr("disabled", "disabled");
+		$(e.target).parent().parent().addClass("defaultDisabled");
+	}
 });
 
 $(document).on("click", "li.paginationLi", function() {

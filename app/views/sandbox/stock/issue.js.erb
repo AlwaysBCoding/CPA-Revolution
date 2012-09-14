@@ -7,7 +7,7 @@ var nextPagination = $("#paginationUl li").length + 1
 
 var journalEntry = ""
 journalEntry += "<table id='journalEntry"+nextPagination+"' class='table journalEntry'>";
-journalEntry += "<tr><th colspan='4'>[Entry "+nextPagination+"] Stock Issue: "+numberOfShares+" shares (Par Value: $"+parValue+") issued at $"+marketPrice+"</th></tr>"; 
+journalEntry += "<tr><th colspan='4'>[Entry "+nextPagination+"] Stock Issue: "+numberOfShares+" shares (Par Value: $"+parValue+") issued at $"+marketPrice+" <%= @dateString if @dateString %></th></tr>"; 
 journalEntry += "<tr><td>Cash</td><td class='label label-success'><%= number_to_currency @cash, :precision => 0 %></td><td></td><td></td></tr>";
 
 <% if @issueCosts > 0 %>
@@ -27,7 +27,7 @@ journalEntry += "<tr><td></td><td></td><td>Additional Paid in Capital</td><td cl
 journalEntry += "</table>";
 
 $("#journalEntries").append(journalEntry);
-$("#paginationUl").append("<li class='paginationLi' data-pagination='"+nextPagination+"'><a>"+nextPagination+"</a></li>");
+$("#paginationUl").append("<li class='paginationLi' data-pagination='"+nextPagination+"'><a>Entry "+nextPagination+"</a></li>");
 $("#sharesOutstanding").html(<%= @sharesOutstanding %>);
 $("#issueSharesOutstanding").val(<%= @sharesOutstanding %>);
 
